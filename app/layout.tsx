@@ -13,7 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DeepMind-[Tanmay-Mirgal]"
+  title: "DeepMind-[Tanmay-Mirgal]",
+  icons: [
+    { url: "/DeepMind.png", type: "image/png", sizes: "32x32" }
+  ]
 };
 
 export default function RootLayout({
