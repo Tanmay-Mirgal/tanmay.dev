@@ -192,7 +192,6 @@ const achievementMedia: AchievementMedia[] = [
     year: "2024",
     type: "image",
     file: "/achievements/product-hunt-1.png",
-    thumbnail: "/achievements/product-hunt-1.png",
     alt: "Product Hunt ranking screenshot",
     source: "Product Hunt",
   },
@@ -208,7 +207,6 @@ const achievementMedia: AchievementMedia[] = [
     year: "2023",
     type: "image",
     file: "/achievements/hackathon-win-photo.jpg",
-    thumbnail: "/achievements/hackathon-win-photo.jpg",
     alt: "Hackathon winner ceremony photo",
     source: "HackIndia",
   },
@@ -224,7 +222,6 @@ const achievementMedia: AchievementMedia[] = [
     year: "2024",
     type: "image",
     file: "/achievements/open-source-milestone.png",
-    thumbnail: "/achievements/open-source-milestone.png",
     alt: "GitHub stars milestone graphic",
     source: "GitHub",
   },
@@ -753,6 +750,7 @@ export default function Home() {
                       src={item.thumbnail}
                       alt={item.alt ?? item.title}
                       fill
+                      unoptimized
                       className="am-image"
                       sizes="(max-width: 900px) 100vw, 33vw"
                     />
