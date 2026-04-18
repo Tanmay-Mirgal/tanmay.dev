@@ -511,7 +511,7 @@ export default function Home() {
                               />
                            </motion.div>
 
-                           <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter text-white">
+                           <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter text-[#D4AF37]">
                               TANMAY
                            </h1>
                         </div>
