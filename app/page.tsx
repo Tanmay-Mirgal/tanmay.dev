@@ -101,35 +101,46 @@ const InteractiveNeuralGraph = () => {
     { id: 'cloud', label: 'Cloud Ops', x: 28, y: 72, color: '#38BDF8', icon: <Cloud size={22}/>, desc: 'AWS, Docker, Linux' },
   ];
 
-  // 20 High-density tech nodes mapping an intense web architecture
   const techNodes = [
     // Top-Left Cluster (Frontend)
-    { id: 'react', parent: 'frontend', label: 'React', x: 28, y: 5, color: '#00E5FF', dur: 1.8 },
+    { id: 'react', parent: 'frontend', label: 'React.js', x: 28, y: 5, color: '#00E5FF', dur: 1.8 },
     { id: 'tw', parent: 'frontend', label: 'Tailwind', x: 5, y: 28, color: '#38BDF8', dur: 2.1 },
     { id: 'next', parent: 'frontend', label: 'Next.js', x: 12, y: 12, color: '#fff', dur: 1.5 },
-    { id: 'redux', parent: 'frontend', label: 'Redux', x: 18, y: 4, color: '#764ABC', dur: 2.3 },
+    { id: 'shadcn', parent: 'frontend', label: 'Shadcn/UI', x: 18, y: 4, color: '#D4AF37', dur: 2.3 },
     { id: 'framer', parent: 'frontend', label: 'Framer', x: 4, y: 18, color: '#FF0055', dur: 1.9 },
+    { id: 'rn', parent: 'frontend', label: 'React Native', x: 6, y: 6, color: '#61DAFB', dur: 2.6 },
+    { id: 'expo', parent: 'frontend', label: 'Expo', x: 38, y: 5, color: '#fff', dur: 2.0 },
+    { id: 'ts', parent: 'frontend', label: 'TypeScript', x: 5, y: 42, color: '#3178C6', dur: 1.7 },
 
-    // Top-Right Cluster (Backend)
+    // Top-Right Cluster (Backend & Auth)
     { id: 'node', parent: 'backend', label: 'Node.js', x: 72, y: 5, color: '#339933', dur: 1.6 },
-    { id: 'express', parent: 'backend', label: 'Express', x: 95, y: 28, color: '#fff', dur: 2.2 },
-    { id: 'mongo', parent: 'backend', label: 'MongoDB', x: 88, y: 12, color: '#47A248', dur: 2.0 },
-    { id: 'pg', parent: 'backend', label: 'PostgreSQL', x: 82, y: 4, color: '#336791', dur: 2.4 },
-    { id: 'redis', parent: 'backend', label: 'Redis', x: 96, y: 18, color: '#DC382D', dur: 1.7 },
+    { id: 'express', parent: 'backend', label: 'Express.js', x: 95, y: 28, color: '#fff', dur: 2.2 },
+    { id: 'betterauth', parent: 'backend', label: 'BetterAuth', x: 88, y: 12, color: '#D4AF37', dur: 2.0 },
+    { id: 'jwt', parent: 'backend', label: 'JWT/OAuth', x: 82, y: 4, color: '#F9A826', dur: 2.4 },
+    { id: 'prisma', parent: 'backend', label: 'Prisma', x: 96, y: 18, color: '#2D3748', dur: 1.7 },
+    { id: 'drizzle', parent: 'backend', label: 'Drizzle', x: 94, y: 42, color: '#C5F11C', dur: 1.9 },
+    { id: 'mongoose', parent: 'backend', label: 'Mongoose', x: 62, y: 5, color: '#880000', dur: 2.2 },
+    { id: 'postman', parent: 'backend', label: 'Postman', x: 95, y: 10, color: '#FF6C37', dur: 2.5 },
 
-    // Bottom-Right Cluster (ML)
+    // Bottom-Right Cluster (ML & DB)
     { id: 'py', parent: 'ml', label: 'Python', x: 72, y: 95, color: '#F9A826', dur: 1.9 },
     { id: 'cv', parent: 'ml', label: 'OpenCV', x: 95, y: 72, color: '#fff', dur: 2.1 },
     { id: 'tf', parent: 'ml', label: 'TensorFlow', x: 88, y: 88, color: '#FF6F00', dur: 1.8 },
-    { id: 'pytorch', parent: 'ml', label: 'PyTorch', x: 82, y: 96, color: '#EE4C2C', dur: 2.5 },
-    { id: 'scikit', parent: 'ml', label: 'Scikit', x: 96, y: 82, color: '#F37626', dur: 1.6 },
+    { id: 'mongo', parent: 'ml', label: 'MongoDB', x: 82, y: 96, color: '#47A248', dur: 2.5 },
+    { id: 'pg', parent: 'ml', label: 'PostgreSQL', x: 96, y: 82, color: '#336791', dur: 1.6 },
+    { id: 'convex', parent: 'ml', label: 'Convex', x: 94, y: 58, color: '#EE4C2C', dur: 2.3 },
+    { id: 'supabase', parent: 'ml', label: 'Supabase', x: 62, y: 95, color: '#3ECF8E', dur: 2.0 },
+    { id: 'redis', parent: 'ml', label: 'Redis', x: 95, y: 90, color: '#DC382D', dur: 1.8 },
 
-    // Bottom-Left Cluster (Cloud/DevOps)
+    // Bottom-Left Cluster (Cloud & Infra)
     { id: 'aws', parent: 'cloud', label: 'AWS', x: 28, y: 95, color: '#FF9900', dur: 2.0 },
     { id: 'docker', parent: 'cloud', label: 'Docker', x: 5, y: 72, color: '#2496ED', dur: 1.7 },
     { id: 'ci', parent: 'cloud', label: 'CI/CD', x: 12, y: 88, color: '#fff', dur: 2.3 },
     { id: 'linux', parent: 'cloud', label: 'Linux', x: 18, y: 96, color: '#FCC624', dur: 1.9 },
     { id: 'nginx', parent: 'cloud', label: 'Nginx', x: 4, y: 82, color: '#009639', dur: 2.2 },
+    { id: 'vercel', parent: 'cloud', label: 'Vercel', x: 6, y: 94, color: '#fff', dur: 2.5 },
+    { id: 'git', parent: 'cloud', label: 'Git/GitHub', x: 38, y: 95, color: '#fff', dur: 1.8 },
+    { id: 'k8s', parent: 'cloud', label: 'Kubernetes', x: 5, y: 58, color: '#326CE5', dur: 2.1 },
   ];
 
   return (
@@ -288,43 +299,120 @@ const InteractiveNeuralGraph = () => {
 
 // --- Mock Data ---
 const achievementsData: Achievement[] = [
-  { title: "Hackathon Winner", org: "AI Global", date: "2024", url: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070", type: "image", desc: "Won 1st among 200+ teams for real-time semantic search." },
-  { title: "ML Architect", org: "TF Academy", date: "2023", url: "/achievements/cert.pdf", type: "pdf", desc: "Certified for deploying production models at enterprise scale." },
-  { title: "Top Contributor", org: "OSS Summit", date: "2023", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070", type: "image", desc: "Recognized for high-impact contributions to LLM libraries." }
+  { 
+    title: "INNOVGENIUS IDEATHON × TCS", 
+    org: "Tata Consultancy Services", 
+    date: "2025", 
+    url: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070", 
+    type: "image", 
+    desc: "Achieved recognition at the Innovgenius Ideathon, demonstrating innovative problem-solving and rapid prototyping." 
+  },
+  { 
+    title: "INDUSTRIAL HACKATHON 2026 - WINNER", 
+    org: "TATA", 
+    date: "2026", 
+    url: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070", 
+    type: "image", 
+    desc: "First place winner medal awarded for excellence in industrial system automation and real-time monitoring solutions." 
+  },
+  { 
+    title: "INTERNAL HACKATHON 2025 - CERTIFICATE", 
+    org: "Vidyalankar Polytechnic", 
+    date: "2025", 
+    url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070", 
+    type: "image", 
+    desc: "Official winner's certificate for the Internal Hackathon 2025, focusing on urban infrastructure optimization." 
+  },
+  { 
+    title: "TATA ADVANCED SYSTEMS - OFFER LETTER", 
+    org: "TASL", 
+    date: "2024", 
+    url: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070", 
+    type: "image", 
+    desc: "Official selection and appointment for the high-fidelity systems engineering internship program." 
+  },
+  { 
+    title: "TATA ADVANCED SYSTEMS - INTERNSHIP CERTIFICATE", 
+    org: "TASL", 
+    date: "2025", 
+    url: "https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=2070", 
+    type: "image", 
+    desc: "Validated completion of a 9-month intensive internship contributing to naval combat simulation platforms." 
+  },
+  { 
+    title: "RESEARCH PAPER PUBLICATION - JAAFR", 
+    org: "JAAFR Journal", 
+    date: "2025", 
+    url: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022", 
+    type: "image", 
+    desc: "Published research in the Journal of Advance and Future Research, focusing on Combat Management Systems architecture." 
+  },
+  { 
+    title: "SPIT HACKATHON 2025", 
+    org: "Sardar Patel Institute of Tech", 
+    date: "2025", 
+    url: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070", 
+    type: "image", 
+    desc: "Recognition for high-density code contributions and system design during the national level SPIT hackathon." 
+  },
+  { 
+    title: "VISUAL GRAPHICS IN C - CERTIFICATION", 
+    org: "Great Learning Academy", 
+    date: "2024", 
+    url: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?q=80&w=2074", 
+    type: "image", 
+    desc: "Certified mastery of low-level framebuffer manipulation and geometric rendering using the C programming language." 
+  },
+  { 
+    title: "REACTJS PROJECTS - SKILLUP", 
+    org: "Simplilearn", 
+    date: "2024", 
+    url: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070", 
+    type: "image", 
+    desc: "Advanced certification for component-driven architecture and state management in production-grade React applications." 
+  },
 ];
 
 const projectsData: Project[] = [
   { 
+    title: "Combat Training Systems (CTS-71)", 
+    desc: "🔒 Confidential Internship: High-fidelity naval simulation platform built at Tata Advanced Systems replicating real-world Combat Management Systems.", 
+    fullDesc: "During a 9-month internship at Tata Advanced Systems, I contributed to CTS-71—a high-fidelity simulation platform designed for naval trainees. As a functional replica of a real Combat Management System (CMS), it enables users to practice complex operational workflows in a controlled environment. My role involved implementing CMS-aligned features, enhancing interaction patterns for training efficiency, and validating simulation behavior against real-world operations. *Due to the nature of this project, source code and architecture are confidential.*",
+    tags: ["MERN", "WebSockets", "Jest", "Jira", "Bitbucket", "Confluence"], 
+    link: "#",
+    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776530245/IAC1_Vikrant_at_Cochin_s02moz.jpg"
+  },
+  { 
     title: "Samadhan", 
-    desc: "High-performance platform handling 10k+ concurrent requests. Optimized infrastructure for extreme load.", 
-    fullDesc: "Samadhan is a robust full-stack system heavily utilizing Node.js streams and Redis caching to handle massive concurrent traffic securely. It establishes a highly optimized infrastructure designed specifically for scalable enterprise architectures. The backend ensures sub-100ms response times globally.",
-    tags: ["React", "Node.js", "MongoDB", "Redis", "AWS"], 
+    desc: "🏆 Winner - Internal Hackathon 2025: AI-driven civic issue reporting and resolution ecosystem with real-time tracking.", 
+    fullDesc: "Samadhan was built as a hackathon-winning project focused on simplifying the process of reporting, tracking, and resolving civic issues through a structured and intuitive interface. The architecture emphasizes problem categorization, efficient workflow management, and a clean user experience to ensure quick adoption and high usability.",
+    tags: ["Next.js", "TypeScript", "Convex", "Expo", "Tailwind CSS", "Hackathon"], 
     link: "https://github.com/Tanmay-Mirgal/Samadhan",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070"
+    image: "https://images.unsplash.com/photo-1555066631-4365d14bab8c?q=80&w=2070"
   },
   { 
     title: "Smart Meeter", 
-    desc: "ML-powered system achieving 94.7% accuracy on custom datasets using heavy computer vision layers.", 
-    fullDesc: "Smart Meeter leverages cutting-edge deep learning layers utilizing custom Python and TensorFlow pipelines. With real-time OpenCV tracking, it delivers a high-accuracy, production-ready computer vision API via FastAPI, seamlessly handling real-time video streams.",
-    tags: ["Python", "TensorFlow", "OpenCV", "FastAPI"], 
+    desc: "AI-powered enterprise meeting platform featuring custom WebRTC, real-time transcriptions, and intelligent Kanban-based workflow management.", 
+    fullDesc: "Smart Meeter was architected as a hackathon prototype to eliminate the overhead of manual meeting orchestration. It integrates a custom WebRTC engine with an AI-driven transcription layer to track vital discussion points and transform live conversations into actionable summaries. The focus was on low-friction setup and a high-speed operator experience for rapid deployment.",
+    tags: ["WebRTC", "FastAPI", "TensorFlow", "OpenCV", "Groq AI", "React"], 
     link: "https://github.com/Tanmay-Mirgal/Smart-Meeter",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070"
+    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776528917/WhatsApp_Image_2026-04-18_at_9.44.48_PM_yunoj2.jpg"
   },
   { 
     title: "Finch AI", 
-    desc: "Intelligent Banking Recommendation Engine serving 500+ active users with real-time analytics.",
-    fullDesc: "Finch AI establishes a secure, robust Banking Recommendation engine. Integrating real-time financial tracking and intelligent analytics through a deeply integrated MERN stack with PostgreSQL relations, caching, and strict Dockerized CI/CD pipelines.",
-    tags: ["MERN", "PostgreSQL", "Docker", "CI/CD"], 
+    desc: "Intelligent Banking Recommendation Engine leveraging ML to serve personalized financial products to 500+ active users.",
+    fullDesc: "Finch AI is a sophisticated banking intelligence architecture designed to automate financial decision-making. I engineered a robust hybrid system combining a high-performance Next.js frontend with a Flask-powered microservice backend. The core intelligence Layer utilizes Scikit-learn and XGBoost for precise credit-worthiness scoring and interest-rate prediction, while Groq LLM integration enables conversational financial insights. The system handles 500+ active users with real-time analytics and predictive modeling.",
+    tags: ["Next.js", "Flask", "XGBoost", "Groq AI", "PostgreSQL", "MLOps"], 
     link: "https://github.com/Tanmay-Mirgal/Finch-AI-Intelligent-Banking-Recommendation-Engine",
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974"
+    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776528194/Finch_Ai_yybtt5.png"
   },
   { 
     title: "Cognix", 
-    desc: "Full-stack AI SaaS with real-time computer vision capabilities and seamless cloud integration.",
-    fullDesc: "Cognix is an end-to-end AI software-as-a-service application. It offers real-time scalable vision capabilities deployed across AWS infrastructure, effectively combining heavy ML processing servers with a beautiful, responsive React User Interface.",
-    tags: ["MERN", "AWS", "OpenCV"], 
+    desc: "Enterprise-grade AI Assessment & Analytics Mobile App for clinical testing and real-time cognitive evaluation.",
+    fullDesc: "Cognix is an end-to-end full-stack ecosystem engineered for precision clinical assessment. Built with React Native for high-performance mobile accessibility, the platform unifies real-time speech evaluation, intelligent document scanning, and sophisticated cognitive analytics into a single interface. I implemented a complex RAG (Retrieval-Augmented Generation) pipeline for deep clinical data retrieval and optimized MLOps workflows on AWS to ensure sub-second evaluation latency.",
+    tags: ["React Native", "Express.js", "MongoDB", "RAG", "AWS", "MLOps"], 
     link: "https://github.com/Tanmay-Mirgal/Cognix",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070"
+    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776528059/Screenshot_2026-04-18_213005_daxafw.png"
   }
 ];
 
@@ -384,65 +472,146 @@ export default function Home() {
       <div className="relative z-10 w-full flex flex-col pl-10 sm:pl-16 md:pl-32 lg:pl-48">
           
           {/* HERO SECTION */}
-          <section id="home" className="relative min-h-screen w-full flex items-center pr-4 sm:pr-6 md:pr-12 lg:pr-24 overflow-hidden py-24 sm:py-32 lg:py-0">
+          <section id="home" className="relative min-h-screen w-full flex items-center pr-4 sm:pr-6 md:pr-12 lg:pr-24 overflow-hidden py-24 lg:py-0">
              <HolographicNode id="home_node">
-                <div className="flex flex-col lg:flex-row items-center justify-between gap-16 w-full">
-                   <div className="w-full lg:w-[60%] space-y-6 md:space-y-8">
-                     <div className="inline-flex items-center gap-2 sm:gap-3 px-3 py-1.5 sm:px-4 sm:py-2 bg-black border border-[#D4AF37]/30 rounded-none text-[10px] sm:text-xs font-mono text-[#D4AF37] uppercase tracking-widest shadow-[0_0_20px_rgba(212,175,55,0.1)]">
-                       {/* <span className="w-1.5 h-1.5 bg-[#D4AF37] animate-pulse"></span> SYSTEM INITIATED */}
+                <div className="flex flex-col gap-12 w-full relative">
+                   {/* Background Decorative Element */}
+                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#D4AF37]/[0.02] rounded-full blur-[120px] pointer-events-none" />
+                   
+                   <div className="w-full space-y-10 relative z-10">
+                     <div className="flex flex-wrap gap-4 items-center">
+                        <motion.div 
+                           initial={{ opacity: 0, x: -20 }}
+                           whileInView={{ opacity: 1, x: 0 }}
+                           viewport={{ once: true }}
+                           className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 border border-[#D4AF37]/30 rounded-none text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.3em] backdrop-blur-md"
+                        >
+                           <span className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-pulse shadow-[0_0_10px_#D4AF37]" />
+                           ROLE: FULL_STACK_ENGINEER
+                        </motion.div>
+                        <div className="text-[10px] font-mono text-white/40 uppercase tracking-[0.2em]">LOC: MUMBAI, MH</div>
                      </div>
-                     <h1 className="text-[2.6rem] min-[400px]:text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-display font-medium leading-[1] tracking-tighter">
-                       <span className="inline-flex items-center gap-3 sm:gap-5 md:gap-6 relative -top-1 sm:-top-3 md:-top-4">
-                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                         <img src="https://github.com/Tanmay-Mirgal.png" alt="Tanmay Mirgal" className="w-10 h-10 min-[400px]:w-14 min-[400px]:h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full border-[2px] sm:border-[3px] md:border-[4px] border-[#D4AF37]/80 shadow-[0_0_30px_rgba(212,175,55,0.4)] object-cover bg-black" />
-                         Tanmay
-                       </span><br/>
-                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F9A826] font-bold glitch-effect" data-text="Intelligence.">Mirgal.</span>
-                     </h1>
-                     <p className="text-sm min-[400px]:text-base sm:text-lg md:text-xl text-white/50 font-light leading-relaxed max-w-xl border-l-[1px] sm:border-l-2 border-white/10 pl-4 sm:pl-6 border-l-[#D4AF37]/30">
-                       I engineer high-performance systems. From pixel-perfect React interfaces to robust Node.js architectures and deep-learning pipelines, I own the entire product lifecycle from <span className="text-white">0 to production</span>.
-                     </p>
-                     
-                     <div className="flex gap-4 sm:gap-6 pt-2 sm:pt-4">
-                       <a href="#projects" className="relative group px-6 py-4 sm:px-10 sm:py-5 bg-transparent border border-[#D4AF37] text-[#D4AF37] hover:text-black font-display font-bold uppercase tracking-widest text-[10px] md:text-xs text-center overflow-hidden">
-                          <div className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-500 ease-out z-[-1]" />
-                          Explore Core Data
-                       </a>
-                     </div>
-                   </div>
 
-                   {/* Holographic Neural Terminal */}
-                   <div className="w-full lg:w-[40%] hidden lg:block">
-                     <div className="bg-black/90 border border-white/5 p-6 shadow-[0_0_50px_rgba(212,175,55,0.05)] relative overflow-hidden ring-1 ring-white/10">
-                        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#F9A826] to-transparent opacity-50" />
-                        <div className="absolute top-0 right-0 w-[1px] h-full bg-gradient-to-b from-transparent via-[#F9A826] to-transparent opacity-50" />
-                        
-                        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 border-dashed">
-                           <Terminal size={14} className="text-[#D4AF37]" />
-                           <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">sys/auth/session</span>
+                     <div className="flex flex-col gap-1 sm:gap-2">
+                        <div className="flex items-center gap-4 sm:gap-6">
+                           {/* Avatar Inline */}
+                           <motion.div 
+                              initial={{ scale: 0, rotate: -20 }}
+                              animate={{ scale: 1, rotate: 0 }}
+                              transition={{ type: "spring", damping: 15, stiffness: 100 }}
+                              className="relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32"
+                           >
+                              <div className="absolute inset-0 bg-[#D4AF37] blur-2xl opacity-20 animate-pulse" />
+                              <Image 
+                                 src="https://github.com/Tanmay-Mirgal.png" 
+                                 alt="Tanmay" 
+                                 width={128}
+                                 height={128}
+                                 className="w-full h-full rounded-full border-[2px] border-[#D4AF37] object-cover relative z-10 shadow-[0_0_20px_rgba(212,175,55,0.2)]" 
+                              />
+                           </motion.div>
+
+                           <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter text-white">
+                              TANMAY
+                           </h1>
                         </div>
+
+                        <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F9A826]">
+                           MIRGAL.
+                        </h1>
+                     </div>
+
+                     <div className="max-w-2xl space-y-8">
+                        <p className="text-base sm:text-lg lg:text-2xl text-white/50 font-medium leading-[1.6] tracking-tight">
+                          Designing scalable digital architecture. I specialize in building high-performance systems and intuitive interfaces. Currently engineering the future of web applications with a focus on optimization and user experience.
+                        </p>
                         
-                        <div className="font-mono text-[11px] leading-relaxed text-emerald-500 space-y-4">
-                           <div><span className="text-white/40">tanmay@neural</span><span className="text-blue-500">:</span><span className="text-blue-400">~/prod</span>$ cat matrix_config.yml</div>
-                           <div className="pl-4 border-l border-emerald-500/20 py-2">
-                             <div className="mb-1"><span className="text-purple-400">user:</span></div>
-                             &nbsp;&nbsp;<span className="text-blue-300">id:</span> <span className="text-[#D4AF37]">&quot;tanmay_mirgal&quot;</span><br />
-                             &nbsp;&nbsp;<span className="text-blue-300">role:</span> <span className="text-white">&quot;Full-Stack Engineer &amp; AI Architect&quot;</span><br />
-                             <div className="mt-2 mb-1"><span className="text-purple-400">arsenal:</span></div>
-                             &nbsp;&nbsp;<span className="text-blue-300">frontend:</span> <span className="text-[#F9A826]">[React, Next.js, WebGL]</span><br />
-                             &nbsp;&nbsp;<span className="text-blue-300">backend:</span> <span className="text-[#F9A826]">[Node.js, Express, Microservices]</span><br />
-                             &nbsp;&nbsp;<span className="text-blue-300">ml_core:</span> <span className="text-[#F9A826]">[TensorFlow, OpenCV]</span><br />
-                             &nbsp;&nbsp;<span className="text-blue-300">cloud:</span> <span className="text-[#F9A826]">[AWS, Docker, CI/CD]</span><br />
-                           </div>
-                           <div className="flex items-center gap-2">
-                             <span className="animate-pulse w-2 h-3 bg-[#D4AF37] block" />
-                           </div>
+                        <div className="flex flex-wrap gap-6 items-center">
+                           <a href="/resume.pdf" target="_blank" className="relative group px-8 py-4 bg-[#D4AF37] text-black font-display font-black uppercase tracking-widest text-[10px] overflow-hidden flex items-center gap-3">
+                              <FileText size={14} /> DOWNLOAD_CV
+                           </a>
+                           <a href="mailto:tanmaymirgal26@gmail.com" className="px-8 py-4 border border-white/10 text-white font-display font-medium uppercase tracking-widest text-[10px] hover:bg-white hover:text-black transition-all flex items-center gap-3">
+                              <X size={14} /> CONTACT_ME
+                           </a>
                         </div>
                      </div>
                    </div>
                 </div>
              </HolographicNode>
           </section>
+
+          {/* PERSONAL IDENTITY NODE SECTION */}
+          <section id="identity" className="py-24 pr-4 sm:pr-6 md:pr-12 lg:pr-24 z-10 relative">
+             <HolographicNode id="identity_node">
+                <div className="mb-12">
+                   <h2 className="text-[10px] font-mono text-white/30 tracking-[0.3em] uppercase mb-4 flex items-center gap-3">
+                      <span className="text-[#D4AF37]">01.</span> PERSONAL_IDENTITY_NODE
+                   </h2>
+                </div>
+                
+                <div className="bg-[#080808]/50 border-l border-white/10 p-10 sm:p-14 space-y-12 backdrop-blur-xl">
+                   <div className="space-y-6">
+                      <p className="text-lg sm:text-xl lg:text-2xl text-white/70 font-medium leading-[1.8] font-sans italic">
+                         &quot;The best investment is building something that creates value for others.&quot;
+                      </p>
+                      <p className="text-lg sm:text-xl lg:text-2xl text-white/60 font-medium leading-[1.8] font-sans">
+                         I am a <span className="text-white">Full-Stack Engineer + ML/DL Developer</span> with a mission to build products from 0 to production. I specialize in delivering production-ready MERN apps, robust ML pipelines (data → model → API → dashboard), and high-performance Computer Vision systems.
+                      </p>
+                      <p className="text-lg sm:text-xl lg:text-2xl text-white/60 font-medium leading-[1.8] font-sans">
+                         Beyond the IDE, I handle the entire product lifecycle solo—from crafting <span className="text-white">pixel-perfect React interfaces</span> to managing <span className="text-white">scalable backends with Redis & PostgreSQL</span>, and ensuring reliable cloud deployments on AWS with Docker & CI/CD.
+                      </p>
+                   </div>
+                   
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-12 border-t border-white/5">
+                      <div className="space-y-6">
+                         <h3 className="text-[10px] font-mono text-[#D4AF37] tracking-[0.2em] uppercase">Core Deliverables</h3>
+                         <ul className="space-y-4 text-sm text-white/50 font-mono">
+                            <li className="flex gap-3">
+                               <span className="text-[#D4AF37] opacity-50">/</span> Production-ready MERN ecosystem
+                            </li>
+                            <li className="flex gap-3">
+                               <span className="text-[#D4AF37] opacity-50">/</span> ML pipelines & Predictive modeling
+                            </li>
+                            <li className="flex gap-3">
+                               <span className="text-[#D4AF37] opacity-50">/</span> Enterprise-grade Computer Vision
+                            </li>
+                            <li className="flex gap-3">
+                               <span className="text-[#D4AF37] opacity-50">/</span> Scalable Backend Architecture
+                            </li>
+                         </ul>
+                      </div>
+                      
+                      <div className="space-y-6">
+                         <h3 className="text-[10px] font-mono text-[#D4AF37] tracking-[0.2em] uppercase">Status Check</h3>
+                         <div className="flex flex-wrap gap-4">
+                            <div className="px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 text-[10px] font-mono uppercase tracking-wider">Open to Work: YES</div>
+                            <div className="px-3 py-1 bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[10px] font-mono uppercase tracking-wider">Freelance: Available</div>
+                         </div>
+                         <div className="flex gap-10 pt-4">
+                            <a href="https://github.com/Tanmay-Mirgal" className="text-[10px] font-mono text-white/40 hover:text-white flex items-center gap-2 uppercase tracking-[0.2em] transition-colors">
+                               <Github size={12}/> GitHub
+                            </a>
+                            <a href="https://linkedin.com/in/tanmay-mirgal-1402792a2" className="text-[10px] font-mono text-white/40 hover:text-white flex items-center gap-2 uppercase tracking-[0.2em] transition-colors">
+                               <Linkedin size={12}/> LinkedIn
+                            </a>
+                            <a href="mailto:tanmaymirgal26@gmail.com" className="text-[10px] font-mono text-white/40 hover:text-white flex items-center gap-2 uppercase tracking-[0.2em] transition-colors">
+                               <Terminal size={12}/> Email
+                            </a>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </HolographicNode>
+          </section>
+
+          <style dangerouslySetInnerHTML={{__html: `
+            @keyframes gradient {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+          `}} />
+
 
           {/* CAPABILITIES SECTION */}
           <section id="capabilities" className="py-24 md:py-32 pr-4 sm:pr-6 md:pr-12 lg:pr-24 z-10 relative">
@@ -566,37 +735,64 @@ export default function Home() {
                    </div>
                 </div>
              </HolographicNode>
-          </section>
-
-          {/* HALL OF FAME */}
-          <section id="achievements" className="py-24 md:py-32 pr-4 sm:pr-6 md:pr-12 lg:pr-24 z-10 relative">
+          {/* CINEMATIC ACHIEVEMENT GALLERY */}
+          <section id="achievements" className="py-24 md:py-32 pr-2 sm:pr-4 md:pr-12 lg:pr-24 z-10 relative">
              <div className="mb-12 md:mb-16">
-               <h2 className="text-[10px] md:text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">HALL_OF_FAME</h2>
-               <p className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-white max-w-2xl">Excellence certified by reality.</p>
+               <h2 className="text-[10px] md:text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">HALL_OF_FAME / CERTIFICATIONS</h2>
+               <p className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-white max-w-2xl leading-tight">Elite Recognition & <br/> <span className="text-white/30">System Certifications.</span></p>
              </div>
              
-             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-                {achievementsData.map((a, i) => (
-                   <HolographicNode key={i} id={`achv_node_${i}`}>
-                      <div onClick={() => setSelectedAchievement(a)} className="group cursor-pointer block border border-white/10 bg-[#050505] p-2 hover:border-[#D4AF37]/50 transition-colors h-full flex flex-col">
-                         <div className="relative aspect-[4/3] w-full overflow-hidden bg-black mb-6">
-                            {a.type === 'pdf' ? (
-                               <div className="w-full h-full flex items-center justify-center bg-white/5">
-                                  <FileText size={48} className="text-[#D4AF37]/50 group-hover:text-[#D4AF37] transition-colors" />
+             <HolographicNode id="achievement_bento">
+                <div className="grid grid-cols-1 min-[500px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-[250px] min-[1400px]:auto-rows-[300px]">
+                   {achievementsData.map((a, i) => {
+                      // Custom span logic for bento feel
+                      const isLarge = i === 1 || i === 4; // Industrial Hackathon and TASL certificate
+                      const isWide = i === 5; // Research paper
+                      
+                      return (
+                         <div 
+                           key={i} 
+                           onClick={() => setSelectedAchievement(a)}
+                           className={`group relative overflow-hidden border border-white/10 bg-[#050505] cursor-pointer hover:border-[#D4AF37]/50 transition-all duration-700 shadow-2xl ${isLarge ? 'min-[500px]:row-span-2' : ''} ${isWide ? 'lg:col-span-2' : ''}`}
+                         >
+                            {/* Cinematic Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-1000 z-10" />
+                            <div className="absolute inset-0 bg-[#D4AF37]/5 mix-blend-overlay z-10 group-hover:bg-transparent transition-all" />
+                            
+                            {/* Scanning Line Animation */}
+                            <div className="absolute top-0 left-0 w-full h-[1px] bg-[#D4AF37]/50 -translate-y-full group-hover:animate-[scan_3s_linear_infinite] z-20" />
+                            
+                            <Image src={a.url} alt={a.title} fill className="object-cover grayscale-[80%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2s] sepia-[10%] group-hover:sepia-0" />
+                            
+                            {/* Achievement Info Label */}
+                            <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 z-30 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                               <div className="flex flex-col gap-1">
+                                  <span className="font-mono text-[8px] sm:text-[9px] text-[#D4AF37] tracking-[0.2em] uppercase bg-black/80 w-fit px-2 py-0.5 border border-[#D4AF37]/20 backdrop-blur-md mb-2">{a.org} | {a.date}</span>
+                                  <h3 className="text-xs sm:text-sm font-display font-bold text-white leading-tight uppercase tracking-wider drop-shadow-md">{a.title}</h3>
+                                  <div className="w-0 group-hover:w-full h-[1px] bg-[#D4AF37] transition-all duration-700 mt-2" />
                                </div>
-                            ) : (
-                               <Image src={a.url} alt={a.title} fill className="object-cover opacity-50 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1s]" />
-                            )}
+                            </div>
+                            
+                            {/* Corner Cyber Accents */}
+                            <div className="absolute top-2 right-2 flex gap-1 z-30">
+                               <div className="w-1 h-1 bg-[#D4AF37]/40 rounded-full" />
+                               <div className="w-1 h-1 bg-white/20 rounded-full" />
+                            </div>
                          </div>
-                         <div className="p-4 sm:p-6 flex-1 flex flex-col">
-                            <span className="font-mono text-[9px] min-[400px]:text-[10px] text-white/40 uppercase tracking-widest">{a.date} {"//"} {a.org}</span>
-                            <h4 className="text-lg sm:text-xl font-display font-bold text-white mt-2 mb-3 group-hover:text-[#D4AF37] transition-colors">{a.title}</h4>
-                            <p className="text-white/50 text-[11px] min-[400px]:text-xs sm:text-sm leading-relaxed font-light mt-auto">{a.desc}</p>
-                         </div>
-                      </div>
-                   </HolographicNode>
-                ))}
-             </div>
+                      )
+                   })}
+                </div>
+             </HolographicNode>
+
+             <style dangerouslySetInnerHTML={{__html: `
+                @keyframes scan {
+                   0% { transform: translateY(-100%); opacity: 0; }
+                   10% { opacity: 1; }
+                   90% { opacity: 1; }
+                   100% { transform: translateY(400px); opacity: 0; }
+                }
+             `}} />
+          </section>
           </section>
 
           {/* CONTACT */}
