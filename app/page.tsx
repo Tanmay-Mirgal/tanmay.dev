@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { useRef } from "react";
 import { Github, Linkedin, Mail, Code, Layers, Cpu, Database, Eye, X, FileText, Trophy, Terminal, Zap, GitBranch, Cloud } from "lucide-react";
 
 // --- Types ---
@@ -328,10 +329,16 @@ const projectsData: Project[] = [
 ];
 
 
+
 export default function Home() {
   const [activeSection, setActiveSection] = useState("home");
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  // Global neural spine progress
+  const { scrollYProgress } = useScroll();
+  const scaleY = useSpring(scrollYProgress, { damping: 30, stiffness: 100, mass: 0.5 });
+  const spineHeight = useTransform(scaleY, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -340,90 +347,305 @@ export default function Home() {
           setActiveSection(entry.target.id);
         }
       });
-    }, { threshold: 0.2 });
-    document.querySelectorAll("section").forEach(s => observer.observe(s));
+    }, { threshold: 0.3 });
+    document.querySelectorAll("section[id]").forEach(s => observer.observe(s));
     return () => observer.disconnect();
   }, []);
 
   return (
-    <main className="relative min-h-screen text-white font-sans selection:bg-[#D4AF37] selection:text-black">
+    <main className="relative min-h-screen text-white font-sans selection:bg-[#D4AF37] selection:text-black overflow-hidden bg-[#030303]">
       <GlassCursor />
-      <AmbientBackground />
+      
+      {/* Immersive neural backdrop */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+         <AmbientBackground />
+         <div className="absolute inset-0 bg-[#030303]/80 backdrop-blur-[2px]" />
+      </div>
 
-      {/* Achievement Modal Viewer */}
-      <AnimatePresence>
-        {selectedAchievement && (
-          <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
-            className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-6 bg-black/95 backdrop-blur-2xl"
-          >
-            <button 
-              onClick={() => setSelectedAchievement(null)} 
-              className="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-[#D4AF37] transition-all z-[1001] bg-black/50 p-2 rounded-full backdrop-blur-md"
-            >
-              <X size={28} />
-            </button>
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} 
-              className="relative w-full max-w-5xl aspect-[4/3] md:aspect-video glass-panel rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(212,175,55,0.1)] border-[#D4AF37]/20 flex flex-col"
-            >
-              <div className="relative flex-1 overflow-hidden bg-white/5">
-                {selectedAchievement.type === 'pdf' ? (
-                  <iframe src={selectedAchievement.url} className="w-full h-full border-none bg-white" title={selectedAchievement.title} />
-                ) : (
-                  <Image src={selectedAchievement.url} alt={selectedAchievement.title} fill className="object-contain p-4 md:p-8" />
-                )}
-              </div>
-              <div className="p-6 md:p-10 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/95 to-[#0A0A0A]/80 border-t border-white/5">
-                <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-2">{selectedAchievement.title}</h3>
-                <p className="text-[#D4AF37] font-mono text-[10px] md:text-xs uppercase tracking-widest mb-4">{selectedAchievement.org} • {selectedAchievement.date}</p>
-                <p className="text-white/60 text-sm md:text-base font-light">{selectedAchievement.desc}</p>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* --- THE NEURAL SPINE --- */}
+      <div className="fixed left-6 md:left-12 lg:left-24 top-0 bottom-0 w-[1px] bg-white/5 z-[50]">
+          {/* Active Liquid Gold flowing down */}
+          <motion.div style={{ height: spineHeight, transformOrigin: "top" }} className="absolute top-0 left-0 w-full bg-gradient-to-b from-transparent via-[#F9A826] to-[#D4AF37] shadow-[0_0_15px_#D4AF37]" />
+          
+          {/* Node trackers */}
+          {["home", "capabilities", "stack", "projects", "freelance", "achievements", "contact"].map((id, i) => (
+             <div 
+                key={id} 
+                className={`absolute left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border border-[#D4AF37] transition-all duration-700 shadow-[0_0_15px_#D4AF37] ${activeSection === id ? 'bg-[#F9A826] scale-150' : 'bg-black scale-100'}`}
+                style={{ top: `${(i + 1) * 12.5}%` }}
+             >
+                <div className={`absolute top-1/2 left-4 -translate-y-1/2 text-[9px] font-mono tracking-widest uppercase transition-opacity duration-500 ${activeSection === id ? 'opacity-100 text-[#D4AF37]' : 'opacity-0'}`}>
+                   {id}
+                </div>
+             </div>
+          ))}
+      </div>
 
-      {/* Project Modal Viewer */}
+      <div className="relative z-10 w-full flex flex-col pl-16 md:pl-32 lg:pl-48">
+          
+          {/* HERO SECTION */}
+          <section id="home" className="relative min-h-screen w-full flex items-center pr-6 md:pr-12 lg:pr-24 overflow-hidden py-32 lg:py-0">
+             <HolographicNode id="home_node">
+                <div className="flex flex-col lg:flex-row items-center justify-between gap-16 w-full">
+                   <div className="w-full lg:w-[60%] space-y-8">
+                     <div className="inline-flex items-center gap-3 px-4 py-2 bg-black border border-[#D4AF37]/30 rounded-none text-xs font-mono text-[#D4AF37] uppercase tracking-widest shadow-[0_0_20px_rgba(212,175,55,0.1)]">
+                       <span className="w-1.5 h-1.5 bg-[#D4AF37] animate-pulse"></span> SYSTEM INITIATED
+                     </div>
+                     <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-display font-medium leading-[1] tracking-tighter">
+                       Architecting <br/>
+                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F9A826] font-bold glitch-effect" data-text="Intelligence.">Intelligence.</span>
+                     </h1>
+                     <p className="text-lg md:text-xl text-white/50 font-light leading-relaxed max-w-xl border-l-2 border-white/10 pl-6 border-l-[#D4AF37]/30">
+                       I engineer high-performance systems. From pixel-perfect React interfaces to robust Node.js architectures and deep-learning pipelines, I own the entire product lifecycle from <span className="text-white">0 to production</span>.
+                     </p>
+                     
+                     <div className="flex gap-6 pt-4">
+                       <a href="#projects" className="relative group px-10 py-5 bg-transparent border border-[#D4AF37] text-[#D4AF37] hover:text-black font-display font-bold uppercase tracking-widest text-[10px] md:text-xs text-center overflow-hidden">
+                          <div className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-500 ease-out z-[-1]" />
+                          Explore Core Data
+                       </a>
+                     </div>
+                   </div>
+
+                   {/* Holographic Neural Terminal */}
+                   <div className="w-full lg:w-[40%] hidden lg:block">
+                     <div className="bg-black/90 border border-white/5 p-6 shadow-[0_0_50px_rgba(212,175,55,0.05)] relative overflow-hidden ring-1 ring-white/10">
+                        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#F9A826] to-transparent opacity-50" />
+                        <div className="absolute top-0 right-0 w-[1px] h-full bg-gradient-to-b from-transparent via-[#F9A826] to-transparent opacity-50" />
+                        
+                        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10 border-dashed">
+                           <Terminal size={14} className="text-[#D4AF37]" />
+                           <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">sys/auth/session</span>
+                        </div>
+                        
+                        <div className="font-mono text-[11px] leading-relaxed text-emerald-500 space-y-4">
+                           <div><span className="text-white/40">tanmay@neural</span><span className="text-blue-500">:</span><span className="text-blue-400">~/prod</span>$ cat matrix_config.yml</div>
+                           <div className="pl-4 border-l border-emerald-500/20 py-2">
+                             <div className="mb-1"><span className="text-purple-400">user:</span></div>
+                             &nbsp;&nbsp;<span className="text-blue-300">id:</span> <span className="text-[#D4AF37]">"tanmay_mirgal"</span><br />
+                             &nbsp;&nbsp;<span className="text-blue-300">role:</span> <span className="text-white">"Full-Stack Engineer & AI Architect"</span><br />
+                             <div className="mt-2 mb-1"><span className="text-purple-400">arsenal:</span></div>
+                             &nbsp;&nbsp;<span className="text-blue-300">frontend:</span> <span className="text-[#F9A826]">[React, Next.js, WebGL]</span><br />
+                             &nbsp;&nbsp;<span className="text-blue-300">backend:</span> <span className="text-[#F9A826]">[Node.js, Express, Microservices]</span><br />
+                             &nbsp;&nbsp;<span className="text-blue-300">ml_core:</span> <span className="text-[#F9A826]">[TensorFlow, OpenCV]</span><br />
+                             &nbsp;&nbsp;<span className="text-blue-300">cloud:</span> <span className="text-[#F9A826]">[AWS, Docker, CI/CD]</span><br />
+                           </div>
+                           <div className="flex items-center gap-2">
+                             <span className="animate-pulse w-2 h-3 bg-[#D4AF37] block" />
+                           </div>
+                        </div>
+                     </div>
+                   </div>
+                </div>
+             </HolographicNode>
+          </section>
+
+          {/* CAPABILITIES SECTION */}
+          <section id="capabilities" className="py-32 pr-6 md:pr-12 lg:pr-24 z-10 relative">
+             <div className="mb-16">
+               <h2 className="text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">SYSTEM_CAPABILITIES</h2>
+               <p className="text-4xl md:text-6xl font-display font-medium text-white max-w-2xl leading-tight">I engineer systems that <br/><span className="text-white/30 italic">dominate complexity.</span></p>
+             </div>
+             
+             <div className="flex flex-col gap-12">
+               {[
+                 { title: "Full-Stack Ownership", desc: "Zero hand-holding required. I architect and engineer the entire MERN system—from responsive React & Next.js interfaces to secure backend Node.js APIs and complex MongoDB aggregations.", icon: <Layers className="text-[#D4AF37]" size={36}/> },
+                 { title: "Machine Learning / Vision", desc: "Deep Learning models, TensorFlow, and advanced OpenCV vision layers seamlessly integrated into scalable APIs for real-time computer vision processing.", icon: <Cpu className="text-emerald-500" size={36}/> },
+                 { title: "Cloud Ops. & CI/CD", desc: "Rigorous automated deployment pipelines built on AWS architecture, using Docker containers and Nginx reverse proxies for maximum uptime.", icon: <Cloud className="text-blue-500" size={36}/> },
+                 { title: "Fast Production Delivery", desc: "I ship highly scalable, performance-driven web products blazingly fast without ever compromising code quality, security, or clean architecture patterns.", icon: <Zap className="text-[#F9A826]" size={36}/> },
+               ].map((c, i) => (
+                 <HolographicNode key={i} id={`cap_node_${i}`}>
+                    <div className="bg-[#050505] p-10 lg:p-14 border border-white/5 flex flex-col md:flex-row gap-8 items-start group hover:border-[#D4AF37]/30 transition-all duration-700 relative overflow-hidden">
+                       <div className="absolute top-0 right-0 p-8 text-[200px] text-white/[0.02] font-black leading-none pointer-events-none font-mono -translate-y-1/4 translate-x-1/4">0{i+1}</div>
+                       <div className="p-5 border border-white/10 bg-black shadow-[rgba(212,175,55,0.1)_0px_0px_20px] group-hover:scale-110 transition-transform">
+                          {c.icon}
+                       </div>
+                       <div className="relative z-10 max-w-xl">
+                          <h3 className="text-3xl font-display font-bold text-white mb-4">{c.title}</h3>
+                          <p className="text-white/50 text-lg leading-relaxed font-light">{c.desc}</p>
+                       </div>
+                    </div>
+                 </HolographicNode>
+               ))}
+             </div>
+          </section>
+
+          {/* TECH ARCHITECTURE */}
+          <section id="stack" className="py-32 w-full pr-6 md:pr-12 lg:pr-24 z-10 relative overflow-hidden">
+             <HolographicNode id="stack_node" delay={0}>
+                <div className="p-8 border border-white/10 bg-[#030303] flex flex-col items-center">
+                   <div className="w-full flex justify-between items-center border-b border-white/10 pb-6 mb-12">
+                      <span className="font-mono text-xs text-[#D4AF37] uppercase tracking-widest"><Database size={16} className="inline mr-2"/> Neural Architecture Core</span>
+                      <span className="font-mono text-[9px] text-emerald-500 animate-pulse">Running Interactive Simulation</span>
+                   </div>
+                   <div className="-ml-16 md:-ml-32 lg:-ml-48 scale-[0.8] md:scale-100 flex items-center justify-center pointer-events-auto w-screen">
+                      <InteractiveNeuralGraph />
+                   </div>
+                </div>
+             </HolographicNode>
+          </section>
+
+          {/* PROJECTS SECTION */}
+          <section id="projects" className="py-32 pr-6 md:pr-12 lg:pr-24 z-10 relative">
+             <div className="mb-24">
+               <h2 className="text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">DEPLOYED_MISSIONS</h2>
+               <p className="text-4xl md:text-6xl font-display font-medium text-white max-w-2xl leading-tight">Featured Production Instances.</p>
+             </div>
+             
+             <div className="flex flex-col gap-24">
+                {projectsData.map((p, i) => (
+                   <HolographicNode key={i} id={`proj_node_${i}`}>
+                      <div onClick={() => setSelectedProject(p)} className="flex flex-col xl:flex-row gap-10 group cursor-pointer">
+                         {/* Project Visual */}
+                         <div className="w-full xl:w-7/12 aspect-[16/9] border border-white/10 bg-black relative overflow-hidden">
+                            <div className="absolute inset-0 bg-[#D4AF37]/10 z-10 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-1000" />
+                            <Image src={p.image} alt={p.title} fill className="object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[2s] sepia-[30%] group-hover:sepia-0 grayscale-[50%] group-hover:grayscale-0" />
+                            
+                            {/* Cyber borders */}
+                            <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity z-20" />
+                            <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity z-20" />
+                         </div>
+                         
+                         {/* Project Data */}
+                         <div className="w-full xl:w-5/12 flex flex-col justify-center">
+                            <div className="flex flex-wrap gap-2 mb-6">
+                               {p.tags.map(t => <span key={t} className="text-[10px] font-mono border border-white/20 bg-transparent text-white/50 px-3 py-1 uppercase tracking-widest">{t}</span>)}
+                            </div>
+                            <h3 className="text-4xl md:text-5xl font-display font-bold text-white mb-6 group-hover:text-[#D4AF37] transition-colors">{p.title}</h3>
+                            <div className="w-8 h-[2px] bg-[#D4AF37] mb-6" />
+                            <p className="text-white/60 text-lg leading-relaxed font-light mb-8">{p.desc}</p>
+                            
+                            <div className="mt-auto">
+                               <button className="flex items-center gap-4 text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] hover:text-white transition-colors">
+                                  Access Protocol <span className="w-6 h-[1px] bg-[#D4AF37] group-hover:w-10 group-hover:bg-white transition-all block" />
+                               </button>
+                            </div>
+                         </div>
+                      </div>
+                   </HolographicNode>
+                ))}
+             </div>
+          </section>
+
+          {/* FREELANCE SERVICES */}
+          <section id="freelance" className="py-32 pr-6 md:pr-12 lg:pr-24 z-10 relative">
+             <HolographicNode id="freelance_node">
+                <div className="bg-[#050505] border border-white/10 p-10 md:p-16">
+                   <div className="mb-16">
+                     <h2 className="text-xs font-mono text-emerald-500 tracking-[0.2em] uppercase mb-4 animate-pulse">STATUS: AVAILABLE FOR CONTRACTS</h2>
+                     <p className="text-4xl md:text-5xl font-display font-medium text-white max-w-2xl">Freelance Cyber Services</p>
+                   </div>
+                   
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-16">
+                      {[
+                        { title: "Full-Stack Web App", tech: "React, Next.js, Node, MongoDB", time: "2–4 Weeks" },
+                        { title: "ML Model + API", tech: "Python, TensorFlow, FastAPI", time: "1–3 Weeks" },
+                        { title: "Computer Vision", tech: "OpenCV, TensorFlow, Python", time: "2–3 Weeks" },
+                        { title: "Cloud Ops. CI/CD", tech: "AWS, Docker, CI/CD", time: "3–7 Days" },
+                        { title: "Robust Backend API", tech: "Node.js, PostgreSQL", time: "1–2 Weeks" },
+                        { title: "System Code Review", tech: "Any Major Tech Stack", time: "1–2 Days" }
+                      ].map((srv, i) => (
+                         <div key={i} className="flex gap-6 border-b border-white/5 pb-8 group hover:border-[#D4AF37]/50 transition-colors">
+                            <span className="text-white/20 font-mono text-xl mt-1">.0{i+1}</span>
+                            <div>
+                               <h3 className="text-xl font-display font-medium text-white mb-2 group-hover:text-[#D4AF37]">{srv.title}</h3>
+                               <p className="text-white/40 font-mono text-[10px] tracking-widest uppercase mb-4">{srv.tech}</p>
+                               <span className="text-[10px] font-mono text-black bg-[#D4AF37] px-2 py-1 font-bold">ETA: {srv.time}</span>
+                            </div>
+                         </div>
+                      ))}
+                   </div>
+                </div>
+             </HolographicNode>
+          </section>
+
+          {/* HALL OF FAME */}
+          <section id="achievements" className="py-32 pr-6 md:pr-12 lg:pr-24 z-10 relative">
+             <div className="mb-16">
+               <h2 className="text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">HALL_OF_FAME</h2>
+               <p className="text-4xl md:text-5xl font-display font-medium text-white max-w-2xl">Excellence certified by reality.</p>
+             </div>
+             
+             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                {achievementsData.map((a, i) => (
+                   <HolographicNode key={i} id={`achv_node_${i}`}>
+                      <div onClick={() => setSelectedAchievement(a)} className="group cursor-pointer block border border-white/10 bg-[#050505] p-2 hover:border-[#D4AF37]/50 transition-colors h-full flex flex-col">
+                         <div className="relative aspect-[4/3] w-full overflow-hidden bg-black mb-6">
+                            {a.type === 'pdf' ? (
+                               <div className="w-full h-full flex items-center justify-center bg-white/5">
+                                  <FileText size={48} className="text-[#D4AF37]/50 group-hover:text-[#D4AF37] transition-colors" />
+                               </div>
+                            ) : (
+                               <Image src={a.url} alt={a.title} fill className="object-cover opacity-50 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1s]" />
+                            )}
+                         </div>
+                         <div className="p-4 flex-1 flex flex-col">
+                            <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">{a.date} // {a.org}</span>
+                            <h4 className="text-xl font-display font-bold text-white mt-2 mb-4 group-hover:text-[#D4AF37] transition-colors">{a.title}</h4>
+                            <p className="text-white/50 text-sm leading-relaxed font-light mt-auto">{a.desc}</p>
+                         </div>
+                      </div>
+                   </HolographicNode>
+                ))}
+             </div>
+          </section>
+
+          {/* CONTACT */}
+          <section id="contact" className="py-40 pr-6 md:pr-12 lg:pr-24 z-10 relative text-center flex justify-center">
+             <HolographicNode id="contact_node">
+                 <div className="border-y border-white/10 py-24 w-full relative">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-24 bg-gradient-to-b from-[#D4AF37] to-transparent -translate-y-full" />
+                    
+                    <h2 className="text-6xl md:text-[8rem] font-display font-black leading-none mb-10 tracking-tighter hover:text-[#D4AF37] transition-colors cursor-default">
+                       EXECUTE
+                    </h2>
+                    <p className="text-xl text-white/50 font-light mb-12 max-w-lg mx-auto">
+                       I am ready to architect your next high-performance enterprise system.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
+                       <a href="mailto:tanmaymirgal26@gmail.com" className="px-12 py-5 bg-[#D4AF37] text-black font-mono font-bold uppercase tracking-[0.2em] text-xs hover:bg-white hover:shadow-[0_0_30px_white] transition-all">Establish Connection</a>
+                       <div className="flex gap-4">
+                          <a href="https://github.com/Tanmay-Mirgal" target="_blank" className="p-4 border border-white/20 text-white/50 hover:bg-white hover:text-black transition-all flex items-center justify-center shrink-0"><Github size={24}/></a>
+                          <a href="https://www.linkedin.com/in/tanmay-mirgal-1402792a2/" target="_blank" className="p-4 border border-white/20 text-white/50 hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all flex items-center justify-center shrink-0"><Linkedin size={24}/></a>
+                       </div>
+                    </div>
+                 </div>
+             </HolographicNode>
+          </section>
+
+          <footer className="w-full text-center pb-10 pt-20 border-t border-white/5 opacity-40 text-[9px] font-mono tracking-[0.2em] uppercase">
+             NEURAL NETWORK ONLINE. SERVER UPTIME: 99.99%. (C) {new Date().getFullYear()} Tanmay Mirgal
+          </footer>
+      </div>
+
+      {/* --- MODALS (Preserved) --- */}
       <AnimatePresence>
         {selectedProject && (
-          <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
-            className="fixed inset-0 z-[1000] flex items-center justify-center p-4 md:p-6 bg-black/95 backdrop-blur-2xl overflow-y-auto"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-6 bg-black/95 backdrop-blur-3xl overflow-y-auto">
             <div className="absolute inset-0 min-h-screen" onClick={() => setSelectedProject(null)} />
-            <button 
-              onClick={() => setSelectedProject(null)} 
-              className="fixed top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-[#D4AF37] transition-all z-[1001] bg-black/50 p-2 rounded-full backdrop-blur-md"
-            >
-              <X size={28} />
-            </button>
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} 
-              className="relative w-full max-w-4xl glass-panel rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(212,175,55,0.1)] border-[#D4AF37]/20 flex flex-col z-10 my-auto"
-            >
-              <div className="relative w-full h-[200px] md:h-[350px] bg-black border-b border-white/10">
-                <Image src={selectedProject.image} alt={selectedProject.title} fill className="object-cover opacity-70" />
+            <button onClick={() => setSelectedProject(null)} className="fixed top-6 right-6 text-white/50 hover:text-[#D4AF37] transition-all z-[2001] bg-white/5 border border-white/10 p-3 rounded hover:bg-white/10"><X size={24} /></button>
+            <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} className="relative w-full max-w-5xl border border-white/10 bg-[#0A0A0A] overflow-hidden shadow-[0_0_100px_rgba(212,175,55,0.05)] flex flex-col z-10 my-auto shadow-[#D4AF37]/5">
+              <div className="relative w-full h-[250px] md:h-[400px] bg-black border-b border-white/10">
+                <Image src={selectedProject.image} alt={selectedProject.title} fill className="object-cover opacity-60" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
-                <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 right-6 font-display">
-                  <h3 className="text-3xl md:text-5xl font-bold text-white mb-4">{selectedProject.title}</h3>
+                <div className="absolute bottom-10 left-10 right-10">
+                  <h3 className="text-4xl md:text-6xl font-display font-medium text-white mb-6 uppercase tracking-tight">{selectedProject.title}</h3>
                   <div className="flex flex-wrap gap-2">
                     {selectedProject.tags.map(t => (
-                      <span key={t} className="text-[10px] md:text-xs font-mono px-3 py-1 bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/30 rounded-full">
-                        {t}
-                      </span>
+                      <span key={t} className="text-[10px] md:text-xs font-mono px-3 py-1 bg-transparent text-[#D4AF37] border border-[#D4AF37]/30 uppercase tracking-widest">{t}</span>
                     ))}
                   </div>
                 </div>
               </div>
-              <div className="p-6 md:p-10 bg-[#0A0A0A] space-y-8">
+              <div className="p-10 space-y-8 relative">
+                <div className="absolute top-0 right-10 w-[1px] h-full bg-white/5" />
                 <div>
-                  <h4 className="text-lg font-mono text-white/40 uppercase tracking-widest mb-4 border-b border-white/5 pb-2">Mission Brief</h4>
-                  <p className="text-white/80 text-base md:text-lg leading-relaxed font-light">{selectedProject.fullDesc}</p>
+                  <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] mb-4 flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#D4AF37] animate-pulse" /> Mission Brief</h4>
+                  <p className="text-white/70 text-lg leading-relaxed font-light max-w-3xl">{selectedProject.fullDesc}</p>
                 </div>
-                <div className="pt-4 flex flex-col sm:flex-row gap-4">
-                  <a href={selectedProject.link} target="_blank" rel="noreferrer" className="w-full sm:w-auto px-8 py-4 bg-[#D4AF37] text-black font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-[#F9A826] transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(212,175,55,0.3)]">
-                    <Github size={16} /> Access Source Code
+                <div className="pt-8 flex gap-4 border-t border-white/5">
+                  <a href={selectedProject.link} target="_blank" rel="noreferrer" className="px-8 py-4 bg-white/5 text-white border border-white/20 font-bold uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-colors flex items-center justify-center gap-3">
+                    <Github size={18} /> Source Access
                   </a>
                 </div>
               </div>
@@ -432,402 +654,78 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Floating Navigation (Responsive) */}
-      <motion.nav 
-        initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1 }}
-        className="fixed top-6 md:top-8 left-1/2 -translate-x-1/2 z-[100] glass-nav px-6 py-4 rounded-full flex items-center gap-4 md:gap-8 text-[9px] md:text-[10px] font-mono uppercase tracking-widest md:tracking-[0.2em] max-w-[90vw] overflow-x-auto hide-scrollbar whitespace-nowrap"
-      >
-        {["home", "capabilities", "stack", "projects", "freelance", "contact"].map(id => (
-          <a 
-            key={id} 
-            href={`#${id}`} 
-            className={`transition-all duration-300 hover:text-[#D4AF37] shrink-0 ${activeSection === id ? "text-[#D4AF37]" : "text-white/40"}`}
-          >
-            {id}
-          </a>
-        ))}
-      </motion.nav>
-
-      {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex flex-col lg:flex-row items-center justify-between px-6 md:px-12 lg:px-24 overflow-hidden z-10 pt-32 lg:pt-0 gap-12 lg:gap-16">
-        <div className="text-center lg:text-left space-y-6 md:space-y-8 z-10 w-full lg:w-1/2 max-w-3xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="inline-flex items-center gap-3 px-4 py-2 glass-panel rounded-full text-[10px] md:text-xs font-mono text-[#D4AF37] uppercase tracking-widest mb-2 md:mb-4">
-            <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse shadow-[0_0_10px_#D4AF37]"></span>
-            System Online
-          </motion.div>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl sm:text-6xl md:text-8xl lg:text-[7.5rem] font-display font-bold leading-[1.05] tracking-tighter"
-          >
-            Architecting <br/>
-            <span className="accent-gradient">Intelligence.</span>
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg sm:text-xl md:text-2xl text-white/50 max-w-xl font-light mx-auto lg:mx-0 leading-relaxed"
-          >
-            I engineer high-performance systems. From pixel-perfect React interfaces to robust Node.js architectures and deep-learning pipelines, I own the entire product lifecycle from <span className="text-white font-medium">0 to production</span>.
-          </motion.p>
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-6 pt-4 md:pt-8"
-          >
-            <a href="#projects" className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-[#D4AF37] to-[#F9A826] text-[#050505] font-display font-bold uppercase tracking-widest text-[10px] md:text-xs rounded-full hover:scale-105 transition-transform shadow-[0_0_20px_rgba(212,175,55,0.3)] text-center">
-              Explore Core
-            </a>
-            <a href="#contact" className="w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 glass-panel text-white font-display font-medium uppercase tracking-widest text-[10px] md:text-xs rounded-full hover:bg-white/10 transition-colors text-center">
-              Initialize Contact
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Global Terminal UI */}
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.8 }} className="hidden lg:block w-1/2 z-10">
-          <div className="relative glass-panel p-1 border border-[#D4AF37]/20 rounded-[2rem] overflow-hidden lg:translate-x-8">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/[0.02] to-transparent pointer-events-none" />
-            <div className="bg-[#0A0A0A]/80 backdrop-blur-3xl rounded-[1.8rem] p-8 h-full flex flex-col border border-white/5 shadow-2xl">
-              <div className="flex items-center justify-between pb-6 border-b border-white/5 mb-6">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                </div>
-                <span className="font-mono text-[10px] text-white/30 uppercase tracking-widest">sys/auth/session</span>
-                <Terminal size={14} className="text-white/30" />
+      <AnimatePresence>
+        {selectedAchievement && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-6 bg-black/98 backdrop-blur-3xl">
+            <button onClick={() => setSelectedAchievement(null)} className="absolute top-6 right-6 text-white/50 hover:text-[#D4AF37] z-[2001] border border-white/10 bg-white/5 p-3 rounded hover:bg-white/10"><X size={24} /></button>
+            <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} className="relative w-full max-w-5xl aspect-[4/3] md:aspect-video bg-[#050505] border border-[#D4AF37]/30 flex flex-col shadow-[0_0_100px_rgba(212,175,55,0.1)] p-2">
+              <div className="relative flex-1 bg-black border border-white/5 overflow-hidden">
+                {selectedAchievement.type === 'pdf' ? (
+                  <iframe src={selectedAchievement.url} className="w-full h-full bg-white"/>
+                ) : (
+                  <Image src={selectedAchievement.url} alt={selectedAchievement.title} fill className="object-contain p-2"/>
+                )}
               </div>
-              <div className="font-mono text-xs md:text-[13px] leading-snug space-y-3">
-                <div className="text-white/40"><span className="text-[#D4AF37]">tanmay@neural-core</span>:<span className="text-blue-400">~/production</span>$ cat profile.config.yml</div>
-
-                {/* Detailed YAML Profile Dump */}
-                <div className="text-white/80 p-5 border border-white/10 rounded-xl bg-[#050505]/95 mt-4 font-mono text-[10px] xl:text-[11px] leading-relaxed overflow-x-auto shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] relative group">
-                   <div className="absolute top-3 right-4 text-white/20 select-none text-[9px] tracking-widest font-bold">YAML</div>
-                   <div className="mb-1"><span className="text-emerald-400">user</span>:</div>
-                   &nbsp;&nbsp;<span className="text-blue-400">id</span>: <span className="text-[#D4AF37]">&quot;tanmay_mirgal&quot;</span><br />
-                   &nbsp;&nbsp;<span className="text-blue-400">role</span>: <span className="text-white">&quot;Full-Stack Engineer & AI Architect&quot;</span><br />
-                   &nbsp;&nbsp;<span className="text-blue-400">mission</span>: <span className="text-white">&quot;Shipping robust software blazingly fast.&quot;</span><br />
-
-                   <div className="mt-3 mb-1"><span className="text-emerald-400">technical_arsenal</span>:</div>
-                   &nbsp;&nbsp;<span className="text-blue-400">frontend</span>: <span className="text-white/60">[React, Next.js, Framer Motion, Tailwind]</span><br />
-                   &nbsp;&nbsp;<span className="text-blue-400">backend</span>: <span className="text-white/60">[Node.js, Express, Microservices, REST]</span><br />
-                   &nbsp;&nbsp;<span className="text-blue-400">database</span>: <span className="text-white/60">[MongoDB, PostgreSQL, Redis, VectorDB]</span><br />
-                   &nbsp;&nbsp;<span className="text-blue-400">machine_learning</span>: <span className="text-white/60">[TensorFlow, OpenCV, Deep Learning]</span><br />
-                   &nbsp;&nbsp;<span className="text-blue-400">infrastructure</span>: <span className="text-white/60">[AWS, Docker, CI/CD, Nginx]</span><br />
-
-                   <div className="mt-3 mb-1"><span className="text-emerald-400">system_status</span>:</div>
-                   &nbsp;&nbsp;<span className="text-blue-400">status</span>: <span className="text-emerald-400">&quot;ONLINE&quot;</span><br />
-                   &nbsp;&nbsp;<span className="text-blue-400">available_for_hire</span>: <span className="text-red-400">true</span><br />
-                </div>
-
-                <div className="text-emerald-400 mt-5 flex items-center gap-2 font-mono text-[10px] md:text-xs font-bold pt-2">
-                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_#34d399] shrink-0"/> 
-                   <span>PORT 8080 Active. Awaiting commands...</span>
-                   <span className="animate-pulse w-2 h-3.5 bg-white inline-block relative top-px shrink-0"></span>
-                </div>
+              <div className="p-8 pb-4">
+                <p className="text-[#D4AF37] font-mono text-[10px] uppercase tracking-[0.2em] mb-2">{selectedAchievement.org} // {selectedAchievement.date}</p>
+                <h3 className="text-3xl font-display font-medium text-white mb-2">{selectedAchievement.title}</h3>
+                <p className="text-white/50 text-sm font-light max-w-2xl">{selectedAchievement.desc}</p>
               </div>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Capabilities Section */}
-      <section id="capabilities" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 z-10 relative">
-        <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.1 }} transition={{ duration: 0.8 }} className="max-w-7xl mx-auto space-y-12 md:space-y-16">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gradient mb-4 md:mb-6">Why Hire Me?</h2>
-            <p className="text-white/50 text-base md:text-lg">I build full-stack products from 0 to production and ML/DL pipelines that actually work.</p>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 auto-rows-[auto] lg:auto-rows-[280px]">
-            {/* Box 1 (Full Stack) */}
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.1 }} transition={{ delay: 0.1, duration: 0.5 }}
-               className="glass-panel p-8 md:p-10 rounded-[2rem] sm:col-span-2 lg:col-span-2 relative overflow-hidden group border border-white/5 hover:border-[#D4AF37]/30 flex flex-col justify-center"
-            >
-               <div className="absolute right-0 top-0 w-64 h-64 bg-[#D4AF37]/10 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/4 group-hover:bg-[#D4AF37]/20 transition-colors duration-700" />
-               <Layers size={32} className="text-[#D4AF37] mb-4 md:mb-6 drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
-               <div className="z-10">
-                  <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-2 md:mb-4">Full-Stack Ownership</h3>
-                  <p className="text-white/50 text-sm md:text-base leading-relaxed lg:w-[80%] font-light">Zero hand-holding required. I architect and engineer the entire MERN system—from responsive React & Next.js interfaces to secure backend Node.js APIs and complex MongoDB aggregations.</p>
-               </div>
             </motion.div>
-
-            {/* Box 2 (AI/ML) */}
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.1 }} transition={{ delay: 0.2, duration: 0.5 }}
-               className="glass-panel p-8 md:p-10 rounded-[2rem] relative overflow-hidden group border border-white/5 hover:border-emerald-500/30 flex flex-col justify-end"
-            >
-               <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-emerald-500/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
-               <Cpu size={32} className="text-emerald-400 absolute top-8 right-8 group-hover:scale-110 transition-transform duration-500 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-               <div className="z-10 mt-16 lg:mt-0">
-                  <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-2">Machine Learning</h3>
-                  <p className="text-white/50 text-sm leading-relaxed font-light">Deep Learning models, TensorFlow, and advanced OpenCV vision layers seamlessly integrated into scalable APIs.</p>
-               </div>
-            </motion.div>
-
-            {/* Box 3 (Cloud DevOps) - Row Span 2 on LG */}
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.1 }} transition={{ delay: 0.3, duration: 0.5 }}
-               className="glass-panel p-8 md:p-10 rounded-[2rem] lg:row-span-2 relative overflow-hidden group border border-white/5 hover:border-blue-500/30 flex flex-col"
-            >
-               <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none" />
-               <Cloud size={36} className="text-blue-400 mb-6 drop-shadow-[0_0_15px_rgba(96,165,250,0.5)] group-hover:-translate-y-2 transition-transform duration-500" />
-               <div className="z-10">
-                  <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-2">Cloud Ops & CI/CD</h3>
-                  <p className="text-white/50 text-sm leading-relaxed mb-6 font-light">Rigorous automated deployment pipelines built on AWS architecture, using Docker containers and Nginx reverse proxies for maximum uptime.</p>
-               </div>
-               
-               <div className="hidden sm:block mt-auto w-full rounded-xl bg-[#030303] border border-white/10 p-4 font-mono text-[10px] md:text-xs text-green-400 shadow-inner overflow-hidden relative group-hover:border-blue-500/30 transition-colors duration-500">
-                  <div className="flex gap-1.5 mb-3"><div className="w-2.5 h-2.5 rounded-full bg-red-500/80"/><div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"/><div className="w-2.5 h-2.5 rounded-full bg-green-500/80"/></div>
-                  <div className="opacity-80"><span className="text-blue-400 font-bold">~</span> <span className="text-white">docker</span> build -t core-api .</div>
-                  <div className="opacity-50 mt-1">[+] Building 14.3s (22/22) RUN IDE</div>
-                  <div className="opacity-80 mt-2 hover:bg-white/5 p-1 -ml-1 rounded transition-colors cursor-text"><span className="text-blue-400 font-bold">~</span> <span className="text-white">docker</span> run -d -p 80:80 core-api</div>
-                  <div className="opacity-40 animate-pulse mt-2">_</div>
-               </div>
-            </motion.div>
-
-            {/* Box 4 (Fast Delivery) */}
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.1 }} transition={{ delay: 0.4, duration: 0.5 }}
-               className="glass-panel p-8 md:p-10 rounded-[2rem] sm:col-span-2 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 group border border-white/5 hover:border-[#F9A826]/30 overflow-hidden relative"
-            >
-               <div className="absolute inset-0 bg-gradient-to-r from-[#F9A826]/5 to-transparent pointer-events-none" />
-               <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#F9A826]/20 group-hover:border-[#F9A826]/50 transition-all duration-500 shadow-[0_0_30px_rgba(249,168,38,0.1)]">
-                  <Zap size={28} className="text-[#F9A826] group-hover:scale-110 transition-transform drop-shadow-[0_0_10px_rgba(249,168,38,0.5)]" />
-               </div>
-               <div className="z-10 text-center sm:text-left">
-                  <h3 className="text-xl md:text-2xl font-display font-bold text-white mb-2">Fast Production Delivery</h3>
-                  <p className="text-white/50 text-sm md:text-base leading-relaxed font-light">I ship highly scalable, performance-driven web products blazingly fast without ever compromising code quality, security, or clean architecture patterns.</p>
-               </div>
-            </motion.div>
-
-            {/* Box 5 (Open Source) */}
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.1 }} transition={{ delay: 0.5, duration: 0.5 }}
-               className="glass-panel p-8 md:p-10 rounded-[2rem] sm:col-span-2 lg:col-span-2 flex flex-col sm:flex-row-reverse items-center justify-between gap-6 sm:gap-10 group border border-white/5 hover:border-[#D4AF37]/30 overflow-hidden relative"
-            >
-               <div className="absolute top-0 right-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none mix-blend-overlay" />
-               <Github size={48} className="text-white/20 group-hover:text-[#D4AF37] transition-colors duration-500 drop-shadow-[0_0_15px_rgba(212,175,55,0.2)] shrink-0" />
-               <div className="z-10 text-center sm:text-left">
-                  <h3 className="text-xl md:text-2xl font-display font-bold text-[#D4AF37] mb-2">Open Source Contributor</h3>
-                  <p className="text-white/50 text-sm md:text-base leading-relaxed max-w-lg font-light">Active contributor and firm believer in building in public. Code naturally evaluated and peer-reviewed by the community to ensure absolute top-tier standard integration.</p>
-               </div>
-            </motion.div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Tech Architecture Graph */}
-      <section id="stack" className="py-12 md:py-16 px-6 md:px-12 lg:px-24 z-10 relative overflow-hidden">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.1 }} transition={{ duration: 0.6 }} className="max-w-7xl mx-auto space-y-6 md:space-y-8 text-center">
-          <div className="space-y-4 relative z-20">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gradient">System Architecture</h2>
-            <p className="text-white/50 text-base md:text-lg">Interactive node graph of my complete technology stack.</p>
-          </div>
-          
-          <InteractiveNeuralGraph />
-        </motion.div>
-      </section>
-
-      {/* Projects */}
-      <section id="projects" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 z-10 relative">
-        <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.1 }} transition={{ duration: 0.8 }} className="max-w-7xl mx-auto space-y-12 md:space-y-16">
-          <div className="text-center md:text-left">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gradient mb-4">Featured Projects</h2>
-            <p className="text-white/50">⭐ Real-world projects — not tutorials, not clones.</p>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {projectsData.map((p, i) => (
-              <motion.div 
-                initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.1 }} transition={{ duration: 0.6, delay: i * 0.1 }}
-                key={i} 
-                onClick={() => setSelectedProject(p)}
-                className="group glass-panel p-8 md:p-10 rounded-[2rem] flex flex-col justify-between hover:-translate-y-2 transition-transform duration-500 cursor-pointer border border-white/5 hover:border-[#D4AF37]/30"
-              >
-                <div className="space-y-6 md:space-y-8">
-                  <div className="flex justify-between items-start">
-                    <div className="p-3 md:p-4 rounded-2xl bg-[#D4AF37]/10 text-[#D4AF37]"><GitBranch size={24} className="md:w-8 md:h-8" /></div>
-                    <div className="flex flex-wrap justify-end gap-2 max-w-[70%]">
-                      {p.tags.slice(0, 3).map(t => <span key={t} className="text-[9px] md:text-[10px] font-mono text-[#D4AF37] bg-white/5 px-2 py-1 md:px-3 md:py-1 rounded-full border border-[#D4AF37]/20 whitespace-nowrap">{t}</span>)}
-                      {p.tags.length > 3 && <span className="text-[9px] md:text-[10px] font-mono text-white/40 bg-white/5 px-2 py-1 rounded-full border border-white/10">+{p.tags.length - 3}</span>}
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="text-2xl md:text-3xl font-display font-bold text-white mb-3 md:mb-4">{p.title}</h4>
-                    <p className="text-white/50 leading-relaxed font-light text-sm md:text-base">{p.desc}</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between pt-6 md:pt-8 mt-4 border-t border-white/5">
-                  <span className="flex items-center gap-2 text-xs md:text-sm font-display font-medium text-white/40 group-hover:text-[#D4AF37] transition-colors">
-                    <Eye size={16} /> View Documentation
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Structured Data for SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "Tanmay Mirgal",
-            "url": "https://tanmay-dev-81mf.vercel.app/",
-            "jobTitle": "AI & Full-Stack Architect",
-            "sameAs": [
-              "https://github.com/Tanmay-Mirgal",
-              "https://www.linkedin.com/in/tanmay-mirgal-1402792a2/"
-            ],
-            "description": "Tanmay Mirgal is an AI & Full-Stack Architect specializing in high-performance systems, deep learning pipelines, and React/Next.js interfaces."
-          })
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "Tanmay Mirgal Portfolio",
-            "url": "https://tanmay-dev-81mf.vercel.app/",
-            "description": "Architecting Intelligence - High-performance systems and AI solutions by Tanmay Mirgal."
-          })
-        }}
-      />
-
-      <section id="freelance" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 z-10 relative">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.1 }} transition={{ duration: 0.8 }} className="max-w-5xl mx-auto space-y-12 mb-10 md:mb-16">
-          <div className="text-center space-y-4 md:space-y-6">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gradient">Freelance Services</h2>
-            <p className="text-[#D4AF37] font-mono text-[10px] md:text-sm tracking-widest uppercase flex items-center justify-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse"></span> Available for Hire
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {[
-              { title: "Full-Stack Web App", tech: "React, Next.js, Node, MongoDB", time: "2–4 Weeks", icon: <Layers size={24} className="text-[#D4AF37]"/> },
-              { title: "ML Model + API", tech: "Python, TensorFlow, FastAPI", time: "1–3 Weeks", icon: <Cpu size={24} className="text-emerald-400"/> },
-              { title: "Computer Vision", tech: "OpenCV, TensorFlow, Python", time: "2–3 Weeks", icon: <Eye size={24} className="text-blue-400"/> },
-              { title: "Cloud Ops. CI/CD", tech: "AWS, Docker, Nginx, CI/CD", time: "3–7 Days", icon: <Cloud size={24} className="text-[#38BDF8]"/> },
-              { title: "Robust Backend API", tech: "Node.js, Express, PostgreSQL", time: "1–2 Weeks", icon: <Database size={24} className="text-[#F9A826]"/> },
-              { title: "System Code Review", tech: "Any Major Tech Stack", time: "1–2 Days", icon: <Code size={24} className="text-white/70"/> }
-            ].map((srv, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.1 }} transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="group relative glass-panel p-5 md:p-6 rounded-2xl hover:-translate-y-1 transition-all duration-300 border border-white/5 hover:border-[#D4AF37]/50 overflow-hidden cursor-pointer backdrop-blur-2xl bg-[#0A0A0A]/40 flex flex-col justify-between min-h-[160px]"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/0 via-[#D4AF37]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out" />
-                
-                {/* Top: Icon + Timeline */}
-                <div className="flex items-start justify-between relative z-10 mb-4">
-                   <div className="p-3 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 group-hover:bg-[#D4AF37]/10 group-hover:border-[#D4AF37]/20 transition-all">
-                      {srv.icon}
-                   </div>
-                   <div className="flex flex-col items-end">
-                      <span className="text-[8px] md:text-[9px] text-white/30 uppercase tracking-[0.2em] mb-1">Timeline</span>
-                      <span className="text-[#D4AF37] font-mono font-bold text-xs md:text-sm group-hover:text-white transition-colors border border-[#D4AF37]/20 bg-[#D4AF37]/5 pt-[2px] pb-[1px] md:pt-[3px] rounded-full px-3">{srv.time}</span>
-                   </div>
-                </div>
-                
-                {/* Bottom: Texts */}
-                <div className="relative z-10">
-                   <h3 className="text-lg md:text-xl font-display font-bold text-white group-hover:text-[#D4AF37] transition-colors mb-2">{srv.title}</h3>
-                   <p className="text-white/40 font-mono text-[9px] md:text-[10px] tracking-widest line-clamp-2 md:leading-relaxed">{srv.tech}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          <p className="text-center text-white/40 text-xs md:text-sm pt-8">💬 Need a custom enterprise architecture? Let&apos;s talk.</p>
-        </motion.div>
-      </section>
-
-      {/* Hall of Fame (Gallery) */}
-      <section id="achievements" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 z-10 relative">
-        <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.1 }} transition={{ duration: 0.8 }} className="max-w-7xl mx-auto space-y-12 md:space-y-16 text-center">
-          <div className="space-y-4 md:space-y-6">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-gradient">Hall of Fame</h2>
-            <p className="text-white/50 max-w-xl mx-auto text-base md:text-lg font-light leading-relaxed">Proof of technical excellence, awards, and industry-standard certifications.</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 text-left">
-            {achievementsData.map((a, i) => (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.1 }} transition={{ duration: 0.5, delay: i * 0.1 }}
-                key={i} 
-                onClick={() => setSelectedAchievement(a)}
-                className="group glass-panel rounded-[1.5rem] md:rounded-[2rem] flex flex-col overflow-hidden border border-white/5 hover:border-[#D4AF37]/30 transition-colors duration-500 cursor-pointer"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-white/[0.02] border-b border-white/5">
-                  {a.type === 'pdf' ? (
-                    <div className="w-full h-full flex flex-col items-center justify-center gap-4 relative z-10">
-                      <FileText size={40} className="text-white/20 group-hover:text-[#D4AF37] transition-colors duration-500 md:w-12 md:h-12" />
-                      <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest text-white/30 px-4 text-center">Tap to View Certificate</span>
-                    </div>
-                  ) : (
-                    <Image src={a.url} alt={a.title} fill className="object-cover group-hover:scale-105 transition-transform duration-1000 opacity-50 group-hover:opacity-100 mix-blend-luminosity hover:mix-blend-normal" />
-                  )}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-[2px] z-20">
-                    <button className="p-3 md:p-4 rounded-2xl bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/50 shadow-[0_0_20px_rgba(212,175,55,0.2)] scale-90 group-hover:scale-100 transition-all backdrop-blur-md">
-                      <Eye size={20} className="md:w-6 md:h-6" />
-                    </button>
-                  </div>
-                </div>
-                <div className="p-6 md:p-8 space-y-4 md:space-y-6">
-                  <div className="flex justify-between items-center text-white/30 border-b border-white/10 pb-4">
-                    <Trophy size={16} className="group-hover:text-[#D4AF37] transition-colors duration-500 md:w-[18px] md:h-[18px]" />
-                    <span className="font-mono text-[9px] md:text-[10px] uppercase tracking-widest px-2 py-1 md:px-3 md:py-1 bg-white/5 rounded-full">{a.date}</span>
-                  </div>
-                  <div>
-                    <h4 className="text-lg md:text-xl font-display font-bold text-white mb-2">{a.title}</h4>
-                    <p className="text-[#D4AF37] font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em]">{a.org}</p>
-                  </div>
-                  <p className="text-white/50 text-xs md:text-sm leading-relaxed font-light line-clamp-2 md:line-clamp-none">{a.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
-      {/* Contact */}
-      <section id="contact" className="py-24 md:py-40 px-6 md:px-12 lg:px-24 z-10 relative">
-        <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ duration: 0.8 }} className="max-w-5xl mx-auto glass-panel p-8 sm:p-12 md:p-24 rounded-[2rem] md:rounded-[3rem] text-center relative overflow-hidden group border-[#D4AF37]/20 hover:border-[#D4AF37]/50 transition-colors duration-500">
-          <div className="absolute inset-0 bg-gradient-to-t from-[#D4AF37]/5 to-transparent pointer-events-none" />
-          <div className="space-y-8 md:space-y-12 relative z-10">
-            <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-bold">Initialize <br className="sm:hidden" /><span className="accent-gradient">Handshake.</span></h2>
-            <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-white/50 font-light leading-relaxed">
-              Ready to engineer the next generation of scalable architectures. My inbox is open for strategic collaborations and engineering roles.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 pt-4 md:pt-8 w-full">
-              <a href="mailto:tanmaymirgal26@gmail.com" className="w-full sm:w-auto px-8 md:px-12 py-4 md:py-5 bg-gradient-to-r from-[#D4AF37] to-[#F9A826] text-[#0A0A0A] font-display font-bold uppercase tracking-widest text-[10px] md:text-xs rounded-full hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all flex items-center justify-center gap-3">
-                <Mail size={18} /> Execute Email Routine
-              </a>
-            </div>
-            
-            <div className="flex justify-center gap-6 pt-4 border-t border-white/5 w-max mx-auto">
-              <a href="https://github.com/Tanmay-Mirgal" target="_blank" rel="noreferrer" className="text-white/40 hover:text-white transition-colors"><Github size={24} /></a>
-              <a href="https://www.linkedin.com/in/tanmay-mirgal-1402792a2/" target="_blank" rel="noreferrer" className="text-white/40 hover:text-[#0A66C2] transition-colors"><Linkedin size={24} /></a>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
-      <footer className="py-8 md:py-12 text-center border-t border-white/5 px-6">
-        <p className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-white/30">
-          &copy; {new Date().getFullYear()} Tanmay Mirgal. Designed in the Matrix.
-        </p>
-      </footer>
-
-      {/* Global CSS for hiding scrollbars on specific elements */}
+          </motion.div>
+        )}
+      </AnimatePresence>
       <style dangerouslySetInnerHTML={{__html: `
         .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glitch-effect:hover { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; }
+        @keyframes glitch {
+          0% { transform: translate(0) }
+          20% { transform: translate(-2px, 2px) }
+          40% { transform: translate(-2px, -2px) }
+          60% { transform: translate(2px, 2px) }
+          80% { transform: translate(2px, -2px) }
+          100% { transform: translate(0) }
+        }
       `}} />
     </main>
   );
 }
+
+// Complex Holographic Node component connecting to the Spine
+const HolographicNode = ({ children, id, delay = 0 }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px 0px" });
+
+  return (
+    <div ref={ref} className="relative w-full">
+      {/* Horizontal connecting line from spine */}
+      <motion.div 
+         initial={{ scaleX: 0, opacity: 0 }}
+         animate={isInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
+         transition={{ duration: 0.8, delay, ease: "easeOut" }}
+         className="absolute top-12 md:top-16 -left-16 md:-left-32 lg:-left-48 w-16 md:w-32 lg:w-48 h-[1px] bg-gradient-to-r from-[#D4AF37] to-transparent origin-left z-0 hidden md:block" 
+      />
+      
+      {/* Power pulsing dot transferring from spine */}
+      {isInView && (
+         <motion.div 
+            initial={{ left: "-48px", opacity: 1 }}
+            animate={{ left: "0px", opacity: 0 }}
+            transition={{ duration: 1, ease: "easeIn", delay: delay + 0.5 }}
+            className="absolute top-12 md:top-16 w-2 h-1 bg-[#F9A826] shadow-[0_0_10px_#F9A826] z-10 hidden md:block -mt-[0.5px]"
+         />
+      )}
+
+      {/* Main Content Hologram Reveal */}
+      <motion.div
+         initial={{ opacity: 0, x: 20, filter: "blur(10px)" }}
+         animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
+         transition={{ duration: 1, delay: delay + 0.4 }}
+         className="relative z-10"
+      >
+         {children}
+      </motion.div>
+    </div>
+  )
+}
+    
