@@ -392,8 +392,12 @@ export default function Home() {
                        <span className="w-1.5 h-1.5 bg-[#D4AF37] animate-pulse"></span> SYSTEM INITIATED
                      </div>
                      <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-display font-medium leading-[1] tracking-tighter">
-                       Architecting <br/>
-                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F9A826] font-bold glitch-effect" data-text="Intelligence.">Intelligence.</span>
+                       <span className="inline-flex items-center gap-4 sm:gap-5 md:gap-6 relative -top-2 sm:-top-3 md:-top-4">
+                         {/* eslint-disable-next-line @next/next/no-img-element */}
+                         <img src="https://github.com/Tanmay-Mirgal.png" alt="Tanmay Mirgal" className="w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full border-[3px] md:border-[4px] border-[#D4AF37]/80 shadow-[0_0_30px_rgba(212,175,55,0.4)] object-cover bg-black" />
+                         Tanmay
+                       </span><br/>
+                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F9A826] font-bold glitch-effect" data-text="Intelligence.">Mirgal.</span>
                      </h1>
                      <p className="text-lg md:text-xl text-white/50 font-light leading-relaxed max-w-xl border-l-2 border-white/10 pl-6 border-l-[#D4AF37]/30">
                        I engineer high-performance systems. From pixel-perfect React interfaces to robust Node.js architectures and deep-learning pipelines, I own the entire product lifecycle from <span className="text-white">0 to production</span>.
