@@ -139,7 +139,7 @@ const InteractiveNeuralGraph = () => {
        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#ffffff03_0%,_transparent_75%)] pointer-events-none" />
 
        {/* Strictly responsive square container so coordinates never squish on any screen */}
-       <div className="relative w-[320px] h-[320px] sm:w-[450px] sm:h-[450px] md:w-[650px] md:h-[650px] lg:w-[800px] lg:h-[800px] bg-transparent mt-0">
+       <div className="relative w-full max-w-[260px] min-[400px]:max-w-[320px] sm:max-w-[450px] md:max-w-[650px] lg:max-w-[800px] aspect-square bg-transparent mt-0">
          
          <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-0">
             {/* Elegant Blueprint Rings */}
@@ -200,7 +200,7 @@ const InteractiveNeuralGraph = () => {
          </svg>
 
          {/* --- CENTRAL CORE ENGINE --- */}
-         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-16 h-16 sm:w-20 sm:h-20 lg:w-32 lg:h-32">
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-12 h-12 min-[400px]:w-16 min-[400px]:h-16 sm:w-20 sm:h-20 lg:w-32 lg:h-32">
             <motion.div 
               className="w-full h-full glass-panel border border-[#D4AF37]/50 rounded-full flex flex-col items-center justify-center cursor-pointer shadow-[0_0_50px_rgba(212,175,55,0.5)] backdrop-blur-3xl overflow-hidden group"
               animate={{ boxShadow: ["0 0 30px rgba(212,175,55,0.4)", "0 0 100px rgba(212,175,55,1)", "0 0 30px rgba(212,175,55,0.4)"] }}
@@ -228,7 +228,7 @@ const InteractiveNeuralGraph = () => {
             >
                <motion.div 
                  whileHover={{ scale: 1.15 }}
-                 className={`w-12 h-12 sm:w-16 sm:h-16 lg:w-24 lg:h-24 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-2xl shadow-2xl relative ${activeNode && activeNode !== node.id ? 'opacity-20 scale-90' : 'opacity-100 z-40'}`}
+                 className={`w-10 h-10 min-[400px]:w-12 min-[400px]:h-12 sm:w-16 sm:h-16 lg:w-24 lg:h-24 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-2xl shadow-2xl relative ${activeNode && activeNode !== node.id ? 'opacity-20 scale-90' : 'opacity-100 z-40'}`}
                  style={{ 
                    background: `radial-gradient(circle at top left, ${node.color}40, rgba(0,0,0,0.95))`,
                    border: `1px sm:2px solid ${node.color}80`, 
@@ -363,7 +363,7 @@ export default function Home() {
       </div>
 
       {/* --- THE NEURAL SPINE --- */}
-      <div className="fixed left-6 md:left-12 lg:left-24 top-0 bottom-0 w-[1px] bg-white/5 z-[50]">
+      <div className="fixed left-4 sm:left-6 md:left-12 lg:left-24 top-0 bottom-0 w-[1px] bg-white/5 z-[50]">
           {/* Active Liquid Gold flowing down */}
           <motion.div style={{ height: spineHeight, transformOrigin: "top" }} className="absolute top-0 left-0 w-full bg-gradient-to-b from-transparent via-[#F9A826] to-[#D4AF37] shadow-[0_0_15px_#D4AF37]" />
           
@@ -374,37 +374,37 @@ export default function Home() {
                 className={`absolute left-1/2 -translate-x-1/2 w-3 h-3 rounded-full border border-[#D4AF37] transition-all duration-700 shadow-[0_0_15px_#D4AF37] ${activeSection === id ? 'bg-[#F9A826] scale-150' : 'bg-black scale-100'}`}
                 style={{ top: `${(i + 1) * 12.5}%` }}
              >
-                <div className={`absolute top-1/2 left-4 -translate-y-1/2 text-[9px] font-mono tracking-widest uppercase transition-opacity duration-500 ${activeSection === id ? 'opacity-100 text-[#D4AF37]' : 'opacity-0'}`}>
+                <div className={`absolute top-1/2 left-4 -translate-y-1/2 text-[9px] font-mono tracking-widest uppercase transition-opacity duration-500 hidden sm:block ${activeSection === id ? 'opacity-100 text-[#D4AF37]' : 'opacity-0'}`}>
                    {id}
                 </div>
              </div>
           ))}
       </div>
 
-      <div className="relative z-10 w-full flex flex-col pl-16 md:pl-32 lg:pl-48">
+      <div className="relative z-10 w-full flex flex-col pl-10 sm:pl-16 md:pl-32 lg:pl-48">
           
           {/* HERO SECTION */}
-          <section id="home" className="relative min-h-screen w-full flex items-center pr-6 md:pr-12 lg:pr-24 overflow-hidden py-32 lg:py-0">
+          <section id="home" className="relative min-h-screen w-full flex items-center pr-4 sm:pr-6 md:pr-12 lg:pr-24 overflow-hidden py-24 sm:py-32 lg:py-0">
              <HolographicNode id="home_node">
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-16 w-full">
-                   <div className="w-full lg:w-[60%] space-y-8">
-                     <div className="inline-flex items-center gap-3 px-4 py-2 bg-black border border-[#D4AF37]/30 rounded-none text-xs font-mono text-[#D4AF37] uppercase tracking-widest shadow-[0_0_20px_rgba(212,175,55,0.1)]">
+                   <div className="w-full lg:w-[60%] space-y-6 md:space-y-8">
+                     <div className="inline-flex items-center gap-2 sm:gap-3 px-3 py-1.5 sm:px-4 sm:py-2 bg-black border border-[#D4AF37]/30 rounded-none text-[10px] sm:text-xs font-mono text-[#D4AF37] uppercase tracking-widest shadow-[0_0_20px_rgba(212,175,55,0.1)]">
                        <span className="w-1.5 h-1.5 bg-[#D4AF37] animate-pulse"></span> SYSTEM INITIATED
                      </div>
-                     <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-display font-medium leading-[1] tracking-tighter">
-                       <span className="inline-flex items-center gap-4 sm:gap-5 md:gap-6 relative -top-2 sm:-top-3 md:-top-4">
+                     <h1 className="text-[2.6rem] min-[400px]:text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-display font-medium leading-[1] tracking-tighter">
+                       <span className="inline-flex items-center gap-3 sm:gap-5 md:gap-6 relative -top-1 sm:-top-3 md:-top-4">
                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                         <img src="https://github.com/Tanmay-Mirgal.png" alt="Tanmay Mirgal" className="w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full border-[3px] md:border-[4px] border-[#D4AF37]/80 shadow-[0_0_30px_rgba(212,175,55,0.4)] object-cover bg-black" />
+                         <img src="https://github.com/Tanmay-Mirgal.png" alt="Tanmay Mirgal" className="w-10 h-10 min-[400px]:w-14 min-[400px]:h-14 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full border-[2px] sm:border-[3px] md:border-[4px] border-[#D4AF37]/80 shadow-[0_0_30px_rgba(212,175,55,0.4)] object-cover bg-black" />
                          Tanmay
                        </span><br/>
                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F9A826] font-bold glitch-effect" data-text="Intelligence.">Mirgal.</span>
                      </h1>
-                     <p className="text-lg md:text-xl text-white/50 font-light leading-relaxed max-w-xl border-l-2 border-white/10 pl-6 border-l-[#D4AF37]/30">
+                     <p className="text-sm min-[400px]:text-base sm:text-lg md:text-xl text-white/50 font-light leading-relaxed max-w-xl border-l-[1px] sm:border-l-2 border-white/10 pl-4 sm:pl-6 border-l-[#D4AF37]/30">
                        I engineer high-performance systems. From pixel-perfect React interfaces to robust Node.js architectures and deep-learning pipelines, I own the entire product lifecycle from <span className="text-white">0 to production</span>.
                      </p>
                      
-                     <div className="flex gap-6 pt-4">
-                       <a href="#projects" className="relative group px-10 py-5 bg-transparent border border-[#D4AF37] text-[#D4AF37] hover:text-black font-display font-bold uppercase tracking-widest text-[10px] md:text-xs text-center overflow-hidden">
+                     <div className="flex gap-4 sm:gap-6 pt-2 sm:pt-4">
+                       <a href="#projects" className="relative group px-6 py-4 sm:px-10 sm:py-5 bg-transparent border border-[#D4AF37] text-[#D4AF37] hover:text-black font-display font-bold uppercase tracking-widest text-[10px] md:text-xs text-center overflow-hidden">
                           <div className="absolute inset-0 bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-500 ease-out z-[-1]" />
                           Explore Core Data
                        </a>
@@ -445,13 +445,13 @@ export default function Home() {
           </section>
 
           {/* CAPABILITIES SECTION */}
-          <section id="capabilities" className="py-32 pr-6 md:pr-12 lg:pr-24 z-10 relative">
-             <div className="mb-16">
-               <h2 className="text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">SYSTEM_CAPABILITIES</h2>
-               <p className="text-4xl md:text-6xl font-display font-medium text-white max-w-2xl leading-tight">I engineer systems that <br/><span className="text-white/30 italic">dominate complexity.</span></p>
+          <section id="capabilities" className="py-24 md:py-32 pr-4 sm:pr-6 md:pr-12 lg:pr-24 z-10 relative">
+             <div className="mb-12 md:mb-16">
+               <h2 className="text-[10px] md:text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">SYSTEM_CAPABILITIES</h2>
+               <p className="text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white max-w-2xl leading-tight">I engineer systems that <br className="hidden sm:block"/><span className="text-white/30 italic">dominate complexity.</span></p>
              </div>
              
-             <div className="flex flex-col gap-12">
+             <div className="flex flex-col gap-8 md:gap-12">
                {[
                  { title: "Full-Stack Ownership", desc: "Zero hand-holding required. I architect and engineer the entire MERN system—from responsive React & Next.js interfaces to secure backend Node.js APIs and complex MongoDB aggregations.", icon: <Layers className="text-[#D4AF37]" size={36}/> },
                  { title: "Machine Learning / Vision", desc: "Deep Learning models, TensorFlow, and advanced OpenCV vision layers seamlessly integrated into scalable APIs for real-time computer vision processing.", icon: <Cpu className="text-emerald-500" size={36}/> },
@@ -459,14 +459,19 @@ export default function Home() {
                  { title: "Fast Production Delivery", desc: "I ship highly scalable, performance-driven web products blazingly fast without ever compromising code quality, security, or clean architecture patterns.", icon: <Zap className="text-[#F9A826]" size={36}/> },
                ].map((c, i) => (
                  <HolographicNode key={i} id={`cap_node_${i}`}>
-                    <div className="bg-[#050505] p-10 lg:p-14 border border-white/5 flex flex-col md:flex-row gap-8 items-start group hover:border-[#D4AF37]/30 transition-all duration-700 relative overflow-hidden">
-                       <div className="absolute top-0 right-0 p-8 text-[200px] text-white/[0.02] font-black leading-none pointer-events-none font-mono -translate-y-1/4 translate-x-1/4">0{i+1}</div>
-                       <div className="p-5 border border-white/10 bg-black shadow-[rgba(212,175,55,0.1)_0px_0px_20px] group-hover:scale-110 transition-transform">
+                    <div className="bg-[#050505] p-6 sm:p-10 lg:p-14 border border-white/5 flex flex-col md:flex-row gap-6 md:gap-8 items-start group hover:border-[#D4AF37]/30 transition-all duration-700 relative overflow-hidden">
+                       <div className="absolute top-0 right-0 p-4 sm:p-8 text-[120px] md:text-[200px] text-white/[0.02] font-black leading-none pointer-events-none font-mono -translate-y-1/4 translate-x-1/4">0{i+1}</div>
+                       <div className="p-4 md:p-5 border border-white/10 bg-black shadow-[rgba(212,175,55,0.1)_0px_0px_20px] group-hover:scale-110 transition-transform hidden sm:block">
                           {c.icon}
                        </div>
                        <div className="relative z-10 max-w-xl">
-                          <h3 className="text-3xl font-display font-bold text-white mb-4">{c.title}</h3>
-                          <p className="text-white/50 text-lg leading-relaxed font-light">{c.desc}</p>
+                          <div className="flex items-center gap-4 mb-3 sm:mb-4">
+                             <div className="sm:hidden p-3 border border-white/10 bg-black shadow-[rgba(212,175,55,0.1)_0px_0px_20px]">
+                                {c.icon}
+                             </div>
+                             <h3 className="text-2xl sm:text-3xl font-display font-bold text-white">{c.title}</h3>
+                          </div>
+                          <p className="text-white/50 text-base sm:text-lg leading-relaxed font-light">{c.desc}</p>
                        </div>
                     </div>
                  </HolographicNode>
@@ -482,7 +487,7 @@ export default function Home() {
                       <span className="font-mono text-xs text-[#D4AF37] uppercase tracking-widest"><Database size={16} className="inline mr-2"/> Neural Architecture Core</span>
                       <span className="font-mono text-[9px] text-emerald-500 animate-pulse">Running Interactive Simulation</span>
                    </div>
-                   <div className="-ml-16 md:-ml-32 lg:-ml-48 scale-[0.8] md:scale-100 flex items-center justify-center pointer-events-auto w-screen">
+                   <div className="-ml-10 sm:-ml-16 md:-ml-32 lg:-ml-48 scale-[0.8] md:scale-100 flex items-center justify-center pointer-events-auto w-screen">
                       <InteractiveNeuralGraph />
                    </div>
                 </div>
@@ -490,10 +495,10 @@ export default function Home() {
           </section>
 
           {/* PROJECTS SECTION */}
-          <section id="projects" className="py-32 pr-6 md:pr-12 lg:pr-24 z-10 relative">
-             <div className="mb-24">
-               <h2 className="text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">DEPLOYED_MISSIONS</h2>
-               <p className="text-4xl md:text-6xl font-display font-medium text-white max-w-2xl leading-tight">Featured Production Instances.</p>
+          <section id="projects" className="py-24 md:py-32 pr-4 sm:pr-6 md:pr-12 lg:pr-24 z-10 relative">
+             <div className="mb-16 md:mb-24">
+               <h2 className="text-[10px] md:text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">DEPLOYED_MISSIONS</h2>
+               <p className="text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white max-w-2xl leading-tight">Featured Production Instances.</p>
              </div>
              
              <div className="flex flex-col gap-24">
@@ -512,15 +517,15 @@ export default function Home() {
                          
                          {/* Project Data */}
                          <div className="w-full xl:w-5/12 flex flex-col justify-center">
-                            <div className="flex flex-wrap gap-2 mb-6">
-                               {p.tags.map(t => <span key={t} className="text-[10px] font-mono border border-white/20 bg-transparent text-white/50 px-3 py-1 uppercase tracking-widest">{t}</span>)}
+                            <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
+                               {p.tags.map(t => <span key={t} className="text-[9px] min-[400px]:text-[10px] font-mono border border-white/20 bg-transparent text-white/50 px-2 py-0.5 sm:px-3 sm:py-1 uppercase tracking-widest">{t}</span>)}
                             </div>
-                            <h3 className="text-4xl md:text-5xl font-display font-bold text-white mb-6 group-hover:text-[#D4AF37] transition-colors">{p.title}</h3>
-                            <div className="w-8 h-[2px] bg-[#D4AF37] mb-6" />
-                            <p className="text-white/60 text-lg leading-relaxed font-light mb-8">{p.desc}</p>
+                            <h3 className="text-2xl min-[400px]:text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white mb-4 sm:mb-6 group-hover:text-[#D4AF37] transition-colors">{p.title}</h3>
+                            <div className="w-8 h-[2px] bg-[#D4AF37] mb-4 sm:mb-6" />
+                            <p className="text-sm min-[400px]:text-base sm:text-lg text-white/60 leading-relaxed font-light mb-6 sm:mb-8">{p.desc}</p>
                             
                             <div className="mt-auto">
-                               <button className="flex items-center gap-4 text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] hover:text-white transition-colors">
+                               <button className="flex items-center gap-4 text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-[#D4AF37] hover:text-white transition-colors">
                                   Access Protocol <span className="w-6 h-[1px] bg-[#D4AF37] group-hover:w-10 group-hover:bg-white transition-all block" />
                                </button>
                             </div>
@@ -532,12 +537,12 @@ export default function Home() {
           </section>
 
           {/* FREELANCE SERVICES */}
-          <section id="freelance" className="py-32 pr-6 md:pr-12 lg:pr-24 z-10 relative">
+          <section id="freelance" className="py-24 md:py-32 pr-4 sm:pr-6 md:pr-12 lg:pr-24 z-10 relative">
              <HolographicNode id="freelance_node">
-                <div className="bg-[#050505] border border-white/10 p-10 md:p-16">
-                   <div className="mb-16">
-                     <h2 className="text-xs font-mono text-emerald-500 tracking-[0.2em] uppercase mb-4 animate-pulse">STATUS: AVAILABLE FOR CONTRACTS</h2>
-                     <p className="text-4xl md:text-5xl font-display font-medium text-white max-w-2xl">Freelance Cyber Services</p>
+                <div className="bg-[#050505] border border-white/10 p-6 sm:p-10 md:p-16">
+                   <div className="mb-10 md:mb-16">
+                     <h2 className="text-[10px] sm:text-xs font-mono text-emerald-500 tracking-[0.2em] uppercase mb-4 animate-pulse">STATUS: AVAILABLE FOR CONTRACTS</h2>
+                     <p className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-white max-w-2xl">Freelance Cyber Services</p>
                    </div>
                    
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-16">
@@ -549,12 +554,12 @@ export default function Home() {
                         { title: "Robust Backend API", tech: "Node.js, PostgreSQL", time: "1–2 Weeks" },
                         { title: "System Code Review", tech: "Any Major Tech Stack", time: "1–2 Days" }
                       ].map((srv, i) => (
-                         <div key={i} className="flex gap-6 border-b border-white/5 pb-8 group hover:border-[#D4AF37]/50 transition-colors">
-                            <span className="text-white/20 font-mono text-xl mt-1">.0{i+1}</span>
+                         <div key={i} className="flex gap-4 sm:gap-6 border-b border-white/5 pb-6 sm:pb-8 group hover:border-[#D4AF37]/50 transition-colors">
+                            <span className="text-white/20 font-mono text-lg sm:text-xl mt-1">.0{i+1}</span>
                             <div>
-                               <h3 className="text-xl font-display font-medium text-white mb-2 group-hover:text-[#D4AF37]">{srv.title}</h3>
-                               <p className="text-white/40 font-mono text-[10px] tracking-widest uppercase mb-4">{srv.tech}</p>
-                               <span className="text-[10px] font-mono text-black bg-[#D4AF37] px-2 py-1 font-bold">ETA: {srv.time}</span>
+                               <h3 className="text-lg sm:text-xl font-display font-medium text-white mb-2 group-hover:text-[#D4AF37]">{srv.title}</h3>
+                               <p className="text-white/40 font-mono text-[9px] min-[400px]:text-[10px] tracking-widest uppercase mb-3 sm:mb-4">{srv.tech}</p>
+                               <span className="text-[9px] min-[400px]:text-[10px] font-mono text-black bg-[#D4AF37] px-2 py-1 font-bold">ETA: {srv.time}</span>
                             </div>
                          </div>
                       ))}
@@ -564,10 +569,10 @@ export default function Home() {
           </section>
 
           {/* HALL OF FAME */}
-          <section id="achievements" className="py-32 pr-6 md:pr-12 lg:pr-24 z-10 relative">
-             <div className="mb-16">
-               <h2 className="text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">HALL_OF_FAME</h2>
-               <p className="text-4xl md:text-5xl font-display font-medium text-white max-w-2xl">Excellence certified by reality.</p>
+          <section id="achievements" className="py-24 md:py-32 pr-4 sm:pr-6 md:pr-12 lg:pr-24 z-10 relative">
+             <div className="mb-12 md:mb-16">
+               <h2 className="text-[10px] md:text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">HALL_OF_FAME</h2>
+               <p className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-white max-w-2xl">Excellence certified by reality.</p>
              </div>
              
              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
@@ -583,10 +588,10 @@ export default function Home() {
                                <Image src={a.url} alt={a.title} fill className="object-cover opacity-50 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1s]" />
                             )}
                          </div>
-                         <div className="p-4 flex-1 flex flex-col">
-                            <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">{a.date} {"//"} {a.org}</span>
-                            <h4 className="text-xl font-display font-bold text-white mt-2 mb-4 group-hover:text-[#D4AF37] transition-colors">{a.title}</h4>
-                            <p className="text-white/50 text-sm leading-relaxed font-light mt-auto">{a.desc}</p>
+                         <div className="p-4 sm:p-6 flex-1 flex flex-col">
+                            <span className="font-mono text-[9px] min-[400px]:text-[10px] text-white/40 uppercase tracking-widest">{a.date} {"//"} {a.org}</span>
+                            <h4 className="text-lg sm:text-xl font-display font-bold text-white mt-2 mb-3 group-hover:text-[#D4AF37] transition-colors">{a.title}</h4>
+                            <p className="text-white/50 text-[11px] min-[400px]:text-xs sm:text-sm leading-relaxed font-light mt-auto">{a.desc}</p>
                          </div>
                       </div>
                    </HolographicNode>
@@ -595,20 +600,20 @@ export default function Home() {
           </section>
 
           {/* CONTACT */}
-          <section id="contact" className="py-40 pr-6 md:pr-12 lg:pr-24 z-10 relative text-center flex justify-center">
+          <section id="contact" className="py-32 md:py-40 pr-4 sm:pr-6 md:pr-12 lg:pr-24 z-10 relative text-center flex justify-center">
              <HolographicNode id="contact_node">
-                 <div className="border-y border-white/10 py-24 w-full relative">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-24 bg-gradient-to-b from-[#D4AF37] to-transparent -translate-y-full" />
+                 <div className="border-y border-white/10 py-16 md:py-24 w-full relative">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-16 md:h-24 bg-gradient-to-b from-[#D4AF37] to-transparent -translate-y-full" />
                     
-                    <h2 className="text-6xl md:text-[8rem] font-display font-black leading-none mb-10 tracking-tighter hover:text-[#D4AF37] transition-colors cursor-default">
+                    <h2 className="text-[2.8rem] min-[400px]:text-5xl sm:text-6xl md:text-[8rem] font-display font-black leading-none mb-8 md:mb-10 tracking-tighter hover:text-[#D4AF37] transition-colors cursor-default">
                        EXECUTE
                     </h2>
-                    <p className="text-xl text-white/50 font-light mb-12 max-w-lg mx-auto">
+                    <p className="text-sm min-[400px]:text-base sm:text-lg md:text-xl text-white/50 font-light mb-10 md:mb-12 max-w-lg mx-auto px-4">
                        I am ready to architect your next high-performance enterprise system.
                     </p>
-                    <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
-                       <a href="mailto:tanmaymirgal26@gmail.com" className="px-12 py-5 bg-[#D4AF37] text-black font-mono font-bold uppercase tracking-[0.2em] text-xs hover:bg-white hover:shadow-[0_0_30px_white] transition-all">Establish Connection</a>
-                       <div className="flex gap-4">
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
+                       <a href="mailto:tanmaymirgal26@gmail.com" className="w-full sm:w-auto px-8 py-4 md:px-12 md:py-5 bg-[#D4AF37] text-black font-mono font-bold uppercase tracking-[0.2em] text-[10px] md:text-xs hover:bg-white hover:shadow-[0_0_30px_white] transition-all">Establish Connection</a>
+                       <div className="flex gap-4 w-full sm:w-auto justify-center">
                           <a href="https://github.com/Tanmay-Mirgal" target="_blank" className="p-4 border border-white/20 text-white/50 hover:bg-white hover:text-black transition-all flex items-center justify-center shrink-0"><Github size={24}/></a>
                           <a href="https://www.linkedin.com/in/tanmay-mirgal-1402792a2/" target="_blank" className="p-4 border border-white/20 text-white/50 hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all flex items-center justify-center shrink-0"><Linkedin size={24}/></a>
                        </div>
@@ -641,18 +646,18 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="p-10 space-y-8 relative">
-                <div className="absolute top-0 right-10 w-[1px] h-full bg-white/5" />
-                <div>
-                  <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] mb-4 flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#D4AF37] animate-pulse" /> Mission Brief</h4>
-                  <p className="text-white/70 text-lg leading-relaxed font-light max-w-3xl">{selectedProject.fullDesc}</p>
-                </div>
-                <div className="pt-8 flex gap-4 border-t border-white/5">
-                  <a href={selectedProject.link} target="_blank" rel="noreferrer" className="px-8 py-4 bg-white/5 text-white border border-white/20 font-bold uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-colors flex items-center justify-center gap-3">
-                    <Github size={18} /> Source Access
-                  </a>
-                </div>
-              </div>
+              <div className="p-6 min-[400px]:p-10 space-y-6 sm:space-y-8 relative">
+                 <div className="absolute top-0 right-10 w-[1px] h-full bg-white/5 hidden sm:block" />
+                 <div>
+                   <h4 className="text-[10px] sm:text-xs font-mono text-[#D4AF37] uppercase tracking-[0.2em] mb-4 flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#D4AF37] animate-pulse" /> Mission Brief</h4>
+                   <p className="text-white/70 text-base min-[400px]:text-lg leading-relaxed font-light max-w-3xl">{selectedProject.fullDesc}</p>
+                 </div>
+                 <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row gap-4 border-t border-white/5">
+                   <a href={selectedProject.link} target="_blank" rel="noreferrer" className="w-full sm:w-auto px-6 py-4 md:px-8 md:py-4 bg-white/5 text-white border border-white/20 font-bold uppercase tracking-widest text-[10px] md:text-xs hover:bg-white hover:text-black transition-colors flex items-center justify-center gap-3">
+                     <Github size={18} /> Source Access
+                   </a>
+                 </div>
+               </div>
             </motion.div>
           </motion.div>
         )}
