@@ -516,7 +516,7 @@ export default function Home() {
                            </h1>
                         </div>
 
-                        <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F9A826]">
+                        <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter text-[#D4AF37]">
                            MIRGAL.
                         </h1>
                      </div>
