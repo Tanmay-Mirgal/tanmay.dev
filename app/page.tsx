@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Github, Linkedin, Mail, ExternalLink, Code, Layers, Cpu, Database, Eye, X, FileText, Trophy, Terminal, ShieldCheck, Zap, Briefcase, GitBranch, Cloud } from "lucide-react";
+import { Github, Linkedin, Mail, Code, Layers, Cpu, Database, Eye, X, FileText, Trophy, Terminal, Zap, GitBranch, Cloud } from "lucide-react";
 
 // --- Types ---
 interface Achievement {
@@ -652,7 +652,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-2xl md:text-3xl font-display font-bold text-white mb-3 md:mb-4">{p.t}</h4>
+                    <h4 className="text-2xl md:text-3xl font-display font-bold text-white mb-3 md:mb-4">{p.title}</h4>
                     <p className="text-white/50 leading-relaxed font-light text-sm md:text-base">{p.desc}</p>
                   </div>
                 </div>
@@ -666,6 +666,37 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
+
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Tanmay Mirgal",
+            "url": "https://tanmay-dev-81mf.vercel.app/",
+            "jobTitle": "AI & Full-Stack Architect",
+            "sameAs": [
+              "https://github.com/Tanmay-Mirgal",
+              "https://www.linkedin.com/in/tanmay-mirgal-1402792a2/"
+            ],
+            "description": "Tanmay Mirgal is an AI & Full-Stack Architect specializing in high-performance systems, deep learning pipelines, and React/Next.js interfaces."
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Tanmay Mirgal Portfolio",
+            "url": "https://tanmay-dev-81mf.vercel.app/",
+            "description": "Architecting Intelligence - High-performance systems and AI solutions by Tanmay Mirgal."
+          })
+        }}
+      />
 
       <section id="freelance" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 z-10 relative">
         <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: false, amount: 0.1 }} transition={{ duration: 0.8 }} className="max-w-5xl mx-auto space-y-12 mb-10 md:mb-16">

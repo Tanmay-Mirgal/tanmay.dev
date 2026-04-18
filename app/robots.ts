@@ -6,7 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://tanmay.dev/sitemap.xml",
-    host: "https://tanmay.dev",
+    sitemap: "https://tanmay-dev-81mf.vercel.app/sitemap.xml",
   };
 }
