@@ -389,7 +389,7 @@ export default function Home() {
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-16 w-full">
                    <div className="w-full lg:w-[60%] space-y-6 md:space-y-8">
                      <div className="inline-flex items-center gap-2 sm:gap-3 px-3 py-1.5 sm:px-4 sm:py-2 bg-black border border-[#D4AF37]/30 rounded-none text-[10px] sm:text-xs font-mono text-[#D4AF37] uppercase tracking-widest shadow-[0_0_20px_rgba(212,175,55,0.1)]">
-                       <span className="w-1.5 h-1.5 bg-[#D4AF37] animate-pulse"></span> SYSTEM INITIATED
+                       {/* <span className="w-1.5 h-1.5 bg-[#D4AF37] animate-pulse"></span> SYSTEM INITIATED */}
                      </div>
                      <h1 className="text-[2.6rem] min-[400px]:text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-display font-medium leading-[1] tracking-tighter">
                        <span className="inline-flex items-center gap-3 sm:gap-5 md:gap-6 relative -top-1 sm:-top-3 md:-top-4">
