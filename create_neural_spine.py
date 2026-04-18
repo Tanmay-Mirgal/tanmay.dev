@@ -1,335 +1,24 @@
-"use client";
+import re
 
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Github, Linkedin, Layers, Cpu, Database, X, FileText, Terminal, Zap, Cloud } from "lucide-react";
+def create_neural_spine_page():
+    with open('app/page.tsx.backup', 'r', encoding='utf-8') as f:
+        content = f.read()
 
-// --- Types ---
-interface Achievement {
-  title: string;
-  org: string;
-  date: string;
-  desc: string;
-  url: string;
-  type: "image" | "pdf";
-}
+    # Find the start of Home
+    home_match = re.search(r'export default function Home\(\) \{', content)
+    if not home_match:
+        print("Error: Could not find Home function in backup.")
+        return
 
-interface Project {
-  title: string;
-  desc: string;
-  fullDesc: string;
-  tags: string[];
-  link: string;
-  image: string;
-}
+    top_parts = content[:home_match.start()]
+    
+    # We must ensure useScroll, useTransform, useInView from framer-motion are imported.
+    top_parts = top_parts.replace(
+        'import { motion, AnimatePresence } from "framer-motion";',
+        'import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView } from "framer-motion";\nimport { useRef } from "react";'
+    )
 
-// --- Custom Cursor ---
-const GlassCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-
-  useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.tagName.toLowerCase() === 'a' || target.tagName.toLowerCase() === 'button' || target.closest('a') || target.closest('button')) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
-      }
-    };
-
-    window.addEventListener("mousemove", updateMousePosition);
-    window.addEventListener("mouseover", handleMouseOver);
-
-    return () => {
-      window.removeEventListener("mousemove", updateMousePosition);
-      window.removeEventListener("mouseover", handleMouseOver);
-    };
-  }, []);
-
-  return (
-    <div className="hidden md:block">
-      <motion.div
-        className="fixed top-0 left-0 w-3 h-3 bg-[#D4AF37] rounded-full pointer-events-none z-[10000] mix-blend-screen shadow-[0_0_10px_#D4AF37]"
-        animate={{ 
-          x: mousePosition.x - 6, 
-          y: mousePosition.y - 6,
-          scale: isHovering ? 0 : 1
-        }}
-        transition={{ type: "tween", ease: "backOut", duration: 0.1 }}
-      />
-      <motion.div
-        className="fixed top-0 left-0 border border-[#D4AF37]/40 bg-[#D4AF37]/[0.05] backdrop-blur-[2px] rounded-full pointer-events-none z-[9999]"
-        animate={{ 
-          x: mousePosition.x - (isHovering ? 30 : 20), 
-          y: mousePosition.y - (isHovering ? 30 : 20),
-          width: isHovering ? 60 : 40,
-          height: isHovering ? 60 : 40
-        }}
-        transition={{ type: "tween", ease: "circOut", duration: 0.3 }}
-      />
-    </div>
-  );
-};
-
-// --- Ambient Neural Background ---
-const AmbientBackground = () => {
-  return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      <div className="glow-orb bg-[#F9A826]/10 w-full lg:w-[800px] h-[800px] top-[-200px] left-[-200px]" />
-      <div className="glow-orb bg-[#D4AF37]/10 w-full lg:w-[600px] h-[600px] bottom-[-100px] right-[-100px]" />
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay"></div>
-    </div>
-  );
-};
-
-// --- Super Interactive Continuous Neural Graph Architecture ---
-const InteractiveNeuralGraph = () => {
-  const [activeNode, setActiveNode] = useState<string | null>(null);
-
-  // Mathematically perfect symmetric radial coordinates based on 50% center
-  const mainNodes = [
-    { id: 'frontend', label: 'Client UX', x: 28, y: 28, color: '#00E5FF', icon: <Layers size={22}/>, desc: 'React, Next.js, Framer' },
-    { id: 'backend', label: 'Core API', x: 72, y: 28, color: '#10B981', icon: <Database size={22}/>, desc: 'Node.js, Express, MongoDB' },
-    { id: 'ml', label: 'Intelligence', x: 72, y: 72, color: '#F9A826', icon: <Cpu size={22}/>, desc: 'Python, TensorFlow, OpenCV' },
-    { id: 'cloud', label: 'Cloud Ops', x: 28, y: 72, color: '#38BDF8', icon: <Cloud size={22}/>, desc: 'AWS, Docker, Linux' },
-  ];
-
-  // 20 High-density tech nodes mapping an intense web architecture
-  const techNodes = [
-    // Top-Left Cluster (Frontend)
-    { id: 'react', parent: 'frontend', label: 'React', x: 28, y: 5, color: '#00E5FF', dur: 1.8 },
-    { id: 'tw', parent: 'frontend', label: 'Tailwind', x: 5, y: 28, color: '#38BDF8', dur: 2.1 },
-    { id: 'next', parent: 'frontend', label: 'Next.js', x: 12, y: 12, color: '#fff', dur: 1.5 },
-    { id: 'redux', parent: 'frontend', label: 'Redux', x: 18, y: 4, color: '#764ABC', dur: 2.3 },
-    { id: 'framer', parent: 'frontend', label: 'Framer', x: 4, y: 18, color: '#FF0055', dur: 1.9 },
-
-    // Top-Right Cluster (Backend)
-    { id: 'node', parent: 'backend', label: 'Node.js', x: 72, y: 5, color: '#339933', dur: 1.6 },
-    { id: 'express', parent: 'backend', label: 'Express', x: 95, y: 28, color: '#fff', dur: 2.2 },
-    { id: 'mongo', parent: 'backend', label: 'MongoDB', x: 88, y: 12, color: '#47A248', dur: 2.0 },
-    { id: 'pg', parent: 'backend', label: 'PostgreSQL', x: 82, y: 4, color: '#336791', dur: 2.4 },
-    { id: 'redis', parent: 'backend', label: 'Redis', x: 96, y: 18, color: '#DC382D', dur: 1.7 },
-
-    // Bottom-Right Cluster (ML)
-    { id: 'py', parent: 'ml', label: 'Python', x: 72, y: 95, color: '#F9A826', dur: 1.9 },
-    { id: 'cv', parent: 'ml', label: 'OpenCV', x: 95, y: 72, color: '#fff', dur: 2.1 },
-    { id: 'tf', parent: 'ml', label: 'TensorFlow', x: 88, y: 88, color: '#FF6F00', dur: 1.8 },
-    { id: 'pytorch', parent: 'ml', label: 'PyTorch', x: 82, y: 96, color: '#EE4C2C', dur: 2.5 },
-    { id: 'scikit', parent: 'ml', label: 'Scikit', x: 96, y: 82, color: '#F37626', dur: 1.6 },
-
-    // Bottom-Left Cluster (Cloud/DevOps)
-    { id: 'aws', parent: 'cloud', label: 'AWS', x: 28, y: 95, color: '#FF9900', dur: 2.0 },
-    { id: 'docker', parent: 'cloud', label: 'Docker', x: 5, y: 72, color: '#2496ED', dur: 1.7 },
-    { id: 'ci', parent: 'cloud', label: 'CI/CD', x: 12, y: 88, color: '#fff', dur: 2.3 },
-    { id: 'linux', parent: 'cloud', label: 'Linux', x: 18, y: 96, color: '#FCC624', dur: 1.9 },
-    { id: 'nginx', parent: 'cloud', label: 'Nginx', x: 4, y: 82, color: '#009639', dur: 2.2 },
-  ];
-
-  return (
-    <div className="w-full max-w-6xl mx-auto py-2 md:py-4 relative flex flex-col justify-center items-center px-4 overflow-hidden z-10">
-       
-       {/* Background structural rings for technical blueprint look */}
-       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#ffffff03_0%,_transparent_75%)] pointer-events-none" />
-
-       {/* Strictly responsive square container so coordinates never squish on any screen */}
-       <div className="relative w-[320px] h-[320px] sm:w-[450px] sm:h-[450px] md:w-[650px] md:h-[650px] lg:w-[800px] lg:h-[800px] bg-transparent mt-0">
-         
-         <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-0">
-            {/* Elegant Blueprint Rings */}
-            <circle cx="50%" cy="50%" r="31%" stroke="#D4AF37" strokeWidth="1" fill="none" opacity="0.2" strokeDasharray="2 6" />
-            <circle cx="50%" cy="50%" r="48%" stroke="#D4AF37" strokeWidth="1" fill="none" opacity="0.05" />
-
-            {/* Neural lines to main hubs + CONTINUOUS DATA FLOW */}
-            {mainNodes.map((node, i) => {
-               const isActive = activeNode === node.id;
-               const opacity = activeNode === null || isActive ? 0.7 : 0.05;
-               const glow = isActive ? 'drop-shadow(0 0 10px rgba(212,175,55,0.8))' : 'none';
-               const offsetTime = i * 0.5;
-               
-               return (
-                 <g key={`group-${node.id}`} style={{ transition: 'opacity 0.6s ease', opacity }}>
-                   <line x1="50%" y1="50%" x2={`${node.x}%`} y2={`${node.y}%`} stroke={isActive ? node.color : 'rgba(255,255,255,0.3)'} strokeWidth={isActive ? 3 : 1.5} strokeDasharray={isActive ? "none" : "4 4"} filter={glow} className="transition-all duration-500">
-                      {isActive && <animate attributeName="stroke-dasharray" values="10, 10; 50, 10" dur="2s" repeatCount="indefinite" />}
-                   </line>
-                   
-                   {/* Continuous Synapse Data pulse dots */}
-                   <circle r={isActive ? "4" : "2"} fill={node.color} filter={`drop-shadow(0 0 ${isActive ? '10px' : '4px'} ${node.color})`}>
-                      <animate attributeName="cx" values={`50%;${node.x}%`} dur="2s" begin={`${offsetTime}s`} repeatCount="indefinite" />
-                      <animate attributeName="cy" values={`50%;${node.y}%`} dur="2s" begin={`${offsetTime}s`} repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0;1;0" dur="2s" begin={`${offsetTime}s`} repeatCount="indefinite" />
-                   </circle>
-                 </g>
-               )
-            })}
-            
-            {/* Fine traces from main hubs to tech nodes + SECONDARY DATA FLOW */}
-            {techNodes.map((tech, i) => {
-               const parent = mainNodes.find(m => m.id === tech.parent);
-               if (!parent) return null;
-               
-               const isActive = activeNode === parent?.id;
-               const opacity = activeNode === null || isActive ? (isActive ? 0.7 : 0.2) : 0.02;
-               const strokeW = isActive ? 1.5 : 0.5;
-               const offsetTime = i * 0.2;
-               
-               return (
-                 <g key={`tline-${tech.id}`} style={{ transition: 'opacity 0.6s ease', opacity }}>
-                  <line 
-                    x1={`${parent.x}%`} y1={`${parent.y}%`} x2={`${tech.x}%`} y2={`${tech.y}%`} 
-                    stroke={tech.color} strokeWidth={strokeW} 
-                    strokeDasharray={isActive ? "none" : "2 4"}
-                    className="transition-all duration-500" 
-                  />
-                  
-                  {/* Continuous data packets from Main Nodes to Tech Nodes */}
-                  <circle r={isActive ? "2.5" : "1.5"} fill={tech.color} filter={isActive ? `drop-shadow(0 0 4px ${tech.color})` : 'none'}>
-                      <animate attributeName="cx" values={`${parent.x}%;${tech.x}%`} dur={`${tech.dur}s`} begin={`${offsetTime}s`} repeatCount="indefinite" />
-                      <animate attributeName="cy" values={`${parent.y}%;${tech.y}%`} dur={`${tech.dur}s`} begin={`${offsetTime}s`} repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0;1;0" dur={`${tech.dur}s`} begin={`${offsetTime}s`} repeatCount="indefinite" />
-                  </circle>
-                 </g>
-               )
-            })}
-         </svg>
-
-         {/* --- CENTRAL CORE ENGINE --- */}
-         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-16 h-16 sm:w-20 sm:h-20 lg:w-32 lg:h-32">
-            <motion.div 
-              className="w-full h-full glass-panel border border-[#D4AF37]/50 rounded-full flex flex-col items-center justify-center cursor-pointer shadow-[0_0_50px_rgba(212,175,55,0.5)] backdrop-blur-3xl overflow-hidden group"
-              animate={{ boxShadow: ["0 0 30px rgba(212,175,55,0.4)", "0 0 100px rgba(212,175,55,1)", "0 0 30px rgba(212,175,55,0.4)"] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              onMouseEnter={() => setActiveNode(null)}
-            >
-               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#D4AF3715_0%,_transparent_70%)]" />
-               <div className="absolute inset-1.5 border border-dashed border-[#D4AF37]/60 rounded-full animate-[spin_12s_linear_infinite]" />
-               <div className="absolute inset-2 sm:inset-3 border border-[#D4AF37]/30 rounded-full animate-[spin_8s_reverse_linear_infinite] border-t-transparent" />
-               
-               <Database size={16} className="text-[#D4AF37] mb-1 opacity-90 sm:w-5 sm:h-5 lg:w-8 lg:h-8" />
-               <span className="font-display font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#D4AF37] to-[#F9A826] text-[8px] sm:text-[9px] lg:text-sm tracking-[0.2em] sm:tracking-[0.3em] uppercase block pl-1 relative z-10">CORE</span>
-            </motion.div>
-         </div>
-
-         {/* --- MAIN CATEGORY HUBS --- */}
-         {mainNodes.map(node => (
-            <div 
-              key={node.id}
-              className="absolute -translate-x-1/2 -translate-y-1/2 z-30 cursor-pointer group"
-              style={{ left: `${node.x}%`, top: `${node.y}%` }}
-              onMouseEnter={() => setActiveNode(node.id)}
-              onMouseLeave={() => setActiveNode(null)}
-              onClick={() => setActiveNode((prev) => prev === node.id ? null : node.id)} // For mobile taps
-            >
-               <motion.div 
-                 whileHover={{ scale: 1.15 }}
-                 className={`w-12 h-12 sm:w-16 sm:h-16 lg:w-24 lg:h-24 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-2xl shadow-2xl relative ${activeNode && activeNode !== node.id ? 'opacity-20 scale-90' : 'opacity-100 z-40'}`}
-                 style={{ 
-                   background: `radial-gradient(circle at top left, ${node.color}40, rgba(0,0,0,0.95))`,
-                   border: `1px sm:2px solid ${node.color}80`, 
-                   color: node.color, 
-                   boxShadow: activeNode === node.id ? `0 0 40px ${node.color}60, inset 0 0 20px ${node.color}30` : `0 0 15px ${node.color}20`
-                 }}
-               >
-                 <div className={`transition-transform duration-500 relative z-10 flex items-center justify-center ${activeNode === node.id ? 'scale-110 drop-shadow-[0_0_8px_white]' : 'scale-100'}`}>
-                    {/* Scale down icon severely for tiny mobiles */}
-                    <div className="scale-75 sm:scale-100 lg:scale-125">{node.icon}</div>
-                 </div>
-                 
-                 <div className="absolute inset-[-2px] sm:inset-[-4px] border border-dashed rounded-full opacity-30 pointer-events-none animate-[spin_10s_linear_infinite]" style={{ borderColor: node.color }} />
-
-                 <div className={`absolute top-full mt-2 sm:mt-4 whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${activeNode === node.id ? 'opacity-100' : 'opacity-0 lg:group-hover:opacity-100'}`}>
-                    <div className="glass-panel px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border border-white/10 font-mono flex flex-col items-center shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-2xl bg-black/80">
-                       <span className="text-[9px] sm:text-[11px] lg:text-sm font-bold tracking-widest uppercase mb-0.5 sm:mb-1" style={{ color: node.color }}>{node.label}</span>
-                       <span className="text-[7px] sm:text-[8px] lg:text-[10px] text-white/60">{node.desc}</span>
-                    </div>
-                 </div>
-               </motion.div>
-            </div>
-         ))}
-
-         {/* --- TECH SATELLITE NODES --- */}
-         {techNodes.map((tech, i) => {
-            const isHovered = activeNode === tech.parent || activeNode === null;
-            return (
-              <div 
-                key={tech.id}
-                className={`absolute -translate-x-1/2 -translate-y-1/2 z-10 transition-all duration-700 pointer-events-none ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-50 blur-xl'}`}
-                style={{ left: `${tech.x}%`, top: `${tech.y}%` }}
-              >
-                 <motion.div
-                   animate={{ y: [0, (i % 2 === 0) ? -3 : 3, 0] }}
-                   transition={{ duration: 4 + (i % 3), repeat: Infinity, ease: "easeInOut" }}
-                   className="px-2 py-0.5 sm:px-3 sm:py-1.5 lg:px-5 lg:py-2.5 rounded-full border bg-black/95 backdrop-blur-xl flex items-center justify-center transition-colors duration-500 overflow-hidden relative"
-                   style={{ 
-                     borderColor: activeNode ? `${tech.color}90` : `${tech.color}40`, 
-                     color: activeNode ? '#fff' : tech.color,
-                     boxShadow: activeNode ? `0 0 15px ${tech.color}40, inset 0 0 5px ${tech.color}10` : `0 2px 10px rgba(0,0,0,0.5)`
-                   }}
-                 >
-                    <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none animate-[shimmer_3s_infinite]" style={{ animationDelay: `${i * 0.2}s` }} />
-                    <span className="font-mono text-[7px] sm:text-[9px] lg:text-xs tracking-[0.1em] sm:tracking-[0.2em] font-bold whitespace-nowrap relative z-10">{tech.label}</span>
-                 </motion.div>
-                 <style dangerouslySetInnerHTML={{__html: `
-                    @keyframes shimmer { 100% { transform: translateX(150%); } }
-                 `}} />
-              </div>
-            )
-         })}
-       </div>
-    </div>
-  );
-};
-
-// --- Mock Data ---
-const achievementsData: Achievement[] = [
-  { title: "Hackathon Winner", org: "AI Global", date: "2024", url: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070", type: "image", desc: "Won 1st among 200+ teams for real-time semantic search." },
-  { title: "ML Architect", org: "TF Academy", date: "2023", url: "/achievements/cert.pdf", type: "pdf", desc: "Certified for deploying production models at enterprise scale." },
-  { title: "Top Contributor", org: "OSS Summit", date: "2023", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070", type: "image", desc: "Recognized for high-impact contributions to LLM libraries." }
-];
-
-const projectsData: Project[] = [
-  { 
-    title: "Samadhan", 
-    desc: "High-performance platform handling 10k+ concurrent requests. Optimized infrastructure for extreme load.", 
-    fullDesc: "Samadhan is a robust full-stack system heavily utilizing Node.js streams and Redis caching to handle massive concurrent traffic securely. It establishes a highly optimized infrastructure designed specifically for scalable enterprise architectures. The backend ensures sub-100ms response times globally.",
-    tags: ["React", "Node.js", "MongoDB", "Redis", "AWS"], 
-    link: "https://github.com/Tanmay-Mirgal/Samadhan",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070"
-  },
-  { 
-    title: "Smart Meeter", 
-    desc: "ML-powered system achieving 94.7% accuracy on custom datasets using heavy computer vision layers.", 
-    fullDesc: "Smart Meeter leverages cutting-edge deep learning layers utilizing custom Python and TensorFlow pipelines. With real-time OpenCV tracking, it delivers a high-accuracy, production-ready computer vision API via FastAPI, seamlessly handling real-time video streams.",
-    tags: ["Python", "TensorFlow", "OpenCV", "FastAPI"], 
-    link: "https://github.com/Tanmay-Mirgal/Smart-Meeter",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070"
-  },
-  { 
-    title: "Finch AI", 
-    desc: "Intelligent Banking Recommendation Engine serving 500+ active users with real-time analytics.",
-    fullDesc: "Finch AI establishes a secure, robust Banking Recommendation engine. Integrating real-time financial tracking and intelligent analytics through a deeply integrated MERN stack with PostgreSQL relations, caching, and strict Dockerized CI/CD pipelines.",
-    tags: ["MERN", "PostgreSQL", "Docker", "CI/CD"], 
-    link: "https://github.com/Tanmay-Mirgal/Finch-AI-Intelligent-Banking-Recommendation-Engine",
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974"
-  },
-  { 
-    title: "Cognix", 
-    desc: "Full-stack AI SaaS with real-time computer vision capabilities and seamless cloud integration.",
-    fullDesc: "Cognix is an end-to-end AI software-as-a-service application. It offers real-time scalable vision capabilities deployed across AWS infrastructure, effectively combining heavy ML processing servers with a beautiful, responsive React User Interface.",
-    tags: ["MERN", "AWS", "OpenCV"], 
-    link: "https://github.com/Tanmay-Mirgal/Cognix",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070"
-  }
-];
-
-
-
+    new_home = """
 export default function Home() {
   const [activeSection, setActiveSection] = useState("home");
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
@@ -422,8 +111,8 @@ export default function Home() {
                            <div><span className="text-white/40">tanmay@neural</span><span className="text-blue-500">:</span><span className="text-blue-400">~/prod</span>$ cat matrix_config.yml</div>
                            <div className="pl-4 border-l border-emerald-500/20 py-2">
                              <div className="mb-1"><span className="text-purple-400">user:</span></div>
-                             &nbsp;&nbsp;<span className="text-blue-300">id:</span> <span className="text-[#D4AF37]">&quot;tanmay_mirgal&quot;</span><br />
-                             &nbsp;&nbsp;<span className="text-blue-300">role:</span> <span className="text-white">&quot;Full-Stack Engineer &amp; AI Architect&quot;</span><br />
+                             &nbsp;&nbsp;<span className="text-blue-300">id:</span> <span className="text-[#D4AF37]">"tanmay_mirgal"</span><br />
+                             &nbsp;&nbsp;<span className="text-blue-300">role:</span> <span className="text-white">"Full-Stack Engineer & AI Architect"</span><br />
                              <div className="mt-2 mb-1"><span className="text-purple-400">arsenal:</span></div>
                              &nbsp;&nbsp;<span className="text-blue-300">frontend:</span> <span className="text-[#F9A826]">[React, Next.js, WebGL]</span><br />
                              &nbsp;&nbsp;<span className="text-blue-300">backend:</span> <span className="text-[#F9A826]">[Node.js, Express, Microservices]</span><br />
@@ -580,7 +269,7 @@ export default function Home() {
                             )}
                          </div>
                          <div className="p-4 flex-1 flex flex-col">
-                            <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">{a.date} {"//"} {a.org}</span>
+                            <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest">{a.date} // {a.org}</span>
                             <h4 className="text-xl font-display font-bold text-white mt-2 mb-4 group-hover:text-[#D4AF37] transition-colors">{a.title}</h4>
                             <p className="text-white/50 text-sm leading-relaxed font-light mt-auto">{a.desc}</p>
                          </div>
@@ -667,7 +356,7 @@ export default function Home() {
                 )}
               </div>
               <div className="p-8 pb-4">
-                <p className="text-[#D4AF37] font-mono text-[10px] uppercase tracking-[0.2em] mb-2">{selectedAchievement.org} {"//"} {selectedAchievement.date}</p>
+                <p className="text-[#D4AF37] font-mono text-[10px] uppercase tracking-[0.2em] mb-2">{selectedAchievement.org} // {selectedAchievement.date}</p>
                 <h3 className="text-3xl font-display font-medium text-white mb-2">{selectedAchievement.title}</h3>
                 <p className="text-white/50 text-sm font-light max-w-2xl">{selectedAchievement.desc}</p>
               </div>
@@ -692,12 +381,12 @@ export default function Home() {
 }
 
 // Complex Holographic Node component connecting to the Spine
-const HolographicNode = ({ children, id, delay = 0 }: { children: React.ReactNode, id: string, delay?: number }) => {
+const HolographicNode = ({ children, id, delay = 0 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px 0px" });
 
   return (
-    <div ref={ref} id={id} className="relative w-full">
+    <div ref={ref} className="relative w-full">
       {/* Horizontal connecting line from spine */}
       <motion.div 
          initial={{ scaleX: 0, opacity: 0 }}
@@ -728,4 +417,10 @@ const HolographicNode = ({ children, id, delay = 0 }: { children: React.ReactNod
     </div>
   )
 }
-    
+    """
+
+    with open('app/page.tsx', 'w', encoding='utf-8') as f:
+        f.write(top_parts + new_home)
+
+if __name__ == '__main__':
+    create_neural_spine_page()
