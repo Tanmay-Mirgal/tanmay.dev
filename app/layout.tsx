@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     apple: "/favicon.ico",
   },
   verification: {
-    google: "YOUR_GOOGLE_VERIFICATION_CODE", // Replace this with your actual code from Search Console
+    google: "2KKUiYlMYJ4GsZxD02PtzCILc32zl9ApToVWlYXfJqQ",
   },
 };
 
