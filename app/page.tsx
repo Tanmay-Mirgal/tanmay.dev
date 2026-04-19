@@ -58,7 +58,7 @@ export default function Home() {
       {/* Immersive neural backdrop */}
       <div className="fixed inset-0 z-0 pointer-events-none">
          <AmbientBackground />
-         <div className="absolute inset-0 bg-[#030303]/80 backdrop-blur-[2px]" />
+         <div className="absolute inset-0 bg-[#030303]/80" />
       </div>
 
       <NeuralSpine spineHeight={spineHeight} activeSection={activeSection} />

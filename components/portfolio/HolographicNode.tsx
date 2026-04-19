@@ -37,9 +37,9 @@ export const HolographicNode = ({
 
       {/* Main Content Hologram Reveal */}
       <motion.div
-         initial={{ opacity: 0, x: 20, filter: "blur(10px)" }}
-         animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
-         transition={{ duration: 1, delay: delay + 0.4 }}
+         initial={{ opacity: 0, x: 20 }}
+         animate={isInView ? { opacity: 1, x: 0 } : {}}
+         transition={{ duration: 0.8, delay: delay + 0.2, ease: "easeOut" }}
          className="relative z-10"
       >
          {children}

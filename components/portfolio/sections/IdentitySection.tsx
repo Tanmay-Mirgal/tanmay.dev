@@ -13,7 +13,7 @@ export const IdentitySection = () => {
             PERSONAL_IDENTITY_NODE
           </h2>
         </div>
-        <div className="bg-[#080808]/50 border-l border-white/10 p-10 sm:p-14 space-y-12 backdrop-blur-xl">
+        <div className="bg-[#080808]/50 border-l border-white/10 p-10 sm:p-14 space-y-12 backdrop-blur-md">
           <div className="space-y-6">
             <p className="text-lg sm:text-xl lg:text-2xl text-white/70 font-medium leading-[1.8] font-sans italic">&quot;The best investment is building something that creates value for others.&quot;</p>
             <p className="text-lg sm:text-xl lg:text-2xl text-white/60 font-medium leading-[1.8] font-sans">I am a <span className="text-white">Full-Stack Engineer + ML/DL Developer</span> with a mission to build products from 0 to production. I specialize in delivering production-ready MERN apps, robust ML pipelines, and high-performance Computer Vision systems.</p>

@@ -47,21 +47,18 @@ export const HeroSection = ({ setPreviewDoc }: HeroSectionProps) => {
               
               <div className="flex flex-col gap-1 sm:gap-2">
               <div className="flex items-center gap-4 sm:gap-6">
-                <motion.div 
-                  initial={{ scale: 0, rotate: -20 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ type: "spring", damping: 15, stiffness: 100 }}
+                <div 
                   className="relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32"
                 >
-                  <div className="absolute inset-0 bg-[#D4AF37] blur-2xl opacity-20 animate-pulse" />
+                  <div className="absolute inset-0 bg-[#D4AF37] blur-xl opacity-10" />
                   <Image 
                     src="https://github.com/Tanmay-Mirgal.png" 
                     alt="Tanmay" 
                     width={128}
                     height={128}
-                    className="w-full h-full rounded-full border-[2px] border-[#D4AF37] object-cover relative z-10 shadow-[0_0_20px_rgba(212,175,55,0.2)]" 
+                    className="w-full h-full rounded-full border-[2px] border-[#D4AF37] object-cover relative z-10 shadow-[0_0_15px_rgba(212,175,55,0.1)]" 
                   />
-                </motion.div>
+                </div>
                 <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter" style={{ color: "#FFFFFF" }}>TANMAY</h1>
               </div>
               <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter" style={{ color: "#D4AF37" }}>MIRGAL.</h1>

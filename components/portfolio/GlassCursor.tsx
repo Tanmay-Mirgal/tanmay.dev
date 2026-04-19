@@ -1,60 +1,71 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export const GlassCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  
+  // High-performance cursor values
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  
+  // Smoothed variants
+  const springConfig = { damping: 25, stiffness: 250 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (
-        target.tagName.toLowerCase() === "a" ||
-        target.tagName.toLowerCase() === "button" ||
-        target.closest("a") ||
-        target.closest("button")
-      ) {
+      if (target.closest("a") || target.closest("button") || target.closest(".clickable")) {
         setIsHovering(true);
       } else {
         setIsHovering(false);
       }
     };
 
-    window.addEventListener("mousemove", updateMousePosition);
+    window.addEventListener("mousemove", updateMousePosition, { passive: true });
     window.addEventListener("mouseover", handleMouseOver);
 
     return () => {
       window.removeEventListener("mousemove", updateMousePosition);
       window.removeEventListener("mouseover", handleMouseOver);
     };
-  }, []);
+  }, [cursorX, cursorY]);
 
   return (
-    <div className="hidden md:block">
+    <div className="hidden md:block pointer-events-none fixed inset-0 z-[10000]">
+      {/* Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-3 h-3 bg-[#D4AF37] rounded-full pointer-events-none z-[10000] mix-blend-screen shadow-[0_0_10px_#D4AF37]"
+        className="absolute w-2 h-2 bg-[#D4AF37] rounded-full scale-100 mix-blend-screen shadow-[0_0_10px_#D4AF37]"
+        style={{
+          x: cursorXSpring,
+          y: cursorYSpring,
+          translateX: "-50%",
+          translateY: "-50%",
+        }}
         animate={{
-          x: mousePosition.x - 6,
-          y: mousePosition.y - 6,
           scale: isHovering ? 0 : 1,
         }}
-        transition={{ type: "tween", ease: "backOut", duration: 0.1 }}
       />
+      {/* Outer Ring */}
       <motion.div
-        className="fixed top-0 left-0 border border-[#D4AF37]/40 bg-[#D4AF37]/[0.05] backdrop-blur-[2px] rounded-full pointer-events-none z-[9999]"
-        animate={{
-          x: mousePosition.x - (isHovering ? 30 : 20),
-          y: mousePosition.y - (isHovering ? 30 : 20),
-          width: isHovering ? 60 : 40,
-          height: isHovering ? 60 : 40,
+        className="absolute border border-[#D4AF37]/40 bg-[#D4AF37]/[0.05] rounded-full"
+        style={{
+          x: cursorXSpring,
+          y: cursorYSpring,
+          translateX: "-50%",
+          translateY: "-50%",
+          width: isHovering ? 50 : 30,
+          height: isHovering ? 50 : 30,
         }}
-        transition={{ type: "tween", ease: "circOut", duration: 0.3 }}
+        transition={{ duration: 0.2 }}
       />
     </div>
   );
