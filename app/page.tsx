@@ -52,7 +52,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative min-h-screen text-white font-sans selection:bg-[#D4AF37] selection:text-black overflow-hidden bg-[#030303]">
+    <main className="relative min-h-screen text-white font-sans selection:bg-[#D4AF37] selection:text-black overflow-x-hidden bg-[#030303]">
       <GlassCursor />
       
       {/* Immersive neural backdrop */}
@@ -63,7 +63,7 @@ export default function Home() {
 
       <NeuralSpine spineHeight={spineHeight} activeSection={activeSection} />
 
-      <div className="relative z-10 w-full flex flex-col pl-10 sm:pl-16 md:pl-32 lg:pl-48">
+      <div className="relative z-10 w-full flex flex-col pl-6 sm:pl-16 md:pl-32 lg:pl-48">
           <HeroSection setPreviewDoc={setPreviewDoc} />
           <IdentitySection />
           <CapabilitiesSection />
@@ -73,7 +73,7 @@ export default function Home() {
           <AchievementsSection achievementsData={achievementsData} setSelectedAchievement={setSelectedAchievement} />
           <ContactSection />
 
-          <footer className="w-full text-center pb-10 pt-20 border-t border-white/5 opacity-40 text-[9px] font-mono tracking-[0.2em] uppercase">
+          <footer className="w-full text-center pb-10 pt-20 border-t border-white/5 opacity-40 text-[9px] font-mono tracking-[0.2em] uppercase px-4">
              NEURAL NETWORK ONLINE. SERVER UPTIME: 99.99%. (C) {new Date().getFullYear()} Tanmay Mirgal
           </footer>
       </div>

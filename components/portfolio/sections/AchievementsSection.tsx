@@ -14,7 +14,7 @@ export const AchievementsSection = ({ achievementsData, setSelectedAchievement }
     <section id="achievements" className="py-24 md:py-32 pr-2 sm:pr-4 md:pr-12 lg:pr-24 z-10 relative">
       <div className="mb-12 md:mb-16">
         <h2 className="text-[10px] md:text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">HALL_OF_FAME / CERTIFICATIONS</h2>
-        <p className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-white max-w-2xl leading-tight">Elite Recognition & <br/> <span className="text-white/30">System Certifications.</span></p>
+        <p className="text-2xl min-[400px]:text-3xl sm:text-4xl md:text-5xl font-display font-black text-white max-w-2xl leading-tight">Elite Recognition & <br/> <span className="text-white/30">System Certifications.</span></p>
       </div>
       <div className="grid grid-cols-1 min-[500px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-[250px]">
         {achievementsData.map((a, i) => (
