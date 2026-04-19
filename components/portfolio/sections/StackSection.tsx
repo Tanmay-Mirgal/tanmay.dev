@@ -18,7 +18,7 @@ export const StackSection = () => {
             <span className="font-mono text-xs text-[#D4AF37] uppercase tracking-widest"><Database size={16} className="inline mr-2"/> Neural Architecture Core</span>
             <span className="font-mono text-[9px] text-emerald-500 animate-pulse">Running Interactive Simulation</span>
           </div>
-          <div className="-ml-6 sm:-ml-16 md:-ml-32 lg:-ml-48 scale-[0.8] sm:scale-[0.9] md:scale-100 flex items-center justify-center pointer-events-auto w-[100vw] sm:w-[calc(100vw-4rem)] md:w-[calc(100vw-8rem)] lg:w-[calc(100vw-12rem)]">
+          <div className="-ml-4 sm:-ml-16 md:-ml-32 lg:-ml-48 scale-[0.9] sm:scale-100 flex items-center justify-center pointer-events-auto w-screen sm:w-[calc(100vw-4rem)] md:w-[calc(100vw-8rem)] lg:w-[calc(100vw-12rem)]">
             <InteractiveNeuralGraph />
           </div>
         </div>

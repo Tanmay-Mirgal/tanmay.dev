@@ -39,14 +39,14 @@ export const InteractiveNeuralGraph = () => {
     { id: 'postman', parent: 'backend', label: 'Postman', x: 95, y: 10, color: '#FF6C37', dur: 2.5 },
 
     // Bottom-Right Cluster (ML & DB)
-    { id: 'py', parent: 'ml', label: 'Python', x: 72, y: 95, color: '#F9A826', dur: 1.9 },
-    { id: 'cv', parent: 'ml', label: 'OpenCV', x: 95, y: 72, color: '#fff', dur: 2.1 },
-    { id: 'tf', parent: 'ml', label: 'TensorFlow', x: 88, y: 88, color: '#FF6F00', dur: 1.8 },
-    { id: 'mongo', parent: 'ml', label: 'MongoDB', x: 82, y: 96, color: '#47A248', dur: 2.5 },
-    { id: 'pg', parent: 'ml', label: 'PostgreSQL', x: 96, y: 82, color: '#336791', dur: 1.6 },
-    { id: 'convex', parent: 'ml', label: 'Convex', x: 94, y: 58, color: '#EE4C2C', dur: 2.3 },
-    { id: 'supabase', parent: 'ml', label: 'Supabase', x: 62, y: 95, color: '#3ECF8E', dur: 2.0 },
-    { id: 'redis', parent: 'ml', label: 'Redis', x: 95, y: 90, color: '#DC382D', dur: 1.8 },
+    { id: 'py', parent: 'ml', label: 'Python', x: 70, y: 96, color: '#F9A826', dur: 1.9 },
+    { id: 'cv', parent: 'ml', label: 'OpenCV', x: 96, y: 72, color: '#fff', dur: 2.1 },
+    { id: 'tf', parent: 'ml', label: 'TensorFlow', x: 88, y: 86, color: '#FF6F00', dur: 1.8 },
+    { id: 'mongo', parent: 'ml', label: 'MongoDB', x: 80, y: 98, color: '#47A248', dur: 2.5 },
+    { id: 'pg', parent: 'ml', label: 'PostgreSQL', x: 98, y: 80, color: '#336791', dur: 1.6 },
+    { id: 'convex', parent: 'ml', label: 'Convex', x: 94, y: 56, color: '#EE4C2C', dur: 2.3 },
+    { id: 'supabase', parent: 'ml', label: 'Supabase', x: 60, y: 94, color: '#3ECF8E', dur: 2.0 },
+    { id: 'redis', parent: 'ml', label: 'Redis', x: 92, y: 94, color: '#DC382D', dur: 1.8 },
 
     // Bottom-Left Cluster (Cloud & Infra)
     { id: 'aws', parent: 'cloud', label: 'AWS', x: 28, y: 95, color: '#FF9900', dur: 2.0 },
@@ -66,7 +66,7 @@ export const InteractiveNeuralGraph = () => {
        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#ffffff03_0%,_transparent_75%)] pointer-events-none" />
 
        {/* Strictly responsive square container so coordinates never squish on any screen */}
-       <div className="relative w-full max-w-[260px] min-[400px]:max-w-[320px] sm:max-w-[450px] md:max-w-[650px] lg:max-w-[800px] aspect-square bg-transparent mt-0">
+       <div className="relative w-full max-w-[320px] min-[400px]:max-w-[360px] sm:max-w-[450px] md:max-w-[650px] lg:max-w-[800px] aspect-square bg-transparent mt-0">
          
           <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-0">
             {/* Elegant Blueprint Rings */}
@@ -155,11 +155,15 @@ export const InteractiveNeuralGraph = () => {
               style={{ left: `${node.x}%`, top: `${node.y}%` }}
               onMouseEnter={() => setActiveNode(node.id)}
               onMouseLeave={() => setActiveNode(null)}
-              onClick={() => setActiveNode((prev) => prev === node.id ? null : node.id)} // For mobile taps
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveNode((prev) => prev === node.id ? null : node.id);
+              }}
             >
                <motion.div 
                  whileHover={{ scale: 1.15 }}
-                 className={`w-10 h-10 min-[400px]:w-12 min-[400px]:h-12 sm:w-16 sm:h-16 lg:w-24 lg:h-24 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-2xl shadow-2xl relative ${activeNode && activeNode !== node.id ? 'opacity-20 scale-90' : 'opacity-100 z-40'}`}
+                 whileTap={{ scale: 0.9 }}
+                 className={`w-14 h-14 min-[400px]:w-16 min-[400px]:h-16 sm:w-16 sm:h-16 lg:w-24 lg:h-24 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-2xl shadow-2xl relative ${activeNode && activeNode !== node.id ? 'opacity-20 scale-90' : 'opacity-100 z-40'}`}
                  style={{ 
                    background: `radial-gradient(circle at top left, ${node.color}40, rgba(0,0,0,0.95))`,
                    border: `1px sm:2px solid ${node.color}80`, 
@@ -167,17 +171,26 @@ export const InteractiveNeuralGraph = () => {
                    boxShadow: activeNode === node.id ? `0 0 40px ${node.color}60, inset 0 0 20px ${node.color}30` : `0 0 15px ${node.color}20`
                  }}
                >
+                 {activeNode === node.id && (
+                   <motion.div 
+                     layoutId="pulse"
+                     className="absolute inset-0 rounded-full border-2 border-white/20"
+                     initial={{ scale: 1, opacity: 1 }}
+                     animate={{ scale: 1.5, opacity: 0 }}
+                     transition={{ duration: 1.5, repeat: Infinity }}
+                   />
+                 )}
+
                  <div className={`transition-transform duration-500 relative z-10 flex items-center justify-center ${activeNode === node.id ? 'scale-110 drop-shadow-[0_0_8px_white]' : 'scale-100'}`}>
-                    {/* Scale down icon severely for tiny mobiles */}
-                    <div className="scale-75 sm:scale-100 lg:scale-125">{node.icon}</div>
+                    <div className="scale-90 sm:scale-100 lg:scale-125">{node.icon}</div>
                  </div>
                  
                  <div className="absolute inset-[-2px] sm:inset-[-4px] border border-dashed rounded-full opacity-30 pointer-events-none animate-[spin_10s_linear_infinite]" style={{ borderColor: node.color }} />
 
-                 <div className={`absolute top-full mt-2 sm:mt-4 whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${activeNode === node.id ? 'opacity-100' : 'opacity-0 lg:group-hover:opacity-100'}`}>
-                    <div className="glass-panel px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border border-white/10 font-mono flex flex-col items-center shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-2xl bg-black/80">
-                       <span className="text-[9px] sm:text-[11px] lg:text-sm font-bold tracking-widest uppercase mb-0.5 sm:mb-1" style={{ color: node.color }}>{node.label}</span>
-                       <span className="text-[7px] sm:text-[8px] lg:text-[10px] text-white/60">{node.desc}</span>
+                 <div className={`absolute top-full mt-2 sm:mt-4 whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${activeNode === node.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0'}`}>
+                    <div className="glass-panel px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border border-white/10 font-mono flex flex-col items-center shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-2xl bg-black/90">
+                       <span className="text-[11px] sm:text-[11px] lg:text-sm font-bold tracking-widest uppercase mb-0.5 sm:mb-1" style={{ color: node.color }}>{node.label}</span>
+                       <span className="text-[9px] sm:text-[8px] lg:text-[10px] text-white/60">{node.desc}</span>
                     </div>
                  </div>
                </motion.div>
@@ -186,25 +199,35 @@ export const InteractiveNeuralGraph = () => {
 
          {/* --- TECH SATELLITE NODES --- */}
          {techNodes.map((tech, i) => {
-            const isHovered = activeNode === tech.parent || activeNode === null;
+            const isParentActive = activeNode === tech.parent;
+            const isInitialState = activeNode === null;
+            
+            // On mobile, we hide labels completely unless parent is active to reduce heavy clutter
+            // On desktop (lg+), we can show them with low opacity
             return (
               <div 
                 key={tech.id}
-                className={`absolute -translate-x-1/2 -translate-y-1/2 z-10 transition-all duration-700 pointer-events-none ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-50 blur-xl'}`}
+                className={`absolute -translate-x-1/2 -translate-y-1/2 z-10 transition-all duration-700 pointer-events-none 
+                  ${isParentActive ? 'opacity-100 scale-100' : 
+                    isInitialState ? 'opacity-50 lg:opacity-60 scale-85 sm:scale-95' : 
+                    'opacity-0 scale-50 blur-xl'}`}
                 style={{ left: `${tech.x}%`, top: `${tech.y}%` }}
               >
                  <motion.div
                    animate={isInView ? { y: [0, (i % 2 === 0) ? -3 : 3, 0] } : {}}
                    transition={{ duration: 4 + (i % 3), repeat: Infinity, ease: "easeInOut" }}
-                   className="px-2 py-0.5 sm:px-3 sm:py-1.5 lg:px-5 lg:py-2.5 rounded-full border bg-black/95 backdrop-blur-xl flex items-center justify-center transition-colors duration-500 overflow-hidden relative"
+                   className="px-1.5 py-0.5 sm:px-3 sm:py-1.5 lg:px-5 lg:py-2.5 rounded-full border bg-black/95 backdrop-blur-xl flex items-center justify-center transition-all duration-500 overflow-hidden relative"
                    style={{ 
-                     borderColor: activeNode ? `${tech.color}90` : `${tech.color}40`, 
-                     color: activeNode ? '#fff' : tech.color,
-                     boxShadow: activeNode ? `0 0 15px ${tech.color}40, inset 0 0 5px ${tech.color}10` : `0 2px 10px rgba(0,0,0,0.5)`
+                     borderColor: isParentActive ? `${tech.color}90` : `${tech.color}20`, 
+                     color: isParentActive ? '#fff' : tech.color,
+                     boxShadow: isParentActive ? `0 0 15px ${tech.color}40, inset 0 0 5px ${tech.color}10` : `0 2px 8px rgba(0,0,0,0.3)`
                    }}
                  >
                     <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none animate-[shimmer_3s_infinite]" style={{ animationDelay: `${i * 0.2}s` }} />
-                    <span className="font-mono text-[7px] sm:text-[9px] lg:text-xs tracking-[0.1em] sm:tracking-[0.2em] font-bold whitespace-nowrap relative z-10">{tech.label}</span>
+                    <span className={`font-mono tracking-[0.1em] sm:tracking-[0.2em] font-bold whitespace-nowrap relative z-10 transition-all duration-500
+                      ${isParentActive ? 'text-[9px] sm:text-[9px] lg:text-xs' : 'text-[8px] sm:text-[8px] lg:text-[10px]'}`}>
+                      {tech.label}
+                    </span>
                  </motion.div>
               </div>
             )
