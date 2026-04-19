@@ -194,7 +194,7 @@ export const projectsData: Project[] = [
     fullDesc: "Samadhan was built as a hackathon-winning project focused on simplifying the process of reporting, tracking, and resolving civic issues through a structured and intuitive interface. The architecture emphasizes problem categorization, efficient workflow management, and a clean user experience to ensure quick adoption and high usability.",
     tags: ["Next.js", "TypeScript", "Convex", "Expo", "Tailwind CSS", "Hackathon"], 
     link: "https://github.com/Tanmay-Mirgal/Samadhan",
-    image: "https://images.unsplash.com/photo-1555066631-4365d14bab8c?q=80&w=2070"
+    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776586114/Samadhan_egvvvn.png"
   },
   { 
     title: "Smart Meeter", 
