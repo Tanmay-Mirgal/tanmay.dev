@@ -21,7 +21,6 @@ export const PortfolioStyles = () => {
       .hide-scrollbar::-webkit-scrollbar { display: none; }
       
       .glitch-effect:hover { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; }
-      
       @keyframes glitch {
         0% { transform: translate(0) }
         20% { transform: translate(-2px, 2px) }
@@ -29,6 +28,21 @@ export const PortfolioStyles = () => {
         60% { transform: translate(2px, 2px) }
         80% { transform: translate(2px, -2px) }
         100% { transform: translate(0) }
+      }
+
+      .my-masonry-grid {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        margin-left: -32px;
+        width: auto;
+      }
+      .my-masonry-grid_column {
+        padding-left: 32px;
+        background-clip: padding-box;
+      }
+      .my-masonry-grid_column > div {
+        margin-bottom: 32px;
       }
     `}} />
   );

@@ -13,7 +13,7 @@ export const achievementsData: Achievement[] = [
     title: "INDUSTRIAL HACKATHON 2026 - WINNER", 
     org: "TATA", 
     date: "2026", 
-    url: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&q=80", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776589868/certificate_and_medal_ovuu7u.jpg", 
     type: "image", 
     desc: "First place winner medal awarded for excellence in industrial system automation and real-time monitoring solutions." 
   },
@@ -21,7 +21,7 @@ export const achievementsData: Achievement[] = [
     title: "INTERNAL HACKATHON 2025 - CERTIFICATE", 
     org: "Vidyalankar Polytechnic", 
     date: "2025", 
-    url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&q=80", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776590198/Internal_Hackathon_yfinr5.png", 
     type: "image", 
     desc: "Official winner's certificate for the Internal Hackathon 2025, focusing on urban infrastructure optimization." 
   },
@@ -37,7 +37,7 @@ export const achievementsData: Achievement[] = [
     title: "TATA ADVANCED SYSTEMS - INTERNSHIP CERTIFICATE", 
     org: "TASL", 
     date: "2025", 
-    url: "https://images.unsplash.com/photo-1589330694653-ded6df03f754?q=80&w=800&q=80", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776590547/TATA_Internshio_Completion_acbdaj.png", 
     type: "image", 
     desc: "Validated completion of a 9-month intensive internship contributing to naval combat simulation platforms." 
   },
@@ -45,39 +45,39 @@ export const achievementsData: Achievement[] = [
     title: "RESEARCH PAPER PUBLICATION - JAAFR", 
     org: "JAAFR Journal", 
     date: "2025", 
-    url: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776590743/Certificate_of_published_Paper_rlvpbz.png", 
     type: "image", 
     desc: "Published research in the Journal of Advance and Future Research, focusing on Combat Management Systems architecture." 
   },
-  { 
-    title: "SPIT HACKATHON 2025", 
-    org: "Sardar Patel Institute of Tech", 
-    date: "2025", 
-    url: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&q=80", 
-    type: "image", 
-    desc: "Recognition for high-density code contributions and system design during the national level SPIT hackathon." 
-  },
-  { 
-    title: "VISUAL GRAPHICS IN C - CERTIFICATION", 
-    org: "Great Learning Academy", 
-    date: "2024", 
-    url: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?q=80&w=2074", 
-    type: "image", 
-    desc: "Certified mastery of low-level framebuffer manipulation and geometric rendering using the C programming language." 
-  },
-  { 
-    title: "REACTJS PROJECTS - SKILLUP", 
-    org: "Simplilearn", 
-    date: "2024", 
-    url: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=800&q=80", 
-    type: "image", 
-    desc: "Advanced certification for component-driven architecture and state management in production-grade React applications." 
-  },
+  // { 
+  //   title: "SPIT HACKATHON 2025", 
+  //   org: "Sardar Patel Institute of Tech", 
+  //   date: "2025", 
+  //   url: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&q=80", 
+  //   type: "image", 
+  //   desc: "Recognition for high-density code contributions and system design during the national level SPIT hackathon." 
+  // },
+  // { 
+  //   title: "VISUAL GRAPHICS IN C - CERTIFICATION", 
+  //   org: "Great Learning Academy", 
+  //   date: "2024", 
+  //   url: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?q=80&w=2074", 
+  //   type: "image", 
+  //   desc: "Certified mastery of low-level framebuffer manipulation and geometric rendering using the C programming language." 
+  // },
+  // { 
+  //   title: "REACTJS PROJECTS - SKILLUP", 
+  //   org: "Simplilearn", 
+  //   date: "2024", 
+  //   url: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=800&q=80", 
+  //   type: "image", 
+  //   desc: "Advanced certification for component-driven architecture and state management in production-grade React applications." 
+  // },
   { 
     title: "TENSORFLOW FOR DEEP LEARNING", 
     org: "Udemy", 
     date: "Aug 2025", 
-    url: "https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=800&q=80", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776591174/Tensorflow_certification_ruumd3.png", 
     type: "image", 
     desc: "Comprehensive mastery of neural network architectures, specialized in computer vision and time-series forecasting using TensorFlow." 
   },
@@ -85,95 +85,95 @@ export const achievementsData: Achievement[] = [
     title: "AI & ML, DATA SCIENCE BOOTCAMP", 
     org: "Udemy", 
     date: "Aug 2025", 
-    url: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=800&q=80", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776591173/Udemy_AIML_certificate_ahem8e.png", 
     type: "image", 
     desc: "Full-spectrum data science training covering feature engineering, statistical modeling, and deep learning implementations." 
   },
-  { 
-    title: "EXPLORE TEXT-TO-SPEECH USING IBM WATSONX", 
-    org: "IBM SkillsBuild", 
-    date: "Dec 2024", 
-    url: "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=800&q=80", 
-    type: "image", 
-    desc: "Deep dive into IBM's enterprise AI platform Watsonx for building high-fidelity synthetic voice interaction systems." 
-  },
-  { 
-    title: "GENERATIVE AI FOR SOFTWARE DEVELOPMENT", 
-    org: "IBM SkillsBuild", 
-    date: "Dec 2024", 
-    url: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&q=80", 
-    type: "image", 
-    desc: "Applied certification for leveraging LLMs and generative agents to accelerate the software development lifecycle." 
-  },
-  { 
-    title: "C++ PROGRAMMING Masterclass", 
-    org: "Great Learning", 
-    date: "Nov 2024", 
-    url: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&q=80", 
-    type: "image", 
-    desc: "Certification specializing in low-level memory management and object-oriented paradigms in C++." 
-  },
-  { 
-    title: "DATA STRUCTURES IN C", 
-    org: "Great Learning", 
-    date: "Nov 2024", 
-    url: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=800&q=80", 
-    type: "image", 
-    desc: "Technical mastery of fundamental algorithms and data structures using the C programming language." 
-  },
-  { 
-    title: "DEVOPS DISCOVER", 
-    org: "Microsoft Student Ambassadors", 
-    date: "2024", 
-    url: "https://images.unsplash.com/photo-1518433278981-2ad2f38a59b3?q=80&w=800&q=80", 
-    type: "image", 
-    desc: "Exploration of modern DevOps practices including automated pipelines and cloud infrastructure management." 
-  },
+  // { 
+  //   title: "EXPLORE TEXT-TO-SPEECH USING IBM WATSONX", 
+  //   org: "IBM SkillsBuild", 
+  //   date: "Dec 2024", 
+  //   url: "https://images.unsplash.com/photo-1589254065878-42c9da997008?q=80&w=800&q=80", 
+  //   type: "image", 
+  //   desc: "Deep dive into IBM's enterprise AI platform Watsonx for building high-fidelity synthetic voice interaction systems." 
+  // },
+  // { 
+  //   title: "GENERATIVE AI FOR SOFTWARE DEVELOPMENT", 
+  //   org: "IBM SkillsBuild", 
+  //   date: "Dec 2024", 
+  //   url: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&q=80", 
+  //   type: "image", 
+  //   desc: "Applied certification for leveraging LLMs and generative agents to accelerate the software development lifecycle." 
+  // },
+  // { 
+  //   title: "C++ PROGRAMMING Masterclass", 
+  //   org: "Great Learning", 
+  //   date: "Nov 2024", 
+  //   url: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&q=80", 
+  //   type: "image", 
+  //   desc: "Certification specializing in low-level memory management and object-oriented paradigms in C++." 
+  // },
+  // { 
+  //   title: "DATA STRUCTURES IN C", 
+  //   org: "Great Learning", 
+  //   date: "Nov 2024", 
+  //   url: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=800&q=80", 
+  //   type: "image", 
+  //   desc: "Technical mastery of fundamental algorithms and data structures using the C programming language." 
+  // },
+  // { 
+  //   title: "DEVOPS DISCOVER", 
+  //   org: "Microsoft Student Ambassadors", 
+  //   date: "2024", 
+  //   url: "https://images.unsplash.com/photo-1518433278981-2ad2f38a59b3?q=80&w=800&q=80", 
+  //   type: "image", 
+  //   desc: "Exploration of modern DevOps practices including automated pipelines and cloud infrastructure management." 
+  // },
   { 
     title: "CONTRIBUTOR IN GSSOC OPEN SOURCE", 
     org: "GirlScript Summer of Code", 
     date: "Aug 2024", 
-    url: "https://images.unsplash.com/photo-1618477388954-7852f32655ec?q=80&w=800&q=80", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776591174/GSSOC_certificate_b51zzz.png", 
     type: "image", 
     desc: "Active contribution to large-scale open-source projects during the GSSOC program." 
   },
-  { 
-    title: "INTRODUCTION TO RESPONSIBLE AI", 
-    org: "Google Cloud", 
-    date: "Sep 2024", 
-    url: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=800&q=80", 
-    type: "image", 
-    desc: "Certification in ethical AI design, focusing on bias mitigation and transparent model architecture." 
-  },
-  { 
-    title: "INTRODUCTION TO LARGE LANGUAGE MODELS", 
-    org: "Google Cloud", 
-    date: "Sep 2024", 
-    url: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&q=80", 
-    type: "image", 
-    desc: "Foundational training in LLM theory and implementation on Google Cloud Vertex AI." 
-  },
+  // { 
+  //   title: "INTRODUCTION TO RESPONSIBLE AI", 
+  //   org: "Google Cloud", 
+  //   date: "Sep 2024", 
+  //   url: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=800&q=80", 
+  //   type: "image", 
+  //   desc: "Certification in ethical AI design, focusing on bias mitigation and transparent model architecture." 
+  // },
+  // { 
+  //   title: "INTRODUCTION TO LARGE LANGUAGE MODELS", 
+  //   org: "Google Cloud", 
+  //   date: "Sep 2024", 
+  //   url: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&q=80", 
+  //   type: "image", 
+  //   desc: "Foundational training in LLM theory and implementation on Google Cloud Vertex AI." 
+  // },
   { 
     title: "COMPLETE PYTHON BOOTCAMP", 
     org: "Udemy", 
     date: "Nov 2023", 
-    url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&q=80", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776591173/Udemy_Python_fyrwj4.png", 
     type: "image", 
     desc: "Intensive training in professional Python development, covering automation and web integration." 
   },
-  { 
-    title: "ADVANCED C++ PROGRAMMING", 
-    org: "Udemy", 
-    date: "Sep 2024", 
-    url: "https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=800&q=80", 
-    type: "image", 
-    desc: "Deep dive into template metaprogramming and high-performance system optimization in C++." 
-  },
+  // { 
+  //   title: "ADVANCED C++ PROGRAMMING", 
+  //   org: "Udemy", 
+  //   date: "Sep 2024", 
+  //   url: "https://images.unsplash.com/photo-1544256718-3bcf237f3974?q=80&w=800&q=80", 
+  //   type: "image", 
+  //   desc: "Deep dive into template metaprogramming and high-performance system optimization in C++." 
+  // },
   { 
     title: "POSTMAN API FUNDAMENTALS", 
     org: "Postman Academy", 
     date: "2024", 
-    url: "https://images.unsplash.com/photo-1558494949-ef010ca68a91?q=80&w=800&q=80", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776591173/Postman_Certification_zyqlzx.png", 
     type: "image", 
     desc: "Certified Student Expert in API testing, documentation, and lifecycle management using Postman." 
   },
