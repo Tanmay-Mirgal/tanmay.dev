@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Github, Linkedin } from "lucide-react";
+// import { Github, Linkedin } from "lucide-react"; // Removed as unused
 import { HolographicNode } from "../HolographicNode";
 
 export const IdentitySection = () => {

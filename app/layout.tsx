@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: "Tanmay Mirgal Portfolio",
     images: [
       {
-        url: "/next.svg", // Fallback image if you don't have a dedicated OG image
+        url: "/opengraph-image.png",
         width: 1200,
         height: 630,
         alt: "Tanmay Mirgal | AI & Full-Stack Architect",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "Tanmay Mirgal | AI & Full-Stack Architect",
     description: "Architecting Intelligence. High-performance systems and AI solutions.",
     creator: "@tanmay_mirgal", // Replace with your actual handle if different
-    images: ["/next.svg"],
+    images: ["/opengraph-image.png"],
   },
   robots: {
     index: true,
