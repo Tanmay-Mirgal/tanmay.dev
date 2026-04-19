@@ -11,6 +11,16 @@ interface HeroSectionProps {
 }
 
 export const HeroSection = ({ setPreviewDoc }: HeroSectionProps) => {
+  const [time, setTime] = React.useState<string>("");
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      const now = new Date();
+      setTime(now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section id="home" className="relative min-h-screen w-full flex items-center pr-4 sm:pr-6 md:pr-12 lg:pr-24 overflow-hidden py-24 lg:py-0">
       <HolographicNode id="home_node">
@@ -18,20 +28,24 @@ export const HeroSection = ({ setPreviewDoc }: HeroSectionProps) => {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#D4AF37]/[0.02] rounded-full blur-[120px] pointer-events-none" />
           
           <div className="w-full space-y-10 relative z-10">
-            <div className="flex flex-wrap gap-4 items-center">
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 border border-[#D4AF37]/30 rounded-none text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.3em] backdrop-blur-md"
-              >
-                <span className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-pulse shadow-[0_0_10px_#D4AF37]" />
-                ROLE: FULL_STACK_ENGINEER
-              </motion.div>
-              <div className="text-[10px] font-mono text-white/40 uppercase tracking-[0.2em]">LOC: MUMBAI, MH</div>
-            </div>
-
-            <div className="flex flex-col gap-1 sm:gap-2">
+              <div className="flex flex-wrap gap-4 items-center">
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 border border-[#D4AF37]/30 rounded-none text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.3em] backdrop-blur-md"
+                >
+                  <span className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-pulse shadow-[0_0_10px_#D4AF37]" />
+                  ROLE: FULL_STACK_ENGINEER
+                </motion.div>
+                <div className="text-[10px] font-mono text-white/40 uppercase tracking-[0.2em]">LOC: MUMBAI, MH</div>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-[#D4AF37]/20 rounded-none backdrop-blur-md">
+                  <span className="text-[9px] font-mono text-[#D4AF37]/60 uppercase tracking-widest">Sys_Time:</span>
+                  <span className="text-[10px] font-mono text-[#D4AF37] tabular-nums tracking-wider">{time || "00:00:00"}</span>
+                </div>
+              </div>
+              
+              <div className="flex flex-col gap-1 sm:gap-2">
               <div className="flex items-center gap-4 sm:gap-6">
                 <motion.div 
                   initial={{ scale: 0, rotate: -20 }}
@@ -48,9 +62,9 @@ export const HeroSection = ({ setPreviewDoc }: HeroSectionProps) => {
                     className="w-full h-full rounded-full border-[2px] border-[#D4AF37] object-cover relative z-10 shadow-[0_0_20px_rgba(212,175,55,0.2)]" 
                   />
                 </motion.div>
-                <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter text-[#D4AF37]">TANMAY</h1>
+                <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter" style={{ color: "#FFFFFF" }}>TANMAY</h1>
               </div>
-              <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter text-[#D4AF37]">MIRGAL.</h1>
+              <h1 className="text-5xl min-[400px]:text-6xl sm:text-7xl lg:text-[8.5rem] font-display font-black leading-none tracking-tighter" style={{ color: "#D4AF37" }}>MIRGAL.</h1>
             </div>
 
             <div className="max-w-2xl space-y-8">
