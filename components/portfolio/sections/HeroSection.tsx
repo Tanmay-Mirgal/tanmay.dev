@@ -56,6 +56,7 @@ export const HeroSection = ({ setPreviewDoc }: HeroSectionProps) => {
                     alt="Tanmay" 
                     width={128}
                     height={128}
+                    priority
                     className="w-full h-full rounded-full border-[2px] border-[#D4AF37] object-cover relative z-10 shadow-[0_0_15px_rgba(212,175,55,0.1)]" 
                   />
                 </div>

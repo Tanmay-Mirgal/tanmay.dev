@@ -3,7 +3,11 @@
 import React from "react";
 import { Database } from "lucide-react";
 import { HolographicNode } from "../HolographicNode";
-import { InteractiveNeuralGraph } from "../InteractiveNeuralGraph";
+import dynamic from "next/dynamic";
+const InteractiveNeuralGraph = dynamic(() => import("../InteractiveNeuralGraph").then(mod => mod.InteractiveNeuralGraph), {
+  ssr: false,
+  loading: () => <div className="w-full aspect-square flex items-center justify-center font-mono text-xs text-white/20">Initializing Neural Engine...</div>
+});
 
 export const StackSection = () => {
   return (

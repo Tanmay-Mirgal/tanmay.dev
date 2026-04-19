@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Layers, Cpu, Database, Cloud } from "lucide-react";
 
 export const InteractiveNeuralGraph = () => {
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { amount: 0.1 });
   const [activeNode, setActiveNode] = useState<string | null>(null);
 
   // Mathematically perfect symmetric radial coordinates based on 50% center
@@ -58,7 +60,7 @@ export const InteractiveNeuralGraph = () => {
   ];
 
   return (
-    <div className="w-full max-w-6xl mx-auto py-2 md:py-4 relative flex flex-col justify-center items-center px-4 overflow-hidden z-10">
+    <div ref={containerRef} className="w-full max-w-6xl mx-auto py-2 md:py-4 relative flex flex-col justify-center items-center px-4 overflow-hidden z-10">
        
        {/* Background structural rings for technical blueprint look */}
        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#ffffff03_0%,_transparent_75%)] pointer-events-none" />
@@ -66,7 +68,7 @@ export const InteractiveNeuralGraph = () => {
        {/* Strictly responsive square container so coordinates never squish on any screen */}
        <div className="relative w-full max-w-[260px] min-[400px]:max-w-[320px] sm:max-w-[450px] md:max-w-[650px] lg:max-w-[800px] aspect-square bg-transparent mt-0">
          
-         <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-0">
+          <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-0">
             {/* Elegant Blueprint Rings */}
             <circle cx="50%" cy="50%" r="31%" stroke="#D4AF37" strokeWidth="1" fill="none" opacity="0.2" strokeDasharray="2 6" />
             <circle cx="50%" cy="50%" r="48%" stroke="#D4AF37" strokeWidth="1" fill="none" opacity="0.05" />
@@ -81,15 +83,17 @@ export const InteractiveNeuralGraph = () => {
                return (
                  <g key={`group-${node.id}`} style={{ transition: 'opacity 0.6s ease', opacity }}>
                    <line x1="50%" y1="50%" x2={`${node.x}%`} y2={`${node.y}%`} stroke={isActive ? node.color : 'rgba(255,255,255,0.3)'} strokeWidth={isActive ? 3 : 1.5} strokeDasharray={isActive ? "none" : "4 4"} filter={glow} className="transition-all duration-500">
-                      {isActive && <animate attributeName="stroke-dasharray" values="10, 10; 50, 10" dur="2s" repeatCount="indefinite" />}
+                      {isActive && isInView && <animate attributeName="stroke-dasharray" values="10, 10; 50, 10" dur="2s" repeatCount="indefinite" />}
                    </line>
                    
                    {/* Continuous Synapse Data pulse dots */}
-                   <circle r={isActive ? "4" : "2"} fill={node.color} filter={`drop-shadow(0 0 ${isActive ? '10px' : '4px'} ${node.color})`}>
-                      <animate attributeName="cx" values={`50%;${node.x}%`} dur="2s" begin={`${offsetTime}s`} repeatCount="indefinite" />
-                      <animate attributeName="cy" values={`50%;${node.y}%`} dur="2s" begin={`${offsetTime}s`} repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0;1;0" dur="2s" begin={`${offsetTime}s`} repeatCount="indefinite" />
-                   </circle>
+                   {isInView && (
+                      <circle r={isActive ? "4" : "2"} fill={node.color} filter={`drop-shadow(0 0 ${isActive ? '10px' : '4px'} ${node.color})`}>
+                         <animate attributeName="cx" values={`50%;${node.x}%`} dur="2s" begin={`${offsetTime}s`} repeatCount="indefinite" />
+                         <animate attributeName="cy" values={`50%;${node.y}%`} dur="2s" begin={`${offsetTime}s`} repeatCount="indefinite" />
+                         <animate attributeName="opacity" values="0;1;0" dur="2s" begin={`${offsetTime}s`} repeatCount="indefinite" />
+                      </circle>
+                   )}
                  </g>
                )
             })}
@@ -114,11 +118,13 @@ export const InteractiveNeuralGraph = () => {
                   />
                   
                   {/* Continuous data packets from Main Nodes to Tech Nodes */}
-                  <circle r={isActive ? "2.5" : "1.5"} fill={tech.color} filter={isActive ? `drop-shadow(0 0 4px ${tech.color})` : 'none'}>
-                      <animate attributeName="cx" values={`${parent.x}%;${tech.x}%`} dur={`${tech.dur}s`} begin={`${offsetTime}s`} repeatCount="indefinite" />
-                      <animate attributeName="cy" values={`${parent.y}%;${tech.y}%`} dur={`${tech.dur}s`} begin={`${offsetTime}s`} repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0;1;0" dur={`${tech.dur}s`} begin={`${offsetTime}s`} repeatCount="indefinite" />
-                  </circle>
+                  {isInView && (
+                    <circle r={isActive ? "2.5" : "1.5"} fill={tech.color} filter={isActive ? `drop-shadow(0 0 4px ${tech.color})` : 'none'}>
+                        <animate attributeName="cx" values={`${parent.x}%;${tech.x}%`} dur={`${tech.dur}s`} begin={`${offsetTime}s`} repeatCount="indefinite" />
+                        <animate attributeName="cy" values={`${parent.y}%;${tech.y}%`} dur={`${tech.dur}s`} begin={`${offsetTime}s`} repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0;1;0" dur={`${tech.dur}s`} begin={`${offsetTime}s`} repeatCount="indefinite" />
+                    </circle>
+                  )}
                  </g>
                )
             })}
@@ -128,7 +134,7 @@ export const InteractiveNeuralGraph = () => {
          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-12 h-12 min-[400px]:w-16 min-[400px]:h-16 sm:w-20 sm:h-20 lg:w-32 lg:h-32">
             <motion.div 
               className="w-full h-full glass-panel border border-[#D4AF37]/50 rounded-full flex flex-col items-center justify-center cursor-pointer shadow-[0_0_50px_rgba(212,175,55,0.5)] backdrop-blur-3xl overflow-hidden group"
-              animate={{ boxShadow: ["0 0 30px rgba(212,175,55,0.4)", "0 0 100px rgba(212,175,55,1)", "0 0 30px rgba(212,175,55,0.4)"] }}
+              animate={isInView ? { boxShadow: ["0 0 30px rgba(212,175,55,0.4)", "0 0 100px rgba(212,175,55,1)", "0 0 30px rgba(212,175,55,0.4)"] } : {}}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               onMouseEnter={() => setActiveNode(null)}
             >
@@ -188,7 +194,7 @@ export const InteractiveNeuralGraph = () => {
                 style={{ left: `${tech.x}%`, top: `${tech.y}%` }}
               >
                  <motion.div
-                   animate={{ y: [0, (i % 2 === 0) ? -3 : 3, 0] }}
+                   animate={isInView ? { y: [0, (i % 2 === 0) ? -3 : 3, 0] } : {}}
                    transition={{ duration: 4 + (i % 3), repeat: Infinity, ease: "easeInOut" }}
                    className="px-2 py-0.5 sm:px-3 sm:py-1.5 lg:px-5 lg:py-2.5 rounded-full border bg-black/95 backdrop-blur-xl flex items-center justify-center transition-colors duration-500 overflow-hidden relative"
                    style={{ 
@@ -200,9 +206,6 @@ export const InteractiveNeuralGraph = () => {
                     <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none animate-[shimmer_3s_infinite]" style={{ animationDelay: `${i * 0.2}s` }} />
                     <span className="font-mono text-[7px] sm:text-[9px] lg:text-xs tracking-[0.1em] sm:tracking-[0.2em] font-bold whitespace-nowrap relative z-10">{tech.label}</span>
                  </motion.div>
-                 <style dangerouslySetInnerHTML={{__html: `
-                    @keyframes shimmer { 100% { transform: translateX(150%); } }
-                 `}} />
               </div>
             )
          })}
