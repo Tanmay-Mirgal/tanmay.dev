@@ -72,6 +72,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { ConvexClientProvider } from "@/components/ConvexClientProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -80,7 +82,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${outfit.variable} ${jetbrainsMono.variable} antialiased`} style={{ background: "#030305", color: "#f8f8f8" }}>
-        {children}
+        <ConvexClientProvider>
+          {children}
+        </ConvexClientProvider>
       </body>
     </html>
   );
