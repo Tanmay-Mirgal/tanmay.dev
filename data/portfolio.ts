@@ -5,7 +5,7 @@ export const achievementsData: Achievement[] = [
     title: "INNOVGENIUS IDEATHON × TCS", 
     org: "Tata Consultancy Services", 
     date: "2025", 
-    url: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=800&q=80", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776839721/Innovgenius_s92ikc.jpg", 
     type: "image", 
     desc: "Achieved recognition at the Innovgenius Ideathon, demonstrating innovative problem-solving and rapid prototyping." 
   },
@@ -29,7 +29,7 @@ export const achievementsData: Achievement[] = [
     title: "TATA ADVANCED SYSTEMS - OFFER LETTER", 
     org: "TASL", 
     date: "2024", 
-    url: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=800&q=80", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776839721/TATA_offer_letter_pdxlje.jpg", 
     type: "image", 
     desc: "Official selection and appointment for the high-fidelity systems engineering internship program." 
   },
@@ -49,14 +49,14 @@ export const achievementsData: Achievement[] = [
     type: "image", 
     desc: "Published research in the Journal of Advance and Future Research, focusing on Combat Management Systems architecture." 
   },
-  // { 
-  //   title: "SPIT HACKATHON 2025", 
-  //   org: "Sardar Patel Institute of Tech", 
-  //   date: "2025", 
-  //   url: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&q=80", 
-  //   type: "image", 
-  //   desc: "Recognition for high-density code contributions and system design during the national level SPIT hackathon." 
-  // },
+  { 
+    title: "SPIT HACKATHON 2025", 
+    org: "Sardar Patel Institute of Tech", 
+    date: "2025", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1776840406/SPIT_2025_ftrwsy.jpg",
+    type: "image", 
+    desc: "Recognition for high-density code contributions and system design during the national level SPIT hackathon." 
+  },
   // { 
   //   title: "VISUAL GRAPHICS IN C - CERTIFICATION", 
   //   org: "Great Learning Academy", 
