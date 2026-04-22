@@ -41,7 +41,7 @@ export const CapabilitiesSection = ({ skills }: { skills?: Skill[] }) => {
         {displayCapabilities.map((c, i) => (
           <HolographicNode key={i} id={`cap_node_${i}`}>
             <div className="bg-[#050505] p-6 sm:p-10 lg:p-14 border border-white/5 flex flex-col md:flex-row gap-4 md:gap-8 items-start group hover:border-[#D4AF37]/30 transition-all duration-700 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 sm:p-8 text-[100px] md:text-[200px] text-white/[0.02] font-black leading-none pointer-events-none font-mono -translate-y-1/4 translate-x-1/4">0{i+1}</div>
+              <div className="absolute top-1/2 right-4 sm:right-8 text-[80px] md:text-[160px] text-white/20 font-black leading-none pointer-events-none font-mono -translate-y-1/2">0{i+1}</div>
               <div className="p-4 md:p-5 border border-white/10 bg-black shadow-[rgba(212,175,55,0.1)_0px_0px_20px] group-hover:scale-110 transition-transform hidden sm:block">
                 {renderIcon(c.icon || c.iconName || "Code", i)}
               </div>
