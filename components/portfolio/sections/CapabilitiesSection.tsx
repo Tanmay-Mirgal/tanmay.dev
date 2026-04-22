@@ -4,8 +4,16 @@ import React from "react";
 import { HolographicNode } from "../HolographicNode";
 import * as LucideIcons from "lucide-react";
 
-export const CapabilitiesSection = ({ skills }: { skills?: Record<string, unknown>[] }) => {
-  const staticCapabilities = [
+interface Skill {
+  title: string;
+  desc: string;
+  icon?: string;
+  iconName?: string;
+  colorClass?: string;
+}
+
+export const CapabilitiesSection = ({ skills }: { skills?: Skill[] }) => {
+  const staticCapabilities: Skill[] = [
     { title: "Full-Stack Ownership", desc: "Zero hand-holding required. I architect and engineer the entire MERN system—from responsive interfaces to secure backend APIs.", iconName: "Layers", colorClass: "text-[#D4AF37]" },
     { title: "Machine Learning / Vision", desc: "Deep Learning models, TensorFlow, and advanced OpenCV vision layers seamlessly integrated into scalable APIs.", iconName: "Cpu", colorClass: "text-emerald-500" },
     { title: "Cloud Ops. & CI/CD", desc: "Rigorous automated deployment pipelines built on AWS architecture, using Docker and Nginx proxies.", iconName: "Cloud", colorClass: "text-blue-500" },
@@ -35,12 +43,12 @@ export const CapabilitiesSection = ({ skills }: { skills?: Record<string, unknow
             <div className="bg-[#050505] p-6 sm:p-10 lg:p-14 border border-white/5 flex flex-col md:flex-row gap-4 md:gap-8 items-start group hover:border-[#D4AF37]/30 transition-all duration-700 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 sm:p-8 text-[100px] md:text-[200px] text-white/[0.02] font-black leading-none pointer-events-none font-mono -translate-y-1/4 translate-x-1/4">0{i+1}</div>
               <div className="p-4 md:p-5 border border-white/10 bg-black shadow-[rgba(212,175,55,0.1)_0px_0px_20px] group-hover:scale-110 transition-transform hidden sm:block">
-                {renderIcon(c.icon || c.iconName, i)}
+                {renderIcon(c.icon || c.iconName || "Code", i)}
               </div>
               <div className="relative z-10 max-w-xl">
                 <div className="flex items-center gap-4 mb-3 sm:mb-4">
                   <div className="sm:hidden p-3 border border-white/10 bg-black">
-                    {renderIcon(c.icon || c.iconName, i)}
+                    {renderIcon(c.icon || c.iconName || "Code", i)}
                   </div>
                   <h3 className="text-xl sm:text-3xl font-display font-bold text-white uppercase tracking-tight">{c.title}</h3>
                 </div>
