@@ -1,77 +1,84 @@
 <div align="center">
 
-# T A N M A Y . D E V 
+<img src="https://tanmay-dev-81mf.vercel.app/opengraph-image.png" alt="Tanmay Mirgal - Portfolio Banner" width="100%" style="border-radius: 12px; margin-bottom: 20px;" />
 
-**Architecting Intelligence. Dominating Complexity.**
+# ✦ T A N M A Y . D E V ✦
+### Architecting Intelligence. Dominating Complexity.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+<p align="center">
+  <a href="https://tanmay-dev-81mf.vercel.app/"><b>View Live Experience</b></a> •
+  <a href="#-the-architecture"><b>Architecture</b></a> •
+  <a href="#-core-capabilities"><b>Capabilities</b></a> •
+  <a href="#-technical-arsenal"><b>Tech Stack</b></a>
+</p>
+
+[![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Framer Motion](https://img.shields.io/badge/Framer_Motion-black?style=for-the-badge&logo=framer)](https://www.framer.com/motion/)
-[![Convex DB](https://img.shields.io/badge/Convex-DB-orange?style=for-the-badge)](https://convex.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Convex DB](https://img.shields.io/badge/Convex_DB-FF8A65?style=for-the-badge&logo=convex&logoColor=white)](https://convex.dev/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
 
 *An elite, cinematic, and highly interactive digital portfolio engineered for high-performance viewing.*
 
-[**View Live Experience**](https://tanmay-dev-81mf.vercel.app/)
-
-<br/>
-<img src="https://res.cloudinary.com/dmspullpt/image/upload/v1776586114/Samadhan_egvvvn.png" alt="Portfolio Preview" width="800" style="border-radius: 4px; box-shadow: 0 0 20px rgba(212,175,55,0.1); border: 1px solid rgba(255,255,255,0.1)"/>
-<br/>
-<br/>
-
 </div>
 
-## ✦ The Architecture of Identity
+<br/>
 
-This repository houses not just code, but a carefully curated digital identity. Moving away from templated, cookie-cutter designs, **tanmay.dev** is built as a highly immersive "Obsidian & Gold" spatial experience. 
+> **"I don't just write code. I build highly-optimized, intelligent ecosystems."**  
+> Moving away from templated, cookie-cutter designs, **tanmay.dev** is built as a highly immersive **"Obsidian & Gold"** spatial experience. It serves as the central hub for my capabilities as an AI & Full-Stack Architect, demonstrating a synthesis of sophisticated design aesthetics, heavy computational engineering, and fluid micro-interactions.
 
-It serves as the central hub for my capabilities as an **AI & Full-Stack Architect**, demonstrating a synthesis of sophisticated design aesthetics, heavy computational engineering, and fluid micro-interactions.
+<br/>
 
-### The Design Philosophy
-* **Obsidian & Gold Aesthetic:** Deep, cinematic blacks (`#030303`) accented with refined gold (`#D4AF37`) to project a premium, high-fidelity engineering vibe.
-* **Neural Architecture:** A dynamic, interactive neural network graph and a scroll-linked "Neural Spine" that react to user presence, symbolizing deep learning and systematic interconnectivity.
-* **Spatial Glassmorphism:** Layered, semi-transparent frosted interfaces that create depth without clutter.
-* **Zero Friction:** Heavy animations and asset loading are fully optimized (lazy-loaded dynamic components, Convex DB backend) to ensure the experience is blazingly fast.
+## 🏛️ The Architecture
 
----
+The visual and technical architecture of this platform is designed to project a premium, high-fidelity engineering vibe:
 
-## ✦ System Capabilities
+- 🌑 **Obsidian & Gold Aesthetic:** Deep, cinematic blacks (`#030303`) accented with refined gold (`#D4AF37`).
+- 🧠 **Neural Interface:** A dynamic, interactive neural network graph and a scroll-linked "Neural Spine" that react to user presence.
+- 🧊 **Spatial Glassmorphism:** Layered, semi-transparent frosted interfaces that create depth without clutter.
+- ⚡ **Zero Friction:** Heavy animations and asset loading are fully optimized (lazy-loaded dynamic components, real-time Convex DB backend) ensuring a blazingly fast experience.
 
-I architect and engineer systems that dominate complexity. My expertise spans across:
+<br/>
 
-1. **Full-Stack Ownership**
-   * Zero hand-holding required. End-to-end MERN architecture from responsive interfaces to secure, scalable backend APIs.
-2. **Machine Learning & Vision**
-   * Deep Learning models, TensorFlow, and advanced OpenCV vision layers seamlessly integrated into production.
-3. **Cloud Ops & CI/CD**
-   * Rigorous automated deployment pipelines built on AWS architecture, utilizing Docker, Nginx, and Vercel.
-4. **Fast Production Delivery**
-   * Shipping highly scalable, performance-driven web products blazingly fast without compromising structural integrity.
+## ⚔️ Core Capabilities
 
----
+I architect and engineer systems that dominate complexity. My expertise spans across four primary pillars:
 
-## ✦ Technical Infrastructure
+| Capability | Description |
+| :--- | :--- |
+| 🛠️ **Full-Stack Ownership** | Zero hand-holding required. End-to-end architecture from responsive interfaces to secure, scalable backend APIs. |
+| 👁️ **Machine Learning & Vision** | Deep Learning models, TensorFlow, and advanced OpenCV vision layers seamlessly integrated into production. |
+| ☁️ **Cloud Ops & CI/CD** | Rigorous automated deployment pipelines built on AWS architecture, utilizing Docker, Nginx, and modern serverless infra. |
+| 🚀 **Fast Production Delivery** | Shipping highly scalable, performance-driven web products blazingly fast without compromising structural integrity. |
+
+<br/>
+
+## ⚙️ Technical Arsenal
 
 This portfolio is a reflection of the stacks I utilize daily to build enterprise-grade applications.
 
-- **Framework:** Next.js 15 (App Router, React 19)
-- **Language:** TypeScript (Strict Mode)
-- **Styling:** Tailwind CSS (v4) with custom utility animations
-- **Database / Backend:** Convex DB (Real-time schema-driven cloud sync)
-- **Motion & Interaction:** Framer Motion, Spline (3D), React Intersection Observer
-- **Layout Engines:** React Masonry CSS (for staggered Pinterest-style achievement grids)
-- **Typography:** `Outfit` (Primary Display) & `JetBrains Mono` (Technical accoutrements)
+<div align="center">
 
----
+| Core Engineering | UI & Motion | Infrastructure |
+| :---: | :---: | :---: |
+| Next.js 15 (App Router) | Tailwind CSS v4 | Convex DB (Real-time) |
+| TypeScript (Strict) | Framer Motion | Vercel Serverless |
+| React 19 | React Masonry CSS | Cloudinary CDN |
+| Node.js Ecosystem | Spline 3D Integration | GitHub CI/CD |
+
+</div>
+
+<br/>
 
 <div align="center">
-  
-### *"I don't just write code. I build highly-optimized, intelligent ecosystems."*
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=D4AF37&height=150&section=footer&text=NEURAL%20NETWORK%20ONLINE&fontSize=20&fontColor=030303&desc=UPTIME:%2099.99%25&descAlignY=70&descAlign=50" width="100%"/>
+</div>
 
-<br/>
+<div align="center">
 
-**[LinkedIn](https://linkedin.com/in/tanmay-mirgal)** • **[GitHub](https://github.com/Tanmay-Mirgal)** • **[Contact](#)**
+**[Explore the Portfolio](https://tanmay-dev-81mf.vercel.app/)**  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/tanmay-mirgal)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/Tanmay-Mirgal)
 
-<br/>
-<span style="font-family: monospace; font-size: 10px; opacity: 0.5; letter-spacing: 2px;">NEURAL NETWORK ONLINE. UPTIME: 99.99%.</span>
+*(C) 2026 Tanmay Mirgal. All rights reserved.*
 </div>
