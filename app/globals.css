@@ -7,22 +7,23 @@
 }
 
 :root {
-  --bg-color: #0A0A0A;
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --accent-gold: #D4AF37;
-  --accent-amber: #F9A826;
-  --glass-border: rgba(212, 175, 55, 0.15); /* Subtle gold border */
-  --glass-bg: rgba(255, 255, 255, 0.02);
+  /* Handcrafted Dark Editorial Palette */
+  --bg-color: #0B0B0C;
+  --bg-sidebar: #111113;
+  --text-primary: #F4F4F5;
+  --text-secondary: #A1A1AA;
+  --border-color: rgba(255, 255, 255, 0.06);
+  --accent: #FFFFFF;
 }
 
 ::selection {
-  background: var(--accent-gold);
-  color: #000;
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
 }
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg-color);
 }
 
 body {
@@ -39,57 +40,72 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
-.font-display {
-  font-family: var(--font-display), sans-serif;
+/* Micro styling for clean pill controls in dark theme */
+.btn-pill-dark {
+  background-color: #FFFFFF;
+  color: #0B0B0C;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+.btn-pill-dark:hover {
+  background-color: #E4E4E7;
+  transform: translateY(-1px);
 }
 
-.font-mono {
-  font-family: var(--font-mono), monospace;
+.btn-pill-light {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #F4F4F5;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+.btn-pill-light:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
-/* Glassmorphism Classes */
-.glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+/* Badges systems matching dark mode */
+.badge-blue {
+  background-color: rgba(37, 99, 235, 0.12);
+  color: #60A5FA;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+}
+.badge-green {
+  background-color: rgba(5, 150, 105, 0.12);
+  color: #34D399;
+  border: 1px solid rgba(5, 150, 105, 0.25);
+}
+.badge-gray {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #D4D4D8;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.glass-nav {
-  background: rgba(10, 10, 10, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
+/* Projects grid-dashed backdrop matching dark mode */
+.grid-dashed-backdrop {
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 16px 16px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
 }
 
-/* Gradients */
-.text-gradient {
-  background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.5) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Clean Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-
-.accent-gradient {
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+::-webkit-scrollbar-track {
+  background: transparent;
 }
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.2); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.4); }
-
-/* Neural / Gradient Orbs */
-.glow-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  z-index: -1;
-  pointer-events: none;
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
 }
-
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}

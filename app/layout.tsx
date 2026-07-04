@@ -14,7 +14,7 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "700"],
 });
 
-const baseUrl = "https://tanmay-dev-81mf.vercel.app";
+const baseUrl = "https://tanmaymirgal.dev";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

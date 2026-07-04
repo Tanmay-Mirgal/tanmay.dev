@@ -6,42 +6,42 @@ import { Award, Check } from "lucide-react";
 import { achievementsData } from "@/data/portfolio";
 import { Achievement } from "@/types";
 
-export const AchievementsSection = () => {
+export const CertificationsSection = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<Achievement | null>(null);
 
-  // Filter achievements & hackathons (exclude standard course certifications)
-  const achievements = achievementsData.filter((item) => {
+  // Filter course certifications (exclude hackathon/job offers/timelines)
+  const certifications = achievementsData.filter((item) => {
     const title = item.title.toUpperCase();
     return (
-      title.includes("HACKATHON") ||
-      title.includes("IDEATHON") ||
-      title.includes("OFFER") ||
-      title.includes("INTERNSHIP") ||
-      title.includes("RESEARCH") ||
-      title.includes("PUBLICATION")
+      title.includes("BOOTCAMP") ||
+      title.includes("CERTIFICATION") ||
+      title.includes("FUNDAMENTALS") ||
+      title.includes("LEARNING") ||
+      item.org.toUpperCase().includes("UDEMY") ||
+      item.org.toUpperCase().includes("POSTMAN")
     );
   });
 
   return (
-    <section id="achievements" className="py-16 border-t border-white/[0.06] relative space-y-10 select-none">
+    <section id="certifications" className="py-16 border-t border-white/[0.06] relative space-y-10 select-none">
       
       {/* Title */}
       <div className="space-y-1">
         <h2 className="text-2xl sm:text-3xl font-display font-black tracking-tight text-white uppercase">
-          Achievements
+          Certifications
         </h2>
       </div>
 
       {/* Grid List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {achievements.map((item, idx) => (
+        {certifications.map((item, idx) => (
           <div
             key={idx}
             onClick={() => setSelectedPhoto(item)}
             className="p-5 bg-[#151518] border border-white/[0.06] rounded-2xl flex flex-col justify-between hover:border-white/[0.15] hover:shadow-sm transition-all duration-300 relative cursor-pointer group"
           >
             
-            {/* Visual thumbnail of the actual certificate/medal link */}
+            {/* Visual thumbnail */}
             <div className="w-full aspect-[16/10] border border-white/[0.06] rounded-xl overflow-hidden bg-zinc-900 relative mb-4">
               <Image
                 src={item.url}
@@ -53,13 +53,13 @@ export const AchievementsSection = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
             </div>
 
-            {/* Content info */}
+            {/* Content Info */}
             <div className="space-y-3">
               <div className="flex justify-between items-start gap-4">
                 <h3 className="text-xs sm:text-sm font-display font-bold text-white leading-snug uppercase tracking-wide">
                   {item.title}
                 </h3>
-                <span className="badge-green shrink-0 px-2.5 py-0.5 rounded-full text-[9px] font-mono font-medium tracking-wide">
+                <span className="badge-gray shrink-0 px-2.5 py-0.5 rounded-full text-[9px] font-mono font-medium tracking-wide">
                   {item.date}
                 </span>
               </div>
@@ -70,7 +70,7 @@ export const AchievementsSection = () => {
             </div>
 
             <div className="pt-3 border-t border-white/[0.06] mt-3 flex justify-between items-center text-[9px] font-mono text-white/30">
-              <span>Issuer: {item.org}</span>
+              <span>Institution: {item.org}</span>
               <span className="text-emerald-400 font-bold uppercase flex items-center gap-0.5"><Check size={10} /> Verified Record</span>
             </div>
 

@@ -1,109 +1,126 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
+import React, { useState, useEffect } from "react";
 
-// Types & Data
-import { Achievement, Project } from "@/types";
-import { achievementsData, projectsData } from "@/data/portfolio";
-
-// Global Components
-import { GlassCursor } from "@/components/portfolio/GlassCursor";
-import { AmbientBackground } from "@/components/portfolio/AmbientBackground";
-import { NeuralSpine } from "@/components/portfolio/NeuralSpine";
-import { PortfolioStyles } from "@/components/portfolio/PortfolioStyles";
+// Components
+import { SidebarNav } from "@/components/portfolio/SidebarNav";
+import { TopBar } from "@/components/portfolio/TopBar";
 
 // Sections
 import { HeroSection } from "@/components/portfolio/sections/HeroSection";
-import { IdentitySection } from "@/components/portfolio/sections/IdentitySection";
-import { CapabilitiesSection } from "@/components/portfolio/sections/CapabilitiesSection";
-import { StackSection } from "@/components/portfolio/sections/StackSection";
+import { WorkSection } from "@/components/portfolio/sections/WorkSection";
+import { EducationSection } from "@/components/portfolio/sections/EducationSection";
+import { SkillsSection } from "@/components/portfolio/sections/SkillsSection";
 import { ProjectsSection } from "@/components/portfolio/sections/ProjectsSection";
-import { FreelanceSection } from "@/components/portfolio/sections/FreelanceSection";
 import { AchievementsSection } from "@/components/portfolio/sections/AchievementsSection";
+import { CertificationsSection } from "@/components/portfolio/sections/CertificationsSection";
+import { PublicationsSection } from "@/components/portfolio/sections/PublicationsSection";
 import { ContactSection } from "@/components/portfolio/sections/ContactSection";
 
-// Modals
-import { ProjectModal } from "@/components/portfolio/modals/ProjectModal";
-import { AchievementModal } from "@/components/portfolio/modals/AchievementModal";
-import { DocPreviewModal } from "@/components/portfolio/modals/DocPreviewModal";
-
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
-
 export default function Home() {
-  const [activeSection, setActiveSection] = useState("home");
-  const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [previewDoc, setPreviewDoc] = useState<{ url: string; title: string } | null>(null);
+  const [activeSection, setActiveSection] = useState("work");
 
-  // Fetch data from Convex with fallback to static data
-  const convexAchievements = useQuery(api?.portfolio?.getAchievements as never);
-  const convexProjects = useQuery(api?.portfolio?.getProjects as never);
-  const convexSkills = useQuery(api?.portfolio?.getSkills as never);
-
-  const finalAchievements = convexAchievements ?? achievementsData;
-  const finalProjects = convexProjects ?? projectsData;
-  const finalSkills = convexSkills; // Can be passed to CapabilitiesSection
-
-  // Global neural spine progress
-  const { scrollYProgress } = useScroll();
-  const scaleY = useSpring(scrollYProgress, { damping: 30, stiffness: 100, mass: 0.5 });
-  const spineHeight = useTransform(scaleY, [0, 1], ["0%", "100%"]);
-
+  // Determine active section on scroll
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
+    const handleScroll = () => {
+      const sections = [
+        "work",
+        "education",
+        "skills",
+        "projects",
+        "achievements",
+        "certifications",
+        "publications",
+      ];
+      const scrollPos = window.scrollY + window.innerHeight / 3;
+
+      // Special check for top of page (Hero section)
+      if (window.scrollY < 200) {
+        setActiveSection("work"); // Default highlight first sidebar link
+        return;
+      }
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            setActiveSection(section);
+            break;
+          }
         }
-      });
-    }, { threshold: 0.3 });
-    document.querySelectorAll("section[id]").forEach(s => observer.observe(s));
-    return () => observer.disconnect();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <main className="relative min-h-screen text-white font-sans selection:bg-[#D4AF37] selection:text-black overflow-x-hidden bg-[#030303]">
-      <GlassCursor />
+    <main className="relative min-h-screen bg-[#0B0B0C] text-[#A1A1AA] font-sans selection:bg-white/10 selection:text-white overflow-x-clip flex">
       
-      {/* Immersive neural backdrop */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-         <AmbientBackground />
-         <div className="absolute inset-0 bg-[#030303]/80" />
+      {/* 1. Fixed Left Sidebar Nav */}
+      <SidebarNav activeSection={activeSection} />
+
+      {/* 2. Scrolling Main Content Area */}
+      <div className="flex-1 min-w-0 md:pl-64 flex flex-col min-h-screen">
+        
+        {/* Main padding container */}
+        <div className="w-full max-w-4xl mx-auto px-6 sm:px-12 md:px-16 py-12 flex-1 flex flex-col justify-start">
+          
+          {/* Top Bar clock & meta */}
+          <TopBar />
+
+          {/* Hero Section (Contains Intro text and 3D Overlapping Card Stack) */}
+          <div className="scroll-mt-16">
+            <HeroSection />
+          </div>
+
+          {/* Work Experience Section */}
+          <div id="work" className="scroll-mt-16 pt-12">
+            <WorkSection />
+          </div>
+
+          {/* Education Section */}
+          <div id="education" className="scroll-mt-16 pt-12">
+            <EducationSection />
+          </div>
+
+          {/* Skills Section */}
+          <div id="skills" className="scroll-mt-16 pt-12">
+            <SkillsSection />
+          </div>
+
+          {/* Projects Catalog */}
+          <div id="projects" className="scroll-mt-16 pt-12">
+            <ProjectsSection />
+          </div>
+
+          {/* Achievements Grid */}
+          <div id="achievements" className="scroll-mt-16 pt-12">
+            <AchievementsSection />
+          </div>
+
+          {/* Certifications Section */}
+          <div id="certifications" className="scroll-mt-16 pt-12">
+            <CertificationsSection />
+          </div>
+
+          {/* Publications Section */}
+          <div id="publications" className="scroll-mt-16 pt-12">
+            <PublicationsSection />
+          </div>
+
+          {/* Contact form (Uplink) */}
+          <div id="contact" className="scroll-mt-16 pt-12">
+            <ContactSection />
+          </div>
+
+        </div>
+
       </div>
 
-      <NeuralSpine spineHeight={spineHeight} activeSection={activeSection} />
-
-      <div className="relative z-10 w-full flex flex-col pl-6 sm:pl-16 md:pl-32 lg:pl-48">
-          <HeroSection setPreviewDoc={setPreviewDoc} />
-          <IdentitySection />
-          <CapabilitiesSection skills={finalSkills} />
-          <StackSection />
-          <ProjectsSection projectsData={finalProjects} setSelectedProject={setSelectedProject} />
-          <FreelanceSection />
-          <AchievementsSection achievementsData={finalAchievements} setSelectedAchievement={setSelectedAchievement} />
-          <ContactSection />
-
-          <footer className="w-full text-center pb-10 pt-20 border-t border-white/5 opacity-40 text-[9px] font-mono tracking-[0.2em] uppercase px-4">
-             NEURAL NETWORK ONLINE. SERVER UPTIME: 99.99%. (C) {new Date().getFullYear()} Tanmay Mirgal
-          </footer>
-      </div>
-
-      {/* Modals Handling */}
-      <AnimatePresence>
-        <ProjectModal selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
-      </AnimatePresence>
-
-      <AnimatePresence>
-        <AchievementModal selectedAchievement={selectedAchievement} setSelectedAchievement={setSelectedAchievement} />
-      </AnimatePresence>
-
-      <AnimatePresence>
-        <DocPreviewModal previewDoc={previewDoc} setPreviewDoc={setPreviewDoc} />
-      </AnimatePresence>
-
-      <PortfolioStyles />
     </main>
   );
 }
