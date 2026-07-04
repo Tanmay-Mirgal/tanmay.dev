@@ -1,84 +1,55 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
-import { FileText, Briefcase, Github, Linkedin, Code2 } from "lucide-react";
+import { FileText, Briefcase, Github, Linkedin } from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform, MotionValue } from "framer-motion";
+import { Globe } from "@/components/ui/globe"
 
-const MILESTONES = [
-  {
-    title: "TATA Advanced Systems Completion",
-    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776590547/TATA_Internshio_Completion_acbdaj.png",
-    label: "01 // TATA INTERNSHIP completion"
-  },
-  {
-    title: "Industrial Hackathon 2026 Winner",
-    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776589868/certificate_and_medal_ovuu7u.jpg",
-    label: "02 // INDUSTRIAL HACKATHON WINNER"
-  },
-  {
-    title: "Combat Training Systems (CTS-71)",
-    image: "https://res.cloudinary.com/dmspullpt/image/upload/f_auto,q_auto/v1776530245/IAC1_Vikrant_at_Cochin_s02moz.jpg",
-    label: "03 // COMBAT TRAINING SYSTEMS"
-  },
-  {
-    title: "JAAFR Research Paper Publication",
-    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776590743/Certificate_of_published_Paper_rlvpbz.png",
-    label: "04 // RESEARCH PUBLICATION"
-  },
-  {
-    title: "Internal Hackathon 2025 Winner",
-    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776590198/Internal_Hackathon_yfinr5.png",
-    label: "05 // INTERNAL HACKATHON WINNER"
-  },
-  {
-    title: "Innovgenius Ideathon × TCS",
-    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776839721/Innovgenius_s92ikc.jpg",
-    label: "06 // TCS INNOVGENIUS IDEATHON"
-  },
-  {
-    title: "SPIT Hackathon 2025 Team",
-    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776840406/SPIT_2025_ftrwsy.jpg",
-    label: "07 // SPIT HACKATHON TEAM"
-  },
-  {
-    title: "TensorFlow Certification",
-    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776591174/Tensorflow_certification_ruumd3.png",
-    label: "08 // TENSORFLOW DEEP LEARNING"
-  },
-  {
-    title: "AI & ML Bootcamp Certificate",
-    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776591173/Udemy_AIML_certificate_ahem8e.png",
-    label: "09 // AI / ML DATA SCIENCE BOOTCAMP"
-  },
-  {
-    title: "Postman API Student Expert",
-    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1776591173/Postman_Certification_zyqlzx.png",
-    label: "10 // POSTMAN API STUDENT EXPERT"
-  }
-];
+interface DockIconProps {
+  mouseX: MotionValue<number>;
+  children: React.ReactNode;
+  label: string;
+  href: string;
+}
+
+const DockIcon = ({ mouseX, children, label, href }: DockIconProps) => {
+  const ref = useRef<HTMLAnchorElement>(null);
+
+  const distance = useTransform(mouseX, (val: number) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+    return val - bounds.x - bounds.width / 2;
+  });
+
+  const widthTransform = useTransform(distance, [-150, 0, 150], [40, 56, 40]);
+  const heightTransform = useTransform(distance, [-150, 0, 150], [40, 56, 40]);
+
+  const width = useSpring(widthTransform, { mass: 0.1, stiffness: 150, damping: 12 });
+  const height = useSpring(heightTransform, { mass: 0.1, stiffness: 150, damping: 12 });
+
+  return (
+    <a
+      ref={ref}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative group flex items-center justify-center cursor-pointer"
+    >
+      <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-black/90 border border-white/10 rounded-md text-[9px] font-mono font-bold tracking-wider text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-md z-50">
+        {label}
+      </span>
+      <motion.div
+        style={{ width, height }}
+        className="rounded-full bg-white/[0.03] border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.08] transition-colors flex items-center justify-center text-white/70 hover:text-white"
+      >
+        {children}
+      </motion.div>
+    </a>
+  );
+};
 
 export const HeroSection = () => {
-  const [deck, setDeck] = useState(MILESTONES);
-  const [isSwiping, setIsSwiping] = useState(false);
-  const [activeCardIndex, setActiveCardIndex] = useState(0);
-
-  const handleCardClick = () => {
-    if (isSwiping) return;
-    setIsSwiping(true);
-
-    setTimeout(() => {
-      setDeck((prevDeck) => {
-        const nextDeck = [...prevDeck];
-        const swipedCard = nextDeck.shift();
-        if (swipedCard) {
-          nextDeck.push(swipedCard);
-        }
-        return nextDeck;
-      });
-      setActiveCardIndex((prevIndex) => (prevIndex + 1) % MILESTONES.length);
-      setIsSwiping(false);
-    }, 300);
-  };
+  const mouseX = useMotionValue(Infinity);
 
   return (
     <section className="w-full flex flex-col items-start text-left pt-6 pb-12 select-none space-y-10">
@@ -112,143 +83,81 @@ export const HeroSection = () => {
         </p>
       </div>
 
-      {/* 3. Professional Coordinates & Downloads (Ultra-Minimalist Index) */}
-      <div className="flex flex-wrap gap-x-8 gap-y-3 text-xs font-mono tracking-wider pt-2 select-none">
-        <a 
-          href="/resume_cv/Tanmay_Mirgal_FullStack_AI_Resume.pdf" 
-          target="_blank" 
-          className="text-white/40 hover:text-white transition-colors duration-300 flex items-center gap-2 cursor-pointer"
-        >
-          <span className="text-white/20">01 //</span>
-          <FileText size={13} className="text-cyan-400" />
-          <span>RESUME</span>
-        </a>
-        <a 
-          href="/resume_cv/Tanmay_Mirgal_CV.pdf" 
-          target="_blank" 
-          className="text-white/40 hover:text-white transition-colors duration-300 flex items-center gap-2 cursor-pointer"
-        >
-          <span className="text-white/20">02 //</span>
-          <Briefcase size={13} className="text-emerald-400" />
-          <span>CV</span>
-        </a>
-        <a 
-          href="https://github.com/Tanmay-Mirgal" 
-          target="_blank" 
-          className="text-white/40 hover:text-white transition-colors duration-300 flex items-center gap-2 cursor-pointer"
-        >
-          <span className="text-white/20">03 //</span>
-          <Github size={13} className="text-white/70" />
-          <span>GITHUB</span>
-        </a>
-        <a 
-          href="https://www.linkedin.com/in/tanmay-mirgal/" 
-          target="_blank" 
-          className="text-white/40 hover:text-white transition-colors duration-300 flex items-center gap-2 cursor-pointer"
-        >
-          <span className="text-white/20">04 //</span>
-          <Linkedin size={13} className="text-[#0A66C2]" />
-          <span>LINKEDIN</span>
-        </a>
-        <a 
-          href="https://leetcode.com/u/Tanmay_Mirgal/" 
-          target="_blank" 
-          className="text-white/40 hover:text-white transition-colors duration-300 flex items-center gap-2 cursor-pointer"
-        >
-          <span className="text-white/20">05 //</span>
+      {/* 3. Magic UI Style Dock Navigation */}
+      <div 
+        onMouseMove={(e) => mouseX.set(e.pageX)}
+        onMouseLeave={() => mouseX.set(Infinity)}
+        className="h-16 flex items-end gap-3 px-4 py-2.5 bg-white/[0.02] border border-white/[0.06] rounded-3xl backdrop-blur-md shadow-2xl select-none"
+      >
+        <DockIcon mouseX={mouseX} label="Resume" href="/resume_cv/Tanmay_Mirgal_FullStack_AI_Resume.pdf">
+          <FileText size={18} className="text-cyan-400" />
+        </DockIcon>
+        
+        <DockIcon mouseX={mouseX} label="CV" href="/resume_cv/Tanmay_Mirgal_CV.pdf">
+          <Briefcase size={18} className="text-emerald-400" />
+        </DockIcon>
+
+        <DockIcon mouseX={mouseX} label="GitHub" href="https://github.com/Tanmay-Mirgal">
+          <Github size={18} className="text-white/80" />
+        </DockIcon>
+
+        <DockIcon mouseX={mouseX} label="LinkedIn" href="https://www.linkedin.com/in/tanmay-mirgal/">
+          <Linkedin size={18} className="text-[#0A66C2]" />
+        </DockIcon>
+
+        <DockIcon mouseX={mouseX} label="LeetCode" href="https://leetcode.com/u/Tanmay_Mirgal/">
           <svg 
             role="img" 
             viewBox="0 0 24 24" 
             xmlns="http://www.w3.org/2000/svg" 
-            width="13" 
-            height="13" 
+            width="18" 
+            height="18" 
             fill="currentColor" 
             className="text-[#FFA116]"
           >
             <path d="M16.102 17.93l-2.697 2.607c-.466.45-1.211.45-1.677 0L6.553 15.68c-.466-.45-.466-1.176 0-1.627l2.697-2.607c.466-.45 1.211-.45 1.677 0l5.175 4.958c.466.45.466 1.176 0 1.627zm-3.82-14.77a1.184 1.184 0 0 1 1.674 0l3.528 3.5a1.17 1.17 0 0 1 0 1.66l-3.528 3.5a1.184 1.184 0 0 1-1.673 0c-.462-.46-.462-1.2 0-1.66l1.69-1.677H5.666a1.178 1.178 0 0 1-1.166-1.16c0-.64.523-1.16 1.166-1.16h8.77l-1.69-1.677a1.184 1.184 0 0 1 0-1.66z"/>
           </svg>
-          <span>LEETCODE</span>
-        </a>
+        </DockIcon>
       </div>
 
-      {/* 4. Action Pill Buttons */}
-      <div className="flex flex-wrap gap-4">
-        <a
-          href="#projects"
-          className="btn-pill-light px-6 py-3 font-sans text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          View — projects
-        </a>
-        
-        <a
-          href="#contact"
-          className="btn-pill-dark px-6 py-3 font-sans text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-sm"
-        >
-          Let&apos;s build intelligent systems together ↗
-        </a>
-      </div>
+      {/* 4. Hero 3D Planet Globe — Half Dome */}
+      <div
+        className="relative w-full overflow-hidden select-none"
+        style={{ height: 320 }}
+      >
+        {/* Star particles */}
+        {[...Array(30)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-white pointer-events-none"
+            style={{
+              width: i % 5 === 0 ? 2 : 1,
+              height: i % 5 === 0 ? 2 : 1,
+              opacity: 0.15 + (i % 4) * 0.1,
+              left: `${(i * 37 + 11) % 95}%`,
+              top: `${(i * 23 + 7) % 70}%`,
+            }}
+          />
+        ))}
 
-      {/* 4. Hero 3D Card Stack (Interactive Milestones Swiper Deck) */}
-      <div className="w-full max-w-2xl mx-auto pt-6 flex flex-col items-center select-none overflow-visible">
-        
-        {/* Stack Container */}
-        <div className="relative w-full h-[240px] sm:h-[300px] flex justify-center items-center overflow-visible">
-          {deck.slice(0, 3).map((card, idx) => {
-            const zIndex = 30 - idx * 10;
-            const scale = 1 - idx * 0.05;
-            const translateY = idx * 12;
-            const rotate = idx === 1 ? 2 : idx === 2 ? -2 : 0;
-            const opacity = idx === 0 ? 1 : idx === 1 ? 0.75 : 0.4;
-            
-            let transformStr = `translateY(${translateY}px) scale(${scale}) rotate(${rotate}deg)`;
-            if (idx === 0 && isSwiping) {
-              transformStr = "translateX(150%) rotate(15deg) scale(0.95)";
-            }
-
-            return (
-              <div
-                key={card.title}
-                onClick={idx === 0 ? handleCardClick : undefined}
-                className={`absolute w-[210px] sm:w-[285px] aspect-[4/3] rounded-2xl overflow-hidden border border-white/[0.08] bg-[#0E0E10] shadow-2xl transition-all duration-300 ease-out ${
-                  idx === 0 ? "cursor-pointer active:scale-[0.98] hover:border-white/20" : "pointer-events-none"
-                }`}
-                style={{
-                  zIndex: zIndex,
-                  transform: transformStr,
-                  opacity: idx === 0 && isSwiping ? 0 : opacity,
-                }}
-              >
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  fill
-                  priority={idx === 0}
-                  sizes="(max-width: 640px) 210px, 285px"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-3 left-3 right-3 text-left">
-                  <span className="px-2 py-0.5 border border-white/10 bg-[#151518]/90 backdrop-blur-md rounded-md text-[8px] font-mono text-white/70 tracking-wider">
-                    {card.label}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+        {/* Globe container — sized so the bottom half is below the clip boundary */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2"
+          style={{ width: 640, height: 640, bottom: -320 }}
+        >
+          {/* Globe fills this square via absolute inset-0 */}
+          <div className="relative w-full h-full">
+            <Globe className="absolute inset-0 w-full h-full max-w-none" />
+          </div>
         </div>
 
-        {/* Deck Status Counter */}
-        <div className="w-full flex justify-center items-center gap-2 sm:gap-3 text-[9px] sm:text-[10px] font-mono tracking-widest text-white/30 pt-4">
-          <span>MILESTONES DECK</span>
-          <span>{"//"}</span>
-          <span className="text-white/60">
-            [ {String(activeCardIndex + 1).padStart(2, "0")} / {String(MILESTONES.length).padStart(2, "0")} ]
-          </span>
-          <span>·</span>
-          <span className="text-cyan-400 animate-pulse">CLICK DECK TO SWIPE ↗</span>
-        </div>
-
+        {/* Bottom gradient */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-28 pointer-events-none z-20"
+          style={{ background: "linear-gradient(to top, #0B0B0C 50%, transparent 100%)" }}
+        />
       </div>
+
 
     </section>
   );
