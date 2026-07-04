@@ -151,12 +151,22 @@ export const HeroSection = () => {
           <span>LINKEDIN</span>
         </a>
         <a 
-          href="https://leetcode.com/u/Tanmay-Mirgal/" 
+          href="https://leetcode.com/u/Tanmay_Mirgal/" 
           target="_blank" 
           className="text-white/40 hover:text-white transition-colors duration-300 flex items-center gap-2 cursor-pointer"
         >
           <span className="text-white/20">05 //</span>
-          <Code2 size={13} className="text-[#FFA116]" />
+          <svg 
+            role="img" 
+            viewBox="0 0 24 24" 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="13" 
+            height="13" 
+            fill="currentColor" 
+            className="text-[#FFA116]"
+          >
+            <path d="M16.102 17.93l-2.697 2.607c-.466.45-1.211.45-1.677 0L6.553 15.68c-.466-.45-.466-1.176 0-1.627l2.697-2.607c.466-.45 1.211-.45 1.677 0l5.175 4.958c.466.45.466 1.176 0 1.627zm-3.82-14.77a1.184 1.184 0 0 1 1.674 0l3.528 3.5a1.17 1.17 0 0 1 0 1.66l-3.528 3.5a1.184 1.184 0 0 1-1.673 0c-.462-.46-.462-1.2 0-1.66l1.69-1.677H5.666a1.178 1.178 0 0 1-1.166-1.16c0-.64.523-1.16 1.166-1.16h8.77l-1.69-1.677a1.184 1.184 0 0 1 0-1.66z"/>
+          </svg>
           <span>LEETCODE</span>
         </a>
       </div>
