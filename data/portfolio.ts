@@ -181,6 +181,15 @@ export const achievementsData: Achievement[] = [
 
 export const projectsData: Project[] = [
   { 
+    title: "Raga Music Player", 
+    desc: "A premium, next-generation music player ecosystem featuring a Next.js 16 Web App, Expo Mobile App, and Express API, with AI recommendations and account-wide library sync.", 
+    fullDesc: "Raga is a premium, next-generation music player ecosystem featuring a Next.js 16 Web App and an Expo React Native Mobile App, backed by a scalable Node.js Express API Server. Raga personalizes your listening experience with AI-powered recommendations, account-wide library sync, synced lyrics, and responsive interactive player layouts.",
+    tags: ["Next.js 16", "Expo", "React Native", "Express.js", "Node.js", "AI-Powered"], 
+    link: "https://github.com/Tanmay-Mirgal/Raga-Music-Player-",
+    liveLink: "https://raga.tanmaymirgal.dev/",
+    image: "https://res.cloudinary.com/dmspullpt/image/upload/f_auto,q_auto/v1783232396/Raga_music_Player_web_app_tddxnk.png"
+  },
+  { 
     title: "Combat Training Systems (CTS-71)", 
     desc: "🔒 Confidential Internship: High-fidelity naval simulation platform built at Tata Advanced Systems replicating real-world Combat Management Systems.", 
     fullDesc: "During a 9-month internship at Tata Advanced Systems, I contributed to CTS-71—a high-fidelity simulation platform designed for naval trainees. As a functional replica of a real Combat Management System (CMS), it enables users to practice complex operational workflows in a controlled environment. My role involved implementing CMS-aligned features, enhancing interaction patterns for training efficiency, and validating simulation behavior against real-world operations. *Due to the nature of this project, source code and architecture are confidential.*",
@@ -197,11 +206,12 @@ export const projectsData: Project[] = [
     image: "https://res.cloudinary.com/dmspullpt/image/upload/f_auto,q_auto/v1776586114/Samadhan_egvvvn.png"
   },
   { 
-    title: "Smart Meeter", 
+    title: "Smart Meet", 
     desc: "AI-powered enterprise meeting platform featuring custom WebRTC, real-time transcriptions, and intelligent Kanban-based workflow management.", 
-    fullDesc: "Smart Meeter was architected as a hackathon prototype to eliminate the overhead of manual meeting orchestration. It integrates a custom WebRTC engine with an AI-driven transcription layer to track vital discussion points and transform live conversations into actionable summaries. The focus was on low-friction setup and a high-speed operator experience for rapid deployment.",
+    fullDesc: "Smart Meet was architected as a hackathon prototype to eliminate the overhead of manual meeting orchestration. It integrates a custom WebRTC engine with an AI-driven transcription layer to track vital discussion points and transform live conversations into actionable summaries. The focus was on low-friction setup and a high-speed operator experience for rapid deployment.",
     tags: ["WebRTC", "FastAPI", "TensorFlow", "OpenCV", "Groq AI", "React"], 
     link: "https://github.com/Tanmay-Mirgal/Smart-Meeter",
+    liveLink: "https://smart-meet.tanmaymirgal.dev/",
     image: "https://res.cloudinary.com/dmspullpt/image/upload/f_auto,q_auto/v1776528917/WhatsApp_Image_2026-04-18_at_9.44.48_PM_yunoj2.jpg"
   },
   { 

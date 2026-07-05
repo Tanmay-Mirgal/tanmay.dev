@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { X, Github, ArrowUpRight } from "lucide-react";
+import { X, Github, ArrowUpRight, Globe } from "lucide-react";
 import { Project } from "@/types";
 
 interface ProjectModalProps {
@@ -66,14 +66,37 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
             </div>
 
             {/* CTA Button */}
-            <div className="pt-6 lg:pt-0">
-              <a 
-                href={selectedProject.link} 
-                target="_blank" 
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-white text-[#0B0B0C] hover:bg-zinc-200 font-mono font-bold uppercase tracking-widest text-[9px] sm:text-[10px] rounded-xl transition-all duration-300 shadow-sm active:scale-95 cursor-pointer"
-              >
-                <Github size={14} /> Source Access <ArrowUpRight size={12} />
-              </a>
+            <div className="pt-6 lg:pt-0 flex flex-wrap gap-3">
+              {selectedProject.liveLink && (
+                <a 
+                  href={selectedProject.liveLink} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-3.5 bg-white text-[#0B0B0C] hover:bg-zinc-200 font-mono font-bold uppercase tracking-widest text-[9px] sm:text-[10px] rounded-xl transition-all duration-300 shadow-sm active:scale-95 cursor-pointer"
+                >
+                  <Globe size={14} /> Live Demo <ArrowUpRight size={12} />
+                </a>
+              )}
+              {selectedProject.link === "#" ? (
+                <div 
+                  className="inline-flex items-center gap-2 px-5 py-3.5 border border-white/5 bg-white/[0.01] text-white/30 font-mono font-bold uppercase tracking-widest text-[9px] sm:text-[10px] rounded-xl cursor-not-allowed select-none"
+                >
+                  🔒 Confidential Source
+                </div>
+              ) : (
+                <a 
+                  href={selectedProject.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center gap-2 px-5 py-3.5 font-mono font-bold uppercase tracking-widest text-[9px] sm:text-[10px] rounded-xl transition-all duration-300 shadow-sm active:scale-95 cursor-pointer ${
+                    selectedProject.liveLink
+                      ? "border border-white/[0.08] bg-white/[0.02] text-white hover:bg-white/[0.06] hover:border-white/20"
+                      : "bg-white text-[#0B0B0C] hover:bg-zinc-200"
+                  }`}
+                >
+                  <Github size={14} /> Source Access <ArrowUpRight size={12} />
+                </a>
+              )}
             </div>
 
           </div>

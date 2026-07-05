@@ -14,4 +14,5 @@ export interface Project {
   tags: string[];
   link: string;
   image: string;
+  liveLink?: string;
 }
