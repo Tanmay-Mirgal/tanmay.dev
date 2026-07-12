@@ -65,3 +65,61 @@ export const addSkill = mutation({
     return await ctx.db.insert("skills", args);
   },
 });
+
+// --- Experience ---
+export const getExperience = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("experience").order("asc").collect();
+  },
+});
+
+export const addExperience = mutation({
+  args: {
+    date: v.string(),
+    role: v.string(),
+    company: v.string(),
+    bullets: v.array(v.string()),
+    order: v.optional(v.float64()),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.insert("experience", args);
+  },
+});
+
+// --- Education ---
+export const getEducation = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("education").order("asc").collect();
+  },
+});
+
+export const addEducation = mutation({
+  args: {
+    date: v.string(),
+    degree: v.string(),
+    institution: v.string(),
+    description: v.string(),
+    order: v.optional(v.float64()),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.insert("education", args);
+  },
+});
+
+// --- Skill Groups ---
+export const getSkillGroups = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("skillGroups").order("asc").collect();
+  },
+});
+
+export const addSkillGroup = mutation({
+  args: {
+    title: v.string(),
+    tags: v.array(v.string()),
+    order: v.optional(v.float64()),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.insert("skillGroups", args);
+  },
+});

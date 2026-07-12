@@ -28,4 +28,23 @@ export default defineSchema({
     category: v.optional(v.string()), // e.g., "Frontend", "Backend", "AI/ML"
     order: v.optional(v.float64()),
   }),
+  experience: defineTable({
+    date: v.string(),
+    role: v.string(),
+    company: v.string(),
+    bullets: v.array(v.string()),
+    order: v.optional(v.float64()),
+  }),
+  education: defineTable({
+    date: v.string(),
+    degree: v.string(),
+    institution: v.string(),
+    description: v.string(),
+    order: v.optional(v.float64()),
+  }),
+  skillGroups: defineTable({
+    title: v.string(),
+    tags: v.array(v.string()),
+    order: v.optional(v.float64()),
+  }),
 });

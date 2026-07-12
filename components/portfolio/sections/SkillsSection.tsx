@@ -1,68 +1,24 @@
 "use client";
 
 import React from "react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export const SkillsSection = () => {
-  const skillGroups = [
-    {
-      title: "Languages & Frameworks",
-      tags: [
-        "JavaScript (ES6+)",
-        "TypeScript",
-        "Python",
-        "R",
-        "React.js",
-        "Next.js",
-        "Node.js",
-        "Express.js",
-        "FastAPI",
-      ],
-    },
-    {
-      title: "ML / AI / Data Science",
-      tags: [
-        "TensorFlow",
-        "Scikit-learn",
-        "Pandas",
-        "NumPy",
-        "Matplotlib",
-        "Seaborn",
-        "XGBoost",
-        "OpenCV",
-        "RAG",
-        "Deep Learning",
-        "Predictive Modeling",
-        "Feature Engineering",
-        "EDA",
-        "Statistical Analysis",
-        "NLP",
-        "Time-Series Forecasting",
-      ],
-    },
-    {
-      title: "MLOps & Pipelines",
-      tags: [
-        "Git",
-        "GitHub Actions",
-        "DVC",
-        "MLflow",
-        "Docker",
-        "Weights & Biases",
-        "CI/CD Pipelines",
-      ],
-    },
-    {
-      title: "Cloud & DevOps",
-      tags: [
-        "AWS (SageMaker, S3, RDS)",
-        "Docker",
-        "Google Cloud Platform",
-        "Vercel",
-        "Linux CLI",
-        "Nginx",
-      ],
-    },
-  ];
+  const skillGroups = useQuery(api.portfolio.getSkillGroups);
+
+  if (skillGroups === undefined) {
+    return (
+      <section id="skills" className="py-16 border-t border-white/[0.06] relative space-y-10 select-none">
+        <div className="space-y-1">
+          <h2 className="text-2xl sm:text-3xl font-display font-black tracking-tight text-white uppercase">
+            Skills
+          </h2>
+        </div>
+        <div className="text-white/50 text-sm">Loading...</div>
+      </section>
+    );
+  }
 
   return (
     <section id="skills" className="py-16 border-t border-white/[0.06] relative space-y-10 select-none">

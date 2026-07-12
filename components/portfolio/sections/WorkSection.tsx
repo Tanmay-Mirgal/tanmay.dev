@@ -1,28 +1,23 @@
 "use client";
 
-import React from "react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export const WorkSection = () => {
-  const experiences = [
-    {
-      date: "2024-01 - 2025-12",
-      role: "Software Engineer Intern",
-      company: "Tata Advanced Systems Ltd. (TASL)",
-      bullets: [
-        "Engineered CTS-71, a confidential high-fidelity naval simulation platform replicating real-world Combat Management Systems for the Indian Navy, built on the MERN stack with WebSockets.",
-        "Authored Jest-based automated test suites for mission-critical modules; collaborated in Agile sprints using Jira, Bitbucket, and Confluence.",
-      ],
-    },
-    {
-      date: "2024-01",
-      role: "Open-Source Software Engineer – Top Contributor (2nd on Leaderboard)",
-      company: "VigyBag",
-      bullets: [
-        "Built React.js UI components and Node.js backend features for an open-source e-commerce platform (182+ stars, 419+ forks) connecting rural artisans to urban consumers.",
-        "Delivered product search, category filtering, and pricing comparison across 10+ categories; reviewed PRs and resolved issues following CI/CD guidelines.",
-      ],
-    },
-  ];
+  const experiences = useQuery(api.portfolio.getExperience);
+
+  if (experiences === undefined) {
+    return (
+      <section id="work" className="py-16 border-t border-white/[0.06] relative space-y-10 select-none">
+        <div className="space-y-1">
+          <h2 className="text-2xl sm:text-3xl font-display font-black tracking-tight text-white uppercase">
+            Work Experience
+          </h2>
+        </div>
+        <div className="text-white/50 text-sm">Loading...</div>
+      </section>
+    );
+  }
 
   return (
     <section id="work" className="py-16 border-t border-white/[0.06] relative space-y-10 select-none">

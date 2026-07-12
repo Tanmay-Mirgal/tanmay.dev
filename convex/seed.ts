@@ -13,6 +13,14 @@ export const seed = mutation({
     const existingSkills = await ctx.db.query("skills").collect();
     for (const doc of existingSkills) await ctx.db.delete(doc._id);
 
+    const existingExperience = await ctx.db.query("experience").collect();
+    for (const doc of existingExperience) await ctx.db.delete(doc._id);
+
+    const existingEducation = await ctx.db.query("education").collect();
+    for (const doc of existingEducation) await ctx.db.delete(doc._id);
+
+    const existingSkillGroups = await ctx.db.query("skillGroups").collect();
+    for (const doc of existingSkillGroups) await ctx.db.delete(doc._id);
     // Achievements
     const achievements = [
       { 
@@ -194,6 +202,119 @@ export const seed = mutation({
 
     for (const skill of skills) {
       await ctx.db.insert("skills", skill);
+    }
+
+    // Experience
+    const experiences = [
+      {
+        date: "2024-01 - 2025-12",
+        role: "Software Engineer Intern",
+        company: "Tata Advanced Systems Ltd. (TASL)",
+        bullets: [
+          "Engineered CTS-71, a confidential high-fidelity naval simulation platform replicating real-world Combat Management Systems for the Indian Navy, built on the MERN stack with WebSockets.",
+          "Authored Jest-based automated test suites for mission-critical modules; collaborated in Agile sprints using Jira, Bitbucket, and Confluence.",
+        ],
+        order: 1,
+      },
+      {
+        date: "2024-01",
+        role: "Open-Source Software Engineer – Top Contributor (2nd on Leaderboard)",
+        company: "VigyBag",
+        bullets: [
+          "Built React.js UI components and Node.js backend features for an open-source e-commerce platform (182+ stars, 419+ forks) connecting rural artisans to urban consumers.",
+          "Delivered product search, category filtering, and pricing comparison across 10+ categories; reviewed PRs and resolved issues following CI/CD guidelines.",
+        ],
+        order: 2,
+      },
+    ];
+
+    for (const exp of experiences) {
+      await ctx.db.insert("experience", exp);
+    }
+
+    // Education
+    const educations = [
+      {
+        date: "2023-01 - 2026-12",
+        degree: "Diploma in Computer Engineering",
+        institution: "Vidyalankar Polytechnic",
+        description: "Graduated with a focus on computer science, algorithms, software engineering principles, and databases. Maintained a distinction GPA of 9.38/10.",
+        order: 1,
+      }
+    ];
+
+    for (const edu of educations) {
+      await ctx.db.insert("education", edu);
+    }
+
+    // Skill Groups
+    const skillGroups = [
+      {
+        title: "Languages & Frameworks",
+        tags: [
+          "JavaScript (ES6+)",
+          "TypeScript",
+          "Python",
+          "R",
+          "React.js",
+          "Next.js",
+          "Node.js",
+          "Express.js",
+          "FastAPI",
+        ],
+        order: 1,
+      },
+      {
+        title: "ML / AI / Data Science",
+        tags: [
+          "TensorFlow",
+          "Scikit-learn",
+          "Pandas",
+          "NumPy",
+          "Matplotlib",
+          "Seaborn",
+          "XGBoost",
+          "OpenCV",
+          "RAG",
+          "Deep Learning",
+          "Predictive Modeling",
+          "Feature Engineering",
+          "EDA",
+          "Statistical Analysis",
+          "NLP",
+          "Time-Series Forecasting",
+        ],
+        order: 2,
+      },
+      {
+        title: "MLOps & Pipelines",
+        tags: [
+          "Git",
+          "GitHub Actions",
+          "DVC",
+          "MLflow",
+          "Docker",
+          "Weights & Biases",
+          "CI/CD Pipelines",
+        ],
+        order: 3,
+      },
+      {
+        title: "Cloud & DevOps",
+        tags: [
+          "AWS (SageMaker, S3, RDS)",
+          "Docker",
+          "Google Cloud Platform",
+          "Vercel",
+          "Linux CLI",
+          "Nginx",
+        ],
+        order: 4,
+      },
+    ];
+
+    for (const group of skillGroups) {
+      await ctx.db.insert("skillGroups", group);
     }
 
     return "Seeding completed successfully!";
