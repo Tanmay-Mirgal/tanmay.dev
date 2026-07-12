@@ -181,6 +181,15 @@ export const achievementsData: Achievement[] = [
 
 export const projectsData: Project[] = [
   { 
+    title: "Slate", 
+    desc: "Slate is a premium, enterprise-grade SaaS application designed to eliminate the friction between thinking, drawing, and documenting.", 
+    fullDesc: "Slate is a premium, enterprise-grade SaaS application designed to eliminate the friction between thinking, drawing, and documenting.",
+    tags: ["Next.js", "SaaS", "TypeScript", "React"], 
+    link: "https://github.com/Tanmay-Mirgal/Slate",
+    liveLink: "https://slate.tanmaymirgal.dev/",
+    image: "https://res.cloudinary.com/dmspullpt/image/upload/v1783872649/Slate_madwet.png"
+  },
+  { 
     title: "Raga Music Player", 
     desc: "A premium, next-generation music player ecosystem featuring a Next.js 16 Web App, Expo Mobile App, and Express API, with AI recommendations and account-wide library sync.", 
     fullDesc: "Raga is a premium, next-generation music player ecosystem featuring a Next.js 16 Web App and an Expo React Native Mobile App, backed by a scalable Node.js Express API Server. Raga personalizes your listening experience with AI-powered recommendations, account-wide library sync, synced lyrics, and responsive interactive player layouts.",
