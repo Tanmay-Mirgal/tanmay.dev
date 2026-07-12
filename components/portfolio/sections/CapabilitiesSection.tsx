@@ -43,17 +43,17 @@ export const CapabilitiesSection = () => {
         <p className="text-2xl min-[400px]:text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white max-w-2xl leading-tight">I engineer systems that <br className="hidden sm:block"/><span className="text-white/30 italic">dominate complexity.</span></p>
       </div>
       <div className="flex flex-col gap-6 md:gap-12">
-        {displayCapabilities.map((c: any, i) => (
+        {displayCapabilities.map((c, i) => (
           <HolographicNode key={i} id={`cap_node_${i}`}>
             <div className="bg-[#050505] p-6 sm:p-10 lg:p-14 border border-white/5 flex flex-col md:flex-row gap-4 md:gap-8 items-start group hover:border-[#D4AF37]/30 transition-all duration-700 relative overflow-hidden">
               <div className="absolute top-1/2 right-4 sm:right-8 text-[80px] md:text-[160px] text-white/20 font-black leading-none pointer-events-none font-mono -translate-y-1/2">0{i+1}</div>
               <div className="p-4 md:p-5 border border-white/10 bg-black shadow-[rgba(212,175,55,0.1)_0px_0px_20px] group-hover:scale-110 transition-transform hidden sm:block">
-                {renderIcon(c.icon || c.iconName || "Code", i)}
+                {renderIcon(c.icon || (c as Skill).iconName || "Code", i)}
               </div>
               <div className="relative z-10 max-w-xl">
                 <div className="flex items-center gap-4 mb-3 sm:mb-4">
                   <div className="sm:hidden p-3 border border-white/10 bg-black">
-                    {renderIcon(c.icon || c.iconName || "Code", i)}
+                    {renderIcon(c.icon || (c as Skill).iconName || "Code", i)}
                   </div>
                   <h3 className="text-xl sm:text-3xl font-display font-bold text-white uppercase tracking-tight">{c.title}</h3>
                 </div>
