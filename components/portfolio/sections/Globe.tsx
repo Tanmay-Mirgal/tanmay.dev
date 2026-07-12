@@ -26,15 +26,15 @@ const GLOBE_CONFIG = {
 };
 
 export function Globe() {
-  let phi = 0;
+  const phi = useRef(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointerInteracting = useRef<number | null>(null);
   const pointerDelta = useRef(0);
   const rOffset = useRef(0);
 
   const onRender = useCallback((state: Record<string, number>) => {
-    if (!pointerInteracting.current) phi += 0.004;
-    state.phi = phi + rOffset.current;
+    if (!pointerInteracting.current) phi.current += 0.004;
+    state.phi = phi.current + rOffset.current;
   }, []);
 
   useEffect(() => {

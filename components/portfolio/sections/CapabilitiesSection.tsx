@@ -15,7 +15,7 @@ interface Skill {
   colorClass?: string;
 }
 
-export const CapabilitiesSection = ({ skills }: { skills?: Skill[] }) => {
+export const CapabilitiesSection = () => {
   const convexSkills = useQuery(api.portfolio.getSkills);
 
   const staticCapabilities: Skill[] = [
@@ -43,7 +43,7 @@ export const CapabilitiesSection = ({ skills }: { skills?: Skill[] }) => {
         <p className="text-2xl min-[400px]:text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white max-w-2xl leading-tight">I engineer systems that <br className="hidden sm:block"/><span className="text-white/30 italic">dominate complexity.</span></p>
       </div>
       <div className="flex flex-col gap-6 md:gap-12">
-        {displayCapabilities.map((c, i) => (
+        {displayCapabilities.map((c: any, i) => (
           <HolographicNode key={i} id={`cap_node_${i}`}>
             <div className="bg-[#050505] p-6 sm:p-10 lg:p-14 border border-white/5 flex flex-col md:flex-row gap-4 md:gap-8 items-start group hover:border-[#D4AF37]/30 transition-all duration-700 relative overflow-hidden">
               <div className="absolute top-1/2 right-4 sm:right-8 text-[80px] md:text-[160px] text-white/20 font-black leading-none pointer-events-none font-mono -translate-y-1/2">0{i+1}</div>
