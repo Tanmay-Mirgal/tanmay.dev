@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as clear from "../clear.js";
 import type * as portfolio from "../portfolio.js";
 import type * as seed from "../seed.js";
 
@@ -18,6 +19,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  clear: typeof clear;
   portfolio: typeof portfolio;
   seed: typeof seed;
 }>;

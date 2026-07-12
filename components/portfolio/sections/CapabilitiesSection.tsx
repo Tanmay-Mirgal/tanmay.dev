@@ -4,6 +4,9 @@ import React from "react";
 import { HolographicNode } from "../HolographicNode";
 import * as LucideIcons from "lucide-react";
 
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+
 interface Skill {
   title: string;
   desc: string;
@@ -13,6 +16,8 @@ interface Skill {
 }
 
 export const CapabilitiesSection = ({ skills }: { skills?: Skill[] }) => {
+  const convexSkills = useQuery(api.portfolio.getSkills);
+
   const staticCapabilities: Skill[] = [
     { title: "Full-Stack Ownership", desc: "Zero hand-holding required. I architect and engineer the entire MERN system—from responsive interfaces to secure backend APIs.", iconName: "Layers", colorClass: "text-[#D4AF37]" },
     { title: "Machine Learning / Vision", desc: "Deep Learning models, TensorFlow, and advanced OpenCV vision layers seamlessly integrated into scalable APIs.", iconName: "Cpu", colorClass: "text-emerald-500" },
@@ -20,7 +25,7 @@ export const CapabilitiesSection = ({ skills }: { skills?: Skill[] }) => {
     { title: "Fast Production Delivery", desc: "I ship highly scalable, performance-driven web products blazingly fast without compromising quality.", iconName: "Zap", colorClass: "text-[#F9A826]" },
   ];
 
-  const displayCapabilities = skills && skills.length > 0 ? skills : staticCapabilities;
+  const displayCapabilities = convexSkills !== undefined && convexSkills.length > 0 ? convexSkills : staticCapabilities;
 
   const renderIcon = (iconName: string, index: number) => {
     // @ts-expect-error - Dynamic icon rendering

@@ -72,14 +72,15 @@ export const HeroSection = () => {
       {/* 2. Bold Headline */}
       <div className="space-y-6 max-w-3xl">
         <h1 className="text-[32px] sm:text-[44px] md:text-[54px] font-display font-extrabold tracking-tight leading-[1.08] text-white">
-          Hey, I&apos;m Tanmay Mirgal <br />
-          Full-Stack Engineer & ML/DL <br />
-          Engineer
+          Tanmay Mirgal
+          <span className="block text-white/40 font-medium text-[22px] sm:text-[28px] md:text-[36px] mt-2 sm:mt-3">
+            Full-Stack & AI Engineer
+          </span>
         </h1>
         
         {/* Description Paragraph */}
         <p className="text-sm sm:text-base text-white/50 leading-relaxed font-sans font-light max-w-2xl">
-          I&apos;m Tanmay, a full-stack and ML/DL engineer with a passion for AI, data science, and computer vision. I build production-ready applications and systems that make a difference.
+          I design and build high-performance systems bridging modern web architecture and machine learning. From scalable SaaS platforms to sophisticated computer vision pipelines, I engineer robust solutions that push the boundaries of what&apos;s possible.
         </p>
       </div>
 

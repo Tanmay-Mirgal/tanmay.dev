@@ -16,6 +16,7 @@ export const addProject = mutation({
     tags: v.array(v.string()),
     link: v.string(),
     image: v.string(),
+    liveLink: v.optional(v.string()),
     order: v.optional(v.float64()),
   },
   handler: async (ctx, args) => {

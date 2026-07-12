@@ -3,11 +3,21 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Award, Check } from "lucide-react";
-import { achievementsData } from "@/data/portfolio";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { Achievement } from "@/types";
 
 export const AchievementsSection = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<Achievement | null>(null);
+  const achievementsData = useQuery(api.portfolio.getAchievements);
+
+  if (achievementsData === undefined) {
+    return (
+      <section id="achievements" className="py-16 border-t border-white/[0.06] flex justify-center items-center">
+        <div className="text-white/50 font-mono text-xs uppercase tracking-widest animate-pulse">Loading Achievements...</div>
+      </section>
+    );
+  }
 
   // Filter achievements & hackathons (exclude standard course certifications)
   const achievements = achievementsData.filter((item) => {
