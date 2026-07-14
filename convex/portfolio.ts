@@ -4,7 +4,8 @@ import { v } from "convex/values";
 // --- Projects ---
 export const getProjects = query({
   handler: async (ctx) => {
-    return await ctx.db.query("projects").order("asc").collect();
+    const projects = await ctx.db.query("projects").collect();
+    return projects.sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity));
   },
 });
 
