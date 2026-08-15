@@ -74,6 +74,14 @@ export const achievementsData: Achievement[] = [
   //   desc: "Advanced certification for component-driven architecture and state management in production-grade React applications." 
   // },
   { 
+    title: "Complete MLOps Bootcamp With 10  End To End ML Projects", 
+    org: "Udemy", 
+    date: "Aug 2026", 
+    url: "https://res.cloudinary.com/dmspullpt/image/upload/v1786774600/Udemy_Mlops_Course_jklfsg.jpg", 
+    type: "image", 
+    desc: "Learned end-to-end MLOps with Docker, MLflow, DVC, DagsHub, Airflow, CI/CD, AWS SageMaker, and Grafana, covering ML pipelines, deployment, versioning, and monitoring." 
+  },
+  { 
     title: "TENSORFLOW FOR DEEP LEARNING", 
     org: "Udemy", 
     date: "Aug 2025", 
