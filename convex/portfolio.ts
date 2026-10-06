@@ -70,7 +70,8 @@ export const addSkill = mutation({
 // --- Experience ---
 export const getExperience = query({
   handler: async (ctx) => {
-    return await ctx.db.query("experience").order("asc").collect();
+    const experiences = await ctx.db.query("experience").collect();
+    return experiences.sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity));
   },
 });
 
@@ -84,6 +85,28 @@ export const addExperience = mutation({
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("experience", args);
+  },
+});
+
+export const addScoutExperience = mutation({
+  handler: async (ctx) => {
+    const existing = await ctx.db
+      .query("experience")
+      .filter((q) => q.eq(q.field("company"), "Open Source Connect India"))
+      .collect();
+    if (existing.length > 0) {
+      return "Already exists";
+    }
+    return await ctx.db.insert("experience", {
+      date: "2026-01 - Present",
+      role: "Project Manager",
+      company: "Open Source Connect India",
+      bullets: [
+        "Led the development and open-source delivery of Scout, a multi-agent research and intelligence platform that turns complex questions into structured, evidence-backed insights.",
+        "Architected a scalable monorepo comprising a Next.js web application, FastAPI backend, and automated research agent pipeline with Docker and PostgreSQL; directed contributor workflows, PR reviews, and CI/CD quality gates.",
+      ],
+      order: 3,
+    });
   },
 });
 

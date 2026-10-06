@@ -185,6 +185,15 @@ export const seed = mutation({
         tags: ["React Native", "Express.js", "MongoDB", "RAG", "AWS", "MLOps"], 
         link: "https://github.com/Tanmay-Mirgal/Cognix",
         image: "https://res.cloudinary.com/dmspullpt/image/upload/f_auto,q_auto/v1776528059/Screenshot_2026-04-18_213005_daxafw.png"
+      },
+      { 
+        title: "Orb", 
+        desc: "Orb is a self-hosted web application deployment platform. Connect your GitHub repositories, push your code, and Orb handles the rest — building your app inside a sandboxed Docker container, storing the artifact in MinIO, and routing live traffic through its edge proxy with automatic SSL.", 
+        fullDesc: "Orb is a self-hosted web application deployment platform. Connect your GitHub repositories, push your code, and Orb handles the rest — building your app inside a sandboxed Docker container, storing the artifact in MinIO, and routing live traffic through its edge proxy with automatic SSL.",
+        tags: ["Nextjs", "Redis", "Postgres", "MinIO", "Docker", "BETTER_AUTH", "AWS(EC2)"], 
+        link: "https://github.com/Tanmay-Mirgal/Orb",
+        liveLink: "https://orb.tanmaymirgal.dev/",
+        image: "https://res.cloudinary.com/dmspullpt/image/upload/v1783998387/Orb_dkcnbp.jpg"
       }
     ];
 
@@ -225,6 +234,16 @@ export const seed = mutation({
           "Delivered product search, category filtering, and pricing comparison across 10+ categories; reviewed PRs and resolved issues following CI/CD guidelines.",
         ],
         order: 2,
+      },
+      {
+        date: "2026-01 - Present",
+        role: "Project Manager",
+        company: "Open Source Connect India",
+        bullets: [
+          "Led the development and open-source delivery of Scout, a multi-agent research and intelligence platform that turns complex questions into structured, evidence-backed insights.",
+          "Architected a scalable monorepo comprising a Next.js web application, FastAPI backend, and automated research agent pipeline with Docker and PostgreSQL; directed contributor workflows, PR reviews, and CI/CD quality gates.",
+        ],
+        order: 3,
       },
     ];
 
