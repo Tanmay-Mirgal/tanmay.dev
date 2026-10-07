@@ -24,6 +24,15 @@ export const seed = mutation({
     // Achievements
     const achievements = [
       { 
+        title: "Technathon 2026 — Best Full Stack Project Winner", 
+        org: "Vasantdada Patil Pratishthan's College of Engineering and Visual Arts", 
+        date: "October 2026", 
+        desc: "Awarded the Best Full Stack Project at Technathon 2026 after successfully competing through three intense rounds with Team Coding Gurus.", 
+        url: "https://res.cloudinary.com/dmspullpt/image/upload/v1791391036/WhatsApp_Image_2026-10-07_at_9.18.25_PM_jm0xn6.jpg", 
+        type: "image" as const, 
+        order: 1
+      },
+      { 
         title: "INNOVGENIUS IDEATHON × TCS", 
         org: "Tata Consultancy Services", 
         date: "2025", 
@@ -127,6 +136,29 @@ export const seed = mutation({
 
     // Projects
     const projects = [
+      { 
+        title: "Swasthya", 
+        desc: "AI-powered rehabilitation assistant that uses computer vision to provide real-time exercise feedback, repetition counting, and progress tracking from home.", 
+        fullDesc: "Swasthya is a software-based rehabilitation assistant designed to help patients perform rehabilitation exercises safely from home. Using a standard smartphone or laptop camera, it performs real-time pose detection with MediaPipe, tracks 33 3D body landmarks, analyzes joint movements, counts valid repetitions, and provides visual and voice-based form feedback. The platform also includes patient progress tracking, therapist exercise prescription, session reviews, real-time chat, and WebRTC video consultations, creating a connected rehabilitation experience between patients and healthcare professionals.", 
+        tags: [
+          "Next.js",
+          "TypeScript",
+          "React",
+          "Tailwind CSS",
+          "MediaPipe",
+          "Computer Vision",
+          "MongoDB",
+          "Mongoose",
+          "Clerk",
+          "WebSockets",
+          "WebRTC",
+          "Shadcn UI"
+        ], 
+        link: "https://github.com/Tanmay-Mirgal/Swasthya", 
+        liveLink: "https://swasthya.tanmaymirgal.dev/", 
+        image: "https://res.cloudinary.com/dmspullpt/image/upload/v1791391602/swasthya_qnwlnv.png",
+        order: 1
+      },
       { 
         title: "Slate", 
         desc: "Slate is a premium, enterprise-grade SaaS application designed to eliminate the friction between thinking, drawing, and documenting.", 

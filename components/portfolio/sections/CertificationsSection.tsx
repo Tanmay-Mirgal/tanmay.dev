@@ -27,6 +27,7 @@ export const CertificationsSection = () => {
       title.includes("CERTIFICATION") ||
       title.includes("FUNDAMENTALS") ||
       title.includes("LEARNING") ||
+      title.includes("TECHNATHON") ||
       item.org.toUpperCase().includes("UDEMY") ||
       item.org.toUpperCase().includes("POSTMAN")
     );

@@ -28,7 +28,8 @@ export const addProject = mutation({
 // --- Achievements ---
 export const getAchievements = query({
   handler: async (ctx) => {
-    return await ctx.db.query("achievements").order("asc").collect();
+    const achievements = await ctx.db.query("achievements").collect();
+    return achievements.sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity));
   },
 });
 

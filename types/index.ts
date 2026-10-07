@@ -5,6 +5,7 @@ export interface Achievement {
   desc: string;
   url: string;
   type: "image" | "pdf";
+  order?: number;
 }
 
 export interface Project {
@@ -15,4 +16,5 @@ export interface Project {
   link: string;
   image: string;
   liveLink?: string;
+  order?: number;
 }
