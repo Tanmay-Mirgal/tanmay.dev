@@ -4,11 +4,10 @@ import React, { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Section } from "@/components/portfolio/Section";
 import { Reveal } from "@/components/portfolio/Reveal";
-import DecryptedText from "@/components/ui/DecryptedText";
 import { EMAIL, LINKS } from "@/lib/links";
 
 const fieldClass =
-  "w-full border-0 border-b border-line bg-transparent py-3 text-[15px] text-paper outline-none transition-colors placeholder:text-faint focus:border-paper";
+  "mt-2 w-full rounded-xl border border-line bg-surface px-4 py-3.5 text-[15px] text-paper outline-none transition-colors placeholder:text-faint focus:border-paper";
 
 export const ContactSection = () => {
   const [email, setEmail] = useState("");
@@ -44,7 +43,7 @@ export const ContactSection = () => {
         <p className="label mb-4">Have a project, role, or proposal?</p>
         <a
           href={`mailto:${EMAIL}`}
-          className="display u-link block break-words pb-2 text-[clamp(1.7rem,5.6vw,5.5rem)] !leading-[1.05]"
+          className="display u-link block break-words pb-2 text-[clamp(1.6rem,6vw,5.5rem)] !leading-[1.05]"
         >
           {EMAIL}
         </a>
@@ -53,7 +52,7 @@ export const ContactSection = () => {
       <div className="grid-12 gap-y-14">
         <Reveal className="col-span-12 md:col-span-7">
           {status === "idle" ? (
-            <form onSubmit={handleSend} className="space-y-8">
+            <form onSubmit={handleSend} className="space-y-6">
               <div>
                 <label htmlFor="fromEmail" className="label">
                   Your email
@@ -92,7 +91,7 @@ export const ContactSection = () => {
                 <textarea
                   id="payload"
                   required
-                  rows={4}
+                  rows={5}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="A few lines about what you have in mind"
@@ -102,14 +101,14 @@ export const ContactSection = () => {
 
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 bg-paper px-6 py-4 font-mono text-[11px] uppercase tracking-[0.08em] text-ink transition-colors hover:bg-white"
+                className="inline-flex items-center gap-2 rounded-full bg-paper px-7 py-4 text-base font-semibold text-ink transition-opacity hover:opacity-85"
               >
-                Compose email <ArrowUpRight size={13} aria-hidden="true" />
+                Compose email <ArrowUpRight size={16} aria-hidden="true" />
               </button>
             </form>
           ) : (
-            <div role="status" className="space-y-5 border-t border-line pt-6">
-              <p className="display text-[clamp(1.75rem,3vw,2.75rem)] !leading-[1.1]">
+            <div role="status" className="space-y-5 rounded-2xl border border-line bg-surface p-7">
+              <p className="display text-[clamp(1.5rem,2.6vw,2.25rem)] !leading-[1.1]">
                 Your email app should be open with the message drafted.
               </p>
               <p className="text-sm leading-relaxed text-mute">
@@ -143,11 +142,11 @@ export const ContactSection = () => {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between py-4 font-mono text-[11px] uppercase tracking-[0.08em] text-paper"
+                  className="group flex items-center justify-between py-4 text-[17px] font-medium"
                 >
-                  <DecryptedText text={name} />
+                  {name}
                   <ArrowUpRight
-                    size={14}
+                    size={18}
                     aria-hidden="true"
                     className="text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-paper"
                   />

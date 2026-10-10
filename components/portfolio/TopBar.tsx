@@ -1,39 +1,42 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { MobileMenu } from "@/components/portfolio/SidebarNav";
 
-const formatIST = () =>
-  new Date().toLocaleTimeString("en-GB", {
-    timeZone: "Asia/Kolkata",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
+const TOP_LINKS = [
+  { label: "Work", href: "#work", ids: ["work"] },
+  { label: "Projects", href: "#projects", ids: ["projects"] },
+  { label: "Skills", href: "#skills", ids: ["skills"] },
+  { label: "Awards", href: "#achievements", ids: ["achievements", "certifications", "publications"] },
+  { label: "Contact", href: "#contact", ids: ["contact"] },
+];
 
-export const TopBar = () => {
-  // Empty on the server and first client render, so hydration always matches.
-  const [time, setTime] = useState("");
+export const TopBar = ({ activeSection }: { activeSection: string }) => (
+  <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-ink/80 backdrop-blur-md">
+    <div className="shell flex h-16 items-center justify-between">
+      <a href="#top" className="text-[15px] font-semibold tracking-tight">
+        Tanmay Mirgal
+      </a>
 
-  useEffect(() => {
-    const tick = () => setTime(formatIST());
-    tick();
-    const interval = setInterval(tick, 15_000);
-    return () => clearInterval(interval);
-  }, []);
+      <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
+        {TOP_LINKS.map((link) => {
+          const active = link.ids.includes(activeSection);
+          return (
+            <a
+              key={link.label}
+              href={link.href}
+              aria-current={active ? "location" : undefined}
+              className={`rounded-full px-4 py-2 text-[15px] font-medium transition-colors ${
+                active ? "bg-paper text-ink" : "text-mute hover:text-paper"
+              }`}
+            >
+              {link.label}
+            </a>
+          );
+        })}
+      </nav>
 
-  return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-40 text-white mix-blend-difference">
-      <div className="shell flex items-center justify-between py-5">
-        <a
-          href="#top"
-          className="pointer-events-auto font-mono text-[11px] uppercase tracking-[0.08em]"
-        >
-          Tanmay Mirgal
-        </a>
-        <p className="label hidden !text-white lg:block" aria-label="Local time in India">
-          IST <span className="tabular-nums">{time || "--:--"}</span>
-        </p>
-      </div>
-    </header>
-  );
-};
+      <MobileMenu activeSection={activeSection} />
+    </div>
+  </header>
+);

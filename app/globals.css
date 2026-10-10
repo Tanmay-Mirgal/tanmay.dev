@@ -3,27 +3,27 @@
 /* Font utilities (font-display / font-sans / font-mono). `inline` resolves the
    next/font variables, which live on <body>, at the point of use. */
 @theme inline {
-  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
-/* `static` always emits these as :root custom properties, so hand-written CSS
-   below can use var(--color-*) as well as the generated utilities. */
+/* Light theme. Token names are kept from the dark builds so every component keeps
+   working: `ink` is the page background and `paper` is the text colour on it.
+   `static` always emits these as :root custom properties for hand-written CSS. */
 @theme static {
-  --color-ink: #0a0a0a;
-  --color-graphite: #141414;
-  --color-paper: #ecebe6;
-  --color-line: rgb(236 235 230 / 0.14);
-  --color-mute: rgb(236 235 230 / 0.64);
-  --color-faint: rgb(236 235 230 / 0.4);
+  --color-ink: #e8e7e2;
+  --color-surface: #f4f3ef;
+  --color-paper: #0c0c0c;
+  --color-line: rgb(12 12 12 / 0.14);
+  --color-mute: rgb(12 12 12 / 0.64);
+  --color-faint: rgb(12 12 12 / 0.42);
 }
 
 :root {
-  --gutter: clamp(1.25rem, 4.2vw, 4.5rem);
-  color-scheme: dark;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  color-scheme: light;
 }
-
 
 html {
   background-color: var(--color-ink);
@@ -33,7 +33,7 @@ html {
 body {
   background-color: var(--color-ink);
   color: var(--color-paper);
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -44,36 +44,29 @@ body {
   color: var(--color-ink);
 }
 
-/* Fine grain: one static, non-animated, non-interactive layer */
+/* Fine paper grain: one static, non-animated, non-interactive layer */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 90;
   pointer-events: none;
-  opacity: 0.045;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .7 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .8 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 :focus-visible {
-  outline: 1px solid var(--color-paper);
-  outline-offset: 4px;
+  outline: 2px solid var(--color-paper);
+  outline-offset: 3px;
 }
 
 /* ───────── Layout primitives ───────── */
 
 .shell {
   width: 100%;
-  max-width: 1760px;
+  max-width: 1600px;
   margin-inline: auto;
   padding-inline: var(--gutter);
-}
-
-/* Reserve room for the fixed section rail on desktop */
-@media (min-width: 1024px) {
-  .shell {
-    padding-right: calc(var(--gutter) + 8.5rem);
-  }
 }
 
 .grid-12 {
@@ -85,14 +78,14 @@ body::after {
 /* ───────── Type ───────── */
 
 .display {
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 500;
-  letter-spacing: -0.055em;
-  line-height: 0.9;
+  font-family: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
 }
 
 .label {
-  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -100,13 +93,20 @@ body::after {
 }
 
 .hero-name {
-  font-size: min(25vw, 24svh);
+  font-size: clamp(4rem, 21vw, 7.5rem);
   line-height: 0.84;
+  letter-spacing: -0.065em;
+}
+
+@media (min-width: 640px) {
+  .hero-name {
+    font-size: clamp(5rem, 15vw, 9rem);
+  }
 }
 
 @media (min-width: 1024px) {
   .hero-name {
-    font-size: min(15vw, 30svh);
+    font-size: clamp(7rem, 11.8vw, 12rem);
   }
 }
 
@@ -115,26 +115,22 @@ body::after {
   background-image: linear-gradient(currentColor, currentColor);
   background-repeat: no-repeat;
   background-position: 0 100%;
-  background-size: 0% 1px;
+  background-size: 0% 1.5px;
   transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .u-link:hover,
 .u-link:focus-visible {
-  background-size: 100% 1px;
+  background-size: 100% 1.5px;
 }
 
-/* Project / record imagery stays monochrome until the pointer engages.
-   Touch devices have no hover, so they always get the real colours. */
-@media (hover: hover) and (pointer: fine) {
-  .mono-img {
-    filter: grayscale(1) contrast(1.05);
-    transition: filter 0.6s ease;
-  }
-  .group:hover .mono-img,
-  .group:focus-visible .mono-img,
-  .mono-img:hover {
-    filter: none;
-  }
+/* Product screenshot frame: soft depth, hairline edge */
+.shot {
+  background: var(--color-surface);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 30px 60px -22px rgb(12 12 12 / 0.35),
+    0 0 0 1px rgb(12 12 12 / 0.08);
 }
 
 .skip-link {
@@ -145,7 +141,7 @@ body::after {
   padding: 0.6rem 1rem;
   background: var(--color-paper);
   color: var(--color-ink);
-  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
   font-size: 0.75rem;
   transform: translateY(-200%);
 }
@@ -167,27 +163,6 @@ body::after {
   animation: fade-in 0.35s ease-out both;
 }
 
-@keyframes scroll-cue {
-  0% {
-    transform: scaleY(0);
-    transform-origin: top;
-  }
-  50% {
-    transform: scaleY(1);
-    transform-origin: top;
-  }
-  51% {
-    transform-origin: bottom;
-  }
-  100% {
-    transform: scaleY(0);
-    transform-origin: bottom;
-  }
-}
-.scroll-cue {
-  animation: scroll-cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -204,73 +179,16 @@ body::after {
 /* ───────── Scrollbar ───────── */
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(12, 12, 12, 0.18);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.18);
-}
-
-/* ───────── Legacy utilities (kept for components outside the live page) ───────── */
-
-.btn-pill-dark {
-  background-color: #ffffff;
-  color: #0b0b0c;
-  border-radius: 9999px;
-  font-weight: 500;
-}
-.btn-pill-light {
-  background-color: rgba(255, 255, 255, 0.04);
-  color: #f4f4f5;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  font-weight: 500;
-}
-.badge-blue {
-  background-color: rgba(37, 99, 235, 0.12);
-  color: #60a5fa;
-  border: 1px solid rgba(37, 99, 235, 0.25);
-}
-.badge-green {
-  background-color: rgba(5, 150, 105, 0.12);
-  color: #34d399;
-  border: 1px solid rgba(5, 150, 105, 0.25);
-}
-.badge-gray {
-  background-color: rgba(255, 255, 255, 0.04);
-  color: #d4d4d8;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-.grid-dashed-backdrop {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 16px 16px;
-  border: 1px dashed rgba(255, 255, 255, 0.12);
-}
-@keyframes orbit {
-  0% {
-    transform: rotate(var(--angle)) translateX(calc(var(--radius) * 1px))
-      rotate(calc(-1 * var(--angle)));
-  }
-  100% {
-    transform: rotate(calc(var(--angle) + 360deg)) translateX(calc(var(--radius) * 1px))
-      rotate(calc(-1 * (var(--angle) + 360deg)));
-  }
-}
-.animate-orbit {
-  animation: orbit calc(var(--duration) * 1s) linear infinite;
-  animation-delay: calc(var(--delay) * 1s);
-}
-
-/* The static skeleton gives way once the 3D sculpture has taken its place */
-html[data-sculpture="ready"] .sculpture-still {
-  opacity: 0;
+  background: rgba(12, 12, 12, 0.3);
 }
