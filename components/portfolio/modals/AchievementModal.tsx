@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { Achievement } from "@/types";
+import { useDialog } from "@/hooks/useDialog";
 
 interface AchievementModalProps {
   selectedAchievement: Achievement | null;
@@ -12,25 +12,67 @@ interface AchievementModalProps {
 }
 
 export const AchievementModal = ({ selectedAchievement, setSelectedAchievement }: AchievementModalProps) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const close = () => setSelectedAchievement(null);
+
+  useDialog(selectedAchievement !== null, close, dialogRef);
+
   if (!selectedAchievement) return null;
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-6 bg-black/98 backdrop-blur-3xl">
-      <button onClick={() => setSelectedAchievement(null)} className="absolute top-6 right-6 text-white/50 hover:text-[#D4AF37] z-[2001] border border-white/10 bg-white/5 p-3 rounded hover:bg-white/10"><X size={24} /></button>
-      <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} className="relative w-full max-w-5xl aspect-video bg-[#050505] border border-[#D4AF37]/30 flex flex-col p-2">
-        <div className="relative flex-1 bg-black border border-white/5 overflow-hidden">
-          {selectedAchievement.type === 'pdf' ? (
-            <iframe src={selectedAchievement.url} className="w-full h-full bg-white"/>
+    <div
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="record-modal-title"
+      tabIndex={-1}
+      className="animate-fade-in fixed inset-0 z-[2000] flex flex-col bg-ink/97 p-4 backdrop-blur-sm sm:p-8"
+      onClick={close}
+    >
+      <div
+        className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between gap-4 border-b border-line pb-4">
+          <p className="label">
+            {selectedAchievement.org} <span className="mx-2 text-faint">/</span> {selectedAchievement.date}
+          </p>
+          <button
+            type="button"
+            onClick={close}
+            aria-label="Close preview"
+            className="border border-line p-2 text-mute transition-colors hover:text-paper"
+          >
+            <X size={18} aria-hidden="true" />
+          </button>
+        </div>
+
+        <div className="relative my-5 min-h-0 flex-1 overflow-hidden border border-line bg-paper/5">
+          {selectedAchievement.type === "pdf" ? (
+            <iframe
+              src={selectedAchievement.url}
+              title={selectedAchievement.title}
+              className="h-full w-full bg-white"
+            />
           ) : (
-            <Image src={selectedAchievement.url} alt={selectedAchievement.title} fill className="object-contain p-2"/>
+            <Image
+              src={selectedAchievement.url}
+              alt={selectedAchievement.title}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              className="object-contain p-3"
+            />
           )}
         </div>
-        <div className="p-8 pb-4">
-          <p className="text-[#D4AF37] font-mono text-[10px] uppercase mb-2">{selectedAchievement.org} | {selectedAchievement.date}</p>
-          <h3 className="text-3xl font-display font-medium text-white mb-2">{selectedAchievement.title}</h3>
-          <p className="text-white/50 text-sm font-light">{selectedAchievement.desc}</p>
+
+        <div className="max-w-2xl space-y-2 pb-1">
+          <h3 id="record-modal-title" className="text-lg font-medium leading-snug">
+            {selectedAchievement.title}
+          </h3>
+          <p className="text-sm leading-relaxed text-mute">{selectedAchievement.desc}</p>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };

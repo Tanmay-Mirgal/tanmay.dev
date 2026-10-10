@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { X, Github, ArrowUpRight, Globe } from "lucide-react";
 import { Project } from "@/types";
+import { useDialog } from "@/hooks/useDialog";
 
 interface ProjectModalProps {
   selectedProject: Project | null;
@@ -12,121 +12,112 @@ interface ProjectModalProps {
 }
 
 export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectModalProps) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const close = () => setSelectedProject(null);
+
+  useDialog(selectedProject !== null, close, dialogRef);
+
   if (!selectedProject) return null;
 
+  const buttonBase =
+    "inline-flex items-center gap-2 px-5 py-3.5 font-mono text-[11px] uppercase tracking-[0.08em] transition-colors";
+
   return (
-    <motion.div 
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
-      exit={{ opacity: 0 }} 
-      className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-6 bg-black/98 backdrop-blur-3xl overflow-y-auto"
-    >
-      <div className="absolute inset-0" onClick={() => setSelectedProject(null)} />
-      
-      <motion.div 
-        initial={{ scale: 0.98, y: 15 }} 
-        animate={{ scale: 1, y: 0 }} 
-        className="relative w-full max-w-5xl border border-white/[0.06] bg-[#0E0E10] p-6 sm:p-10 md:p-12 shadow-2xl z-10 my-8 rounded-2xl"
+    <div className="animate-fade-in fixed inset-0 z-[2000] overflow-y-auto bg-ink/95 p-4 backdrop-blur-sm md:p-8">
+      <div className="absolute inset-0" onClick={close} aria-hidden="true" />
+
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="project-modal-title"
+        tabIndex={-1}
+        className="relative z-10 mx-auto my-4 w-full max-w-6xl border border-line bg-ink p-6 sm:p-10 md:my-8 md:p-14"
       >
-        {/* Close Button */}
-        <button 
-          onClick={() => setSelectedProject(null)} 
-          className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-2 rounded-full border border-white/5 bg-white/[0.02] cursor-pointer"
+        <button
+          type="button"
+          onClick={close}
+          aria-label="Close project details"
+          className="absolute right-4 top-4 border border-line p-2 text-mute transition-colors hover:text-paper"
         >
-          <X size={18} />
+          <X size={18} aria-hidden="true" />
         </button>
 
-        {/* Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 pt-4">
-          
-          {/* Left Column: Title & Metadata */}
-          <div className="lg:col-span-5 flex flex-col justify-between space-y-8 lg:space-y-0">
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <span className="text-[10px] font-mono text-white/30 uppercase tracking-[0.25em]">Project Dossier</span>
-                <h3 className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-white uppercase tracking-tight leading-tight">
+        <div className="grid gap-10 pt-6 lg:grid-cols-12 lg:gap-14">
+          <div className="flex flex-col justify-between gap-10 lg:col-span-5">
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <p className="label">Project</p>
+                <h3
+                  id="project-modal-title"
+                  className="display text-[clamp(2.75rem,6vw,5rem)] !leading-[0.95]"
+                >
                   {selectedProject.title}
                 </h3>
               </div>
 
-              {/* Specs / Meta */}
-              <div className="space-y-4 pt-4 border-t border-white/[0.06]">
-                <div className="space-y-1">
-                  <span className="text-[9px] font-mono text-white/30 uppercase tracking-wider block mb-1">Technologies</span>
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs text-white/70 font-mono">
-                    {selectedProject.tags.map((t, idx) => (
-                      <React.Fragment key={t}>
-                        <span>{t}</span>
-                        {idx < selectedProject.tags.length - 1 && <span className="text-white/20">•</span>}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                </div>
+              <div className="space-y-3 border-t border-line pt-6">
+                <p className="label">Technologies</p>
+                <ul className="flex flex-wrap gap-x-4 gap-y-2 font-mono text-xs text-paper/80">
+                  {selectedProject.tags.map((tag) => (
+                    <li key={tag}>{tag}</li>
+                  ))}
+                </ul>
               </div>
             </div>
 
-            {/* CTA Button */}
-            <div className="pt-6 lg:pt-0 flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3">
               {selectedProject.liveLink && (
-                <a 
-                  href={selectedProject.liveLink} 
-                  target="_blank" 
+                <a
+                  href={selectedProject.liveLink}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-3.5 bg-white text-[#0B0B0C] hover:bg-zinc-200 font-mono font-bold uppercase tracking-widest text-[9px] sm:text-[10px] rounded-xl transition-all duration-300 shadow-sm active:scale-95 cursor-pointer"
+                  className={`${buttonBase} bg-paper text-ink hover:bg-white`}
                 >
-                  <Globe size={14} /> Live Demo <ArrowUpRight size={12} />
+                  <Globe size={14} aria-hidden="true" /> Live demo <ArrowUpRight size={12} aria-hidden="true" />
                 </a>
               )}
               {selectedProject.link === "#" ? (
-                <div 
-                  className="inline-flex items-center gap-2 px-5 py-3.5 border border-white/5 bg-white/[0.01] text-white/30 font-mono font-bold uppercase tracking-widest text-[9px] sm:text-[10px] rounded-xl cursor-not-allowed select-none"
-                >
-                  🔒 Confidential Source
-                </div>
+                <span className={`${buttonBase} cursor-not-allowed border border-line text-faint`}>
+                  Confidential source
+                </span>
               ) : (
-                <a 
-                  href={selectedProject.link} 
-                  target="_blank" 
+                <a
+                  href={selectedProject.link}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-2 px-5 py-3.5 font-mono font-bold uppercase tracking-widest text-[9px] sm:text-[10px] rounded-xl transition-all duration-300 shadow-sm active:scale-95 cursor-pointer ${
+                  className={`${buttonBase} ${
                     selectedProject.liveLink
-                      ? "border border-white/[0.08] bg-white/[0.02] text-white hover:bg-white/[0.06] hover:border-white/20"
-                      : "bg-white text-[#0B0B0C] hover:bg-zinc-200"
+                      ? "border border-line text-paper hover:border-paper/50"
+                      : "bg-paper text-ink hover:bg-white"
                   }`}
                 >
-                  <Github size={14} /> Source Access <ArrowUpRight size={12} />
+                  <Github size={14} aria-hidden="true" /> Source <ArrowUpRight size={12} aria-hidden="true" />
                 </a>
               )}
             </div>
-
           </div>
 
-          {/* Right Column: Image & Description */}
-          <div className="lg:col-span-7 space-y-6">
-            
-            {/* Image Container */}
-            <div className="relative w-full aspect-[16/10] border border-white/[0.08] rounded-2xl overflow-hidden bg-zinc-955 shadow-md">
-              <Image 
-                src={selectedProject.image} 
-                alt={selectedProject.title} 
-                fill 
-                className="object-cover" 
+          <div className="space-y-8 lg:col-span-7">
+            <div className="relative aspect-[16/10] overflow-hidden border border-line bg-paper/5">
+              <Image
+                src={selectedProject.image}
+                alt={`${selectedProject.title} screenshot`}
+                fill
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                className="object-cover"
               />
             </div>
 
-            {/* Full description */}
-            <div className="space-y-2">
-              <span className="text-[9px] font-mono text-white/30 uppercase tracking-wider block">Overview</span>
-              <p className="text-sm sm:text-base text-zinc-400 leading-relaxed font-sans font-light">
+            <div className="space-y-3">
+              <p className="label">Overview</p>
+              <p className="text-[15px] leading-relaxed text-mute sm:text-base">
                 {selectedProject.fullDesc}
               </p>
             </div>
-
           </div>
-
         </div>
-
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };

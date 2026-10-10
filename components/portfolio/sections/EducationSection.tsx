@@ -2,62 +2,37 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Section } from "@/components/portfolio/Section";
+import { Reveal } from "@/components/portfolio/Reveal";
+import { ListSkeleton } from "@/components/portfolio/ListSkeleton";
 
 export const EducationSection = () => {
   const educations = useQuery(api.portfolio.getEducation);
 
-  if (educations === undefined) {
-    return (
-      <section id="education" className="py-16 border-t border-white/[0.06] relative space-y-10 select-none">
-        <div className="space-y-1">
-          <h2 className="text-2xl sm:text-3xl font-display font-black tracking-tight text-white uppercase">
-            Education
-          </h2>
-        </div>
-        <div className="text-white/50 text-sm">Loading...</div>
-      </section>
-    );
-  }
-
   return (
-    <section id="education" className="py-16 border-t border-white/[0.06] relative space-y-10 select-none">
-      
-      {/* Title */}
-      <div className="space-y-1">
-        <h2 className="text-2xl sm:text-3xl font-display font-black tracking-tight text-white uppercase">
-          Education
-        </h2>
-      </div>
-
-      {/* Entries */}
-      <div className="space-y-12">
-        {educations.map((edu, idx) => (
-          <div key={idx} className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8 font-sans">
-            
-            {/* Date column */}
-            <div className="w-full md:w-36 shrink-0 font-mono text-[10px] text-white/30 tracking-wider">
-              {edu.date}
-            </div>
-
-            {/* Content Details */}
-            <div className="flex-1 space-y-3">
-              <div className="flex flex-wrap items-center gap-2.5">
-                <h3 className="text-sm sm:text-base font-display font-bold text-white leading-snug">
+    <Section id="education" index="04" eyebrow="Education" title="Education">
+      {educations === undefined ? (
+        <ListSkeleton rows={1} />
+      ) : (
+        <ol className="border-t border-line">
+          {educations.map((edu) => (
+            <Reveal
+              as="li"
+              key={edu._id}
+              className="grid gap-x-10 gap-y-6 border-b border-line py-10 md:grid-cols-12 md:py-14"
+            >
+              <div className="md:col-span-5">
+                <p className="label">{edu.date}</p>
+                <h3 className="display mt-4 text-[clamp(1.75rem,2.6vw,2.5rem)] !leading-[1.08]">
                   {edu.degree}
                 </h3>
-                <span className="badge-blue px-2.5 py-0.5 rounded-full text-[9px] font-mono font-medium tracking-wide">
-                  {edu.institution}
-                </span>
+                <p className="mt-2 text-sm text-mute">{edu.institution}</p>
               </div>
-              <p className="text-xs text-white/50 leading-relaxed font-sans font-light max-w-xl">
-                {edu.description}
-              </p>
-            </div>
-
-          </div>
-        ))}
-      </div>
-
-    </section>
+              <p className="text-[15px] leading-relaxed text-mute md:col-span-7">{edu.description}</p>
+            </Reveal>
+          ))}
+        </ol>
+      )}
+    </Section>
   );
 };

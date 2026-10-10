@@ -2,164 +2,154 @@
 
 import React, { useRef } from "react";
 import Image from "next/image";
-import { FileText, Briefcase, Github, Linkedin } from "lucide-react";
-import { motion, useMotionValue, useSpring, useTransform, MotionValue } from "framer-motion";
-import { Globe } from "@/components/ui/globe"
+import { ArrowUpRight } from "lucide-react";
+import { gsap, MOTION_OK, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { EMAIL, LINKS } from "@/lib/links";
+import { HeroStage } from "@/components/portfolio/hero/HeroStage";
+import type { SceneControls } from "@/components/portfolio/hero/StackScene";
 
-interface DockIconProps {
-  mouseX: MotionValue<number>;
-  children: React.ReactNode;
-  label: string;
-  href: string;
-}
-
-const DockIcon = ({ mouseX, children, label, href }: DockIconProps) => {
-  const ref = useRef<HTMLAnchorElement>(null);
-
-  const distance = useTransform(mouseX, (val: number) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-    return val - bounds.x - bounds.width / 2;
-  });
-
-  const widthTransform = useTransform(distance, [-150, 0, 150], [40, 56, 40]);
-  const heightTransform = useTransform(distance, [-150, 0, 150], [40, 56, 40]);
-
-  const width = useSpring(widthTransform, { mass: 0.1, stiffness: 150, damping: 12 });
-  const height = useSpring(heightTransform, { mass: 0.1, stiffness: 150, damping: 12 });
-
-  return (
-    <a
-      ref={ref}
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="relative group flex items-center justify-center cursor-pointer"
-    >
-      <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-black/90 border border-white/10 rounded-md text-[9px] font-mono font-bold tracking-wider text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-md z-50">
-        {label}
-      </span>
-      <motion.div
-        style={{ width, height }}
-        className="rounded-full bg-white/[0.03] border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.08] transition-colors flex items-center justify-center text-white/70 hover:text-white"
-      >
-        {children}
-      </motion.div>
-    </a>
-  );
-};
+const heroLinks = [
+  { label: "Resume", href: LINKS.resume },
+  { label: "CV", href: LINKS.cv },
+  { label: "GitHub", href: LINKS.github },
+  { label: "LinkedIn", href: LINKS.linkedin },
+  { label: "LeetCode", href: LINKS.leetcode },
+];
 
 export const HeroSection = () => {
-  const mouseX = useMotionValue(Infinity);
+  const root = useRef<HTMLElement>(null);
+  const controls = useRef<SceneControls>({ progress: 0, px: 0, py: 0, active: -1, reduced: false });
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(MOTION_OK, () => {
+        const intro = gsap.timeline({ defaults: { ease: "power4.out" } });
+        intro
+          .from("[data-line]", { yPercent: 118, duration: 1.3, stagger: 0.12 })
+          .from("[data-fade]", { opacity: 0, y: 18, duration: 1, stagger: 0.08 }, "-=0.8");
+
+        // One trigger drives both the 3D scene and the headline drift
+        ScrollTrigger.create({
+          trigger: root.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+          onUpdate: (self) => {
+            controls.current.progress = self.progress;
+          },
+        });
+        gsap.to("[data-name]", {
+          yPercent: -12,
+          ease: "none",
+          scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: root }
+  );
 
   return (
-    <section className="w-full flex flex-col items-start text-left pt-6 pb-12 select-none space-y-10">
-      
-      {/* 1. Profile Avatar with Pulsing Status Indicator */}
-      <div className="relative w-16 h-16 rounded-xl border border-white/[0.06] bg-zinc-900 shadow-sm shrink-0">
-        <Image
-          src="https://github.com/Tanmay-Mirgal.png"
-          alt="Tanmay Mirgal"
-          fill
-          priority
-          sizes="64px"
-          className="object-cover rounded-xl"
-        />
-        <span className="w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-[#0B0B0C] absolute bottom-[-3px] right-[-3px] flex items-center justify-center shadow-sm">
-          <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-        </span>
-      </div>
-
-      {/* 2. Bold Headline */}
-      <div className="space-y-6 max-w-3xl">
-        <h1 className="text-[32px] sm:text-[44px] md:text-[54px] font-display font-extrabold tracking-tight leading-[1.08] text-white">
-          Tanmay Mirgal
-          <span className="block text-white/40 font-medium text-[22px] sm:text-[28px] md:text-[36px] mt-2 sm:mt-3">
-            Full-Stack & AI Engineer
-          </span>
-        </h1>
-        
-        {/* Description Paragraph */}
-        <p className="text-sm sm:text-base text-white/50 leading-relaxed font-sans font-light max-w-2xl">
-          I design and build high-performance systems bridging modern web architecture and machine learning. From scalable SaaS platforms to sophisticated computer vision pipelines, I engineer robust solutions that push the boundaries of what&apos;s possible.
-        </p>
-      </div>
-
-      {/* 3. Magic UI Style Dock Navigation */}
-      <div 
-        onMouseMove={(e) => mouseX.set(e.pageX)}
-        onMouseLeave={() => mouseX.set(Infinity)}
-        className="h-16 flex items-end gap-3 px-4 py-2.5 bg-white/[0.02] border border-white/[0.06] rounded-3xl backdrop-blur-md shadow-2xl select-none"
-      >
-        <DockIcon mouseX={mouseX} label="Resume" href="/resume_cv/Tanmay_Mirgal_FullStack_AI_Resume.pdf">
-          <FileText size={18} className="text-cyan-400" />
-        </DockIcon>
-        
-        <DockIcon mouseX={mouseX} label="CV" href="/resume_cv/Tanmay_Mirgal_CV.pdf">
-          <Briefcase size={18} className="text-emerald-400" />
-        </DockIcon>
-
-        <DockIcon mouseX={mouseX} label="GitHub" href="https://github.com/Tanmay-Mirgal">
-          <Github size={18} className="text-white/80" />
-        </DockIcon>
-
-        <DockIcon mouseX={mouseX} label="LinkedIn" href="https://www.linkedin.com/in/tanmay-mirgal/">
-          <Linkedin size={18} className="text-[#0A66C2]" />
-        </DockIcon>
-
-        <DockIcon mouseX={mouseX} label="LeetCode" href="https://leetcode.com/u/Tanmay_Mirgal/">
-          <svg 
-            role="img" 
-            viewBox="0 0 24 24" 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="18" 
-            height="18" 
-            fill="currentColor" 
-            className="text-[#FFA116]"
-          >
-            <path d="M16.102 17.93l-2.697 2.607c-.466.45-1.211.45-1.677 0L6.553 15.68c-.466-.45-.466-1.176 0-1.627l2.697-2.607c.466-.45 1.211-.45 1.677 0l5.175 4.958c.466.45.466 1.176 0 1.627zm-3.82-14.77a1.184 1.184 0 0 1 1.674 0l3.528 3.5a1.17 1.17 0 0 1 0 1.66l-3.528 3.5a1.184 1.184 0 0 1-1.673 0c-.462-.46-.462-1.2 0-1.66l1.69-1.677H5.666a1.178 1.178 0 0 1-1.166-1.16c0-.64.523-1.16 1.166-1.16h8.77l-1.69-1.677a1.184 1.184 0 0 1 0-1.66z"/>
-          </svg>
-        </DockIcon>
-      </div>
-
-      {/* 4. Hero 3D Planet Globe — Half Dome */}
+    <section id="top" ref={root} className="relative min-h-[100svh] overflow-hidden">
+      {/* Twelve hairline columns: the visible grid the layout hangs on */}
       <div
-        className="relative w-full overflow-hidden select-none"
-        style={{ height: 320 }}
-      >
-        {/* Star particles */}
-        {[...Array(30)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full bg-white pointer-events-none"
-            style={{
-              width: i % 5 === 0 ? 2 : 1,
-              height: i % 5 === 0 ? 2 : 1,
-              opacity: 0.15 + (i % 4) * 0.1,
-              left: `${(i * 37 + 11) % 95}%`,
-              top: `${(i * 23 + 7) % 70}%`,
-            }}
-          />
-        ))}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-60"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgb(236 235 230 / 0.045) 1px, transparent 1px)",
+          backgroundSize: "calc(100% / 12) 100%",
+        }}
+      />
 
-        {/* Globe container — sized so the bottom half is below the clip boundary */}
-        <div
-          className="absolute left-1/2 -translate-x-1/2"
-          style={{ width: 640, height: 640, bottom: -320 }}
-        >
-          {/* Globe fills this square via absolute inset-0 */}
-          <div className="relative w-full h-full">
-            <Globe className="absolute inset-0 w-full h-full max-w-none" />
+      {/* Signature 3D stage */}
+      <div className="absolute inset-x-0 top-[9svh] h-[50svh] lg:inset-y-0 lg:left-[34%] lg:right-[calc(var(--gutter)+8.5rem)] lg:h-auto">
+        <HeroStage controls={controls} />
+      </div>
+
+      <div className="shell relative z-10 flex min-h-[100svh] flex-col justify-between pb-8 pt-24 sm:pb-10">
+        <div data-fade className="flex items-center gap-4">
+          <div className="relative h-14 w-14 shrink-0 overflow-hidden border border-line">
+            <Image
+              src="https://github.com/Tanmay-Mirgal.png"
+              alt="Portrait of Tanmay Mirgal"
+              fill
+              priority
+              sizes="56px"
+              className="mono-img object-cover"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <p className="label !text-paper">Full-Stack &amp; AI Engineer</p>
+            <p className="label flex items-center gap-2">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-paper opacity-60" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-paper" />
+              </span>
+              Open to roles &amp; collaborations
+            </p>
           </div>
         </div>
 
-        {/* Bottom gradient */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-28 pointer-events-none z-20"
-          style={{ background: "linear-gradient(to top, #0B0B0C 50%, transparent 100%)" }}
-        />
+        <div>
+          <h1 data-name className="display hero-name text-paper">
+            <span className="block overflow-hidden pb-[0.06em]">
+              <span data-line className="block">
+                Tanmay
+              </span>
+            </span>
+            <span className="block overflow-hidden pb-[0.06em] pl-[7vw] italic lg:pl-[9vw]">
+              <span data-line className="block">
+                Mirgal
+              </span>
+            </span>
+          </h1>
+
+          <div className="grid-12 mt-8 items-end gap-y-8 border-t border-line pt-5 sm:mt-10">
+            <p
+              data-fade
+              className="col-span-12 max-w-md text-pretty text-[15px] leading-relaxed text-mute md:col-span-5"
+            >
+              I design and build high-performance systems bridging modern web architecture and
+              machine learning.
+            </p>
+
+            <ul
+              data-fade
+              className="col-span-12 flex flex-wrap gap-x-6 gap-y-3 md:col-span-6 md:col-start-7 lg:col-span-6"
+            >
+              {heroLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="label u-link inline-flex items-center gap-1 pb-1 !text-paper"
+                  >
+                    {label}
+                    <ArrowUpRight size={12} aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a href={`mailto:${EMAIL}`} className="label u-link pb-1 !text-paper">
+                  Email
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
-
+      <div
+        aria-hidden="true"
+        className="absolute bottom-0 left-[var(--gutter)] hidden h-14 w-px bg-line sm:block"
+      >
+        <span className="scroll-cue block h-full w-px bg-paper" />
+      </div>
     </section>
   );
 };

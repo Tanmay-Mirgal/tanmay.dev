@@ -1,18 +1,27 @@
-import type { Metadata } from "next";
-import { Outfit, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Instrument_Serif, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700", "900"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const geist = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  weight: ["400", "700"],
 });
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
+};
 
 const baseUrl = "https://tanmaymirgal.dev";
 
@@ -80,8 +89,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${outfit.variable} ${jetbrainsMono.variable} antialiased`} style={{ background: "#030305", color: "#f8f8f8" }}>
+    <html lang="en">
+      <body className={`${instrumentSerif.variable} ${geist.variable} ${geistMono.variable} antialiased`}>
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <ConvexClientProvider>
           {children}
         </ConvexClientProvider>

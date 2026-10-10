@@ -1,128 +1,143 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
+import DecryptedText from "@/components/ui/DecryptedText";
+import { useDialog } from "@/hooks/useDialog";
+import { EMAIL, LINKS } from "@/lib/links";
+
+export const NAV_ITEMS = [
+  { id: "work", label: "Work" },
+  { id: "projects", label: "Projects" },
+  { id: "skills", label: "Skills" },
+  { id: "education", label: "Education" },
+  { id: "achievements", label: "Achievements" },
+  { id: "certifications", label: "Certifications" },
+  { id: "publications", label: "Publications" },
+  { id: "contact", label: "Contact" },
+] as const;
 
 interface SidebarNavProps {
   activeSection: string;
 }
 
-export const SidebarNav = ({ activeSection }: SidebarNavProps) => {
-  const navItems = [
-    { id: "work", label: "Work" },
-    { id: "education", label: "Education" },
-    { id: "skills", label: "Skills" },
-    { id: "projects", label: "Projects" },
-    { id: "achievements", label: "Achievements" },
-    { id: "certifications", label: "Certifications" },
-    { id: "publications", label: "Publications" },
-  ];
+const pad = (n: number) => String(n + 1).padStart(2, "0");
 
-  const shortLabels: Record<string, string> = {
-    work: "WRK",
-    education: "EDU",
-    skills: "SKL",
-    projects: "PRJ",
-    achievements: "ACH",
-    certifications: "CRT",
-    publications: "PUB"
-  };
+export const SidebarNav = ({ activeSection }: SidebarNavProps) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const close = () => setMenuOpen(false);
+
+  useDialog(menuOpen, close, menuRef);
 
   return (
     <>
-      <aside className="w-64 h-screen fixed left-0 top-0 bg-[#111113] border-r border-white/[0.06] flex flex-col justify-between py-16 px-6 z-50 select-none hidden md:flex">
-        
-        {/* Top Brand Name */}
-        <div className="pl-8 pt-2">
-          {/* <span className="font-display font-black text-xs uppercase tracking-widest text-white">
-            Tanmay
-          </span> */}
-        </div>
+      {/* Desktop: section rail */}
+      <nav
+        aria-label="Sections"
+        className="fixed right-[var(--gutter)] top-1/2 z-40 hidden -translate-y-1/2 text-white mix-blend-difference lg:block"
+      >
+        <ul className="flex flex-col items-end gap-3">
+          {NAV_ITEMS.map((item, i) => {
+            const isActive = activeSection === item.id;
+            return (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  aria-current={isActive ? "location" : undefined}
+                  className="group flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.1em]"
+                >
+                  <span
+                    className={`transition-opacity duration-300 ${
+                      isActive ? "opacity-100" : "opacity-50 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    }`}
+                  >
+                    <span className="mr-2 tabular-nums opacity-60">{pad(i)}</span>
+                    <DecryptedText text={item.label} />
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className={`h-px bg-white transition-all duration-500 ${
+                      isActive ? "w-8" : "w-3 opacity-50 group-hover:w-5 group-hover:opacity-100"
+                    }`}
+                  />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
 
-        {/* Vertical Ruler Navigation (Matching Screenshot Ticks Exactly in Dark Mode) */}
-        <div className="flex-1 flex flex-col justify-center pl-4 pr-2">
-          <div className="flex flex-col">
-            {navItems.map((item, idx) => {
-              const isActive = activeSection === item.id;
-              
-              return (
-                <div key={item.id} className="flex flex-col">
-                  {/* Long Tick + Section Label */}
-                  <div className="flex items-center gap-3 h-6 relative">
-                    {/* Long Tick Line */}
-                    <div
-                      className={`h-[1px] transition-all duration-350 ${
-                        isActive 
-                          ? "w-7 bg-white" 
-                          : "w-5 bg-white/20"
-                      }`}
-                    />
-                    
-                    {/* Navigation Text Anchor */}
-                    <a
-                      href={`#${item.id}`}
-                      className={`text-[10px] uppercase tracking-widest font-sans font-bold transition-all duration-350 ${
-                        isActive 
-                          ? "text-white font-extrabold translate-x-1" 
-                          : "text-white/40 hover:text-white/70"
-                      }`}
-                    >
-                      {item.label}
-                    </a>
-                  </div>
-
-                  {/* 7 Short Ticks between sections */}
-                  {idx < navItems.length - 1 && (
-                    <div className="flex flex-col gap-1.5 py-1.5 pl-[1px]">
-                      <div className="w-2.5 h-[1px] bg-white/10" />
-                      <div className="w-2.5 h-[1px] bg-white/10" />
-                      <div className="w-2.5 h-[1px] bg-white/10" />
-                      <div className="w-2.5 h-[1px] bg-white/10" />
-                      <div className="w-2.5 h-[1px] bg-white/10" />
-                      <div className="w-2.5 h-[1px] bg-white/10" />
-                      <div className="w-2.5 h-[1px] bg-white/10" />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Bottom Year and Details */}
-        <div className="pl-8 pb-2 space-y-3">
-          <div className="text-[8px] font-mono text-white/20 uppercase tracking-[0.2em]">
-            EST. 2026 / C.ENG
-          </div>
-          
-          {/* Rounded initial circle matching user screenshot in dark mode */}
-          <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center font-sans text-xs font-black shadow-sm select-none">
-            N
-          </div>
-        </div>
-
-      </aside>
-
-      {/* Mobile Floating Bottom Dock Nav */}
-      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-[#121214]/80 backdrop-blur-md border border-white/[0.08] px-3.5 py-2 rounded-full shadow-[0_15px_40px_rgba(0,0,0,0.65)] flex md:hidden items-center gap-1 sm:gap-2.5 text-[9px] font-mono tracking-wider w-[90%] max-w-[400px] justify-between">
-        {navItems.map((item) => {
-          const isActive = activeSection === item.id;
-          const label = shortLabels[item.id] || item.label.substring(0, 3).toUpperCase();
-          
-          return (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              className={`px-2.5 py-1 rounded-full transition-all duration-300 ${
-                isActive 
-                  ? "bg-white text-black font-bold" 
-                  : "text-white/40 hover:text-white"
-              }`}
+      {/* Mobile / tablet: full-screen menu */}
+      {menuOpen ? (
+        <div
+          ref={menuRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+          tabIndex={-1}
+          className="animate-fade-in fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-ink px-[var(--gutter)] pb-8 pt-5 lg:hidden"
+        >
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[11px] uppercase tracking-[0.08em]">Tanmay Mirgal</span>
+            <button
+              type="button"
+              onClick={close}
+              aria-expanded="true"
+              className="font-mono text-[11px] uppercase tracking-[0.08em]"
             >
-              {label}
-            </a>
-          );
-        })}
-      </div>
+              Close
+            </button>
+          </div>
+
+          <ul className="mt-10 flex flex-1 flex-col justify-center gap-1">
+            {NAV_ITEMS.map((item, i) => (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  onClick={close}
+                  aria-current={activeSection === item.id ? "location" : undefined}
+                  className={`display flex items-baseline gap-4 py-1 text-[clamp(2.4rem,11vw,4rem)] ${
+                    activeSection === item.id ? "text-paper" : "text-paper/60"
+                  }`}
+                >
+                  <span className="label !text-faint">{pad(i)}</span>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <ul className="label mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-line pt-6">
+            <li>
+              <a href={`mailto:${EMAIL}`}>Email</a>
+            </li>
+            {(
+              [
+                ["GitHub", LINKS.github],
+                ["LinkedIn", LINKS.linkedin],
+                ["LeetCode", LINKS.leetcode],
+              ] as const
+            ).map(([name, href]) => (
+              <li key={name}>
+                <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1">
+                  {name} <ArrowUpRight size={11} aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setMenuOpen(true)}
+          aria-expanded="false"
+          aria-haspopup="dialog"
+          className="fixed right-[var(--gutter)] top-5 z-40 font-mono text-[11px] uppercase tracking-[0.08em] text-white mix-blend-difference lg:hidden"
+        >
+          Menu
+        </button>
+      )}
     </>
   );
 };

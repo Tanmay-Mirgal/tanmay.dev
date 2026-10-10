@@ -1,100 +1,195 @@
 @import "tailwindcss";
 
+/* Font utilities (font-display / font-sans / font-mono). `inline` resolves the
+   next/font variables, which live on <body>, at the point of use. */
 @theme inline {
-  --font-display: var(--font-outfit);
-  --font-sans: var(--font-outfit);
-  --font-mono: var(--font-jetbrains-mono);
+  --font-display: var(--font-instrument-serif), "Times New Roman", serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+/* `static` always emits these as :root custom properties, so hand-written CSS
+   below can use var(--color-*) as well as the generated utilities. */
+@theme static {
+  --color-ink: #0a0a0a;
+  --color-paper: #ecebe6;
+  --color-line: rgb(236 235 230 / 0.14);
+  --color-mute: rgb(236 235 230 / 0.64);
+  --color-faint: rgb(236 235 230 / 0.4);
 }
 
 :root {
-  /* Handcrafted Dark Editorial Palette */
-  --bg-color: #0B0B0C;
-  --bg-sidebar: #111113;
-  --text-primary: #F4F4F5;
-  --text-secondary: #A1A1AA;
-  --border-color: rgba(255, 255, 255, 0.06);
-  --accent: #FFFFFF;
-}
-
-::selection {
-  background: rgba(255, 255, 255, 0.15);
-  color: #FFFFFF;
+  --gutter: clamp(1.25rem, 4.2vw, 4.5rem);
+  color-scheme: dark;
 }
 
 html {
+  background-color: var(--color-ink);
   scroll-behavior: smooth;
-  background-color: var(--bg-color);
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-secondary);
-  font-family: var(--font-sans), sans-serif;
-  overflow-x: hidden;
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display), sans-serif;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
+::selection {
+  background: var(--color-paper);
+  color: var(--color-ink);
 }
 
-/* Micro styling for clean pill controls in dark theme */
-.btn-pill-dark {
-  background-color: #FFFFFF;
-  color: #0B0B0C;
-  border-radius: 9999px;
-  font-weight: 500;
-  transition: all 0.2s ease-in-out;
-}
-.btn-pill-dark:hover {
-  background-color: #E4E4E7;
-  transform: translateY(-1px);
+:focus-visible {
+  outline: 1px solid var(--color-paper);
+  outline-offset: 4px;
 }
 
-.btn-pill-light {
-  background-color: rgba(255, 255, 255, 0.04);
-  color: #F4F4F5;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  font-weight: 500;
-  transition: all 0.2s ease-in-out;
-}
-.btn-pill-light:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
+/* ───────── Layout primitives ───────── */
+
+.shell {
+  width: 100%;
+  max-width: 1760px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
 }
 
-/* Badges systems matching dark mode */
-.badge-blue {
-  background-color: rgba(37, 99, 235, 0.12);
-  color: #60A5FA;
-  border: 1px solid rgba(37, 99, 235, 0.25);
-}
-.badge-green {
-  background-color: rgba(5, 150, 105, 0.12);
-  color: #34D399;
-  border: 1px solid rgba(5, 150, 105, 0.25);
-}
-.badge-gray {
-  background-color: rgba(255, 255, 255, 0.04);
-  color: #D4D4D8;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Reserve room for the fixed section rail on desktop */
+@media (min-width: 1024px) {
+  .shell {
+    padding-right: calc(var(--gutter) + 8.5rem);
+  }
 }
 
-/* Projects grid-dashed backdrop matching dark mode */
-.grid-dashed-backdrop {
-  background-image: 
-    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 16px 16px;
-  border: 1px dashed rgba(255, 255, 255, 0.12);
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(1rem, 2vw, 2rem);
 }
 
-/* Clean Custom Scrollbar */
+/* ───────── Type ───────── */
+
+.display {
+  font-family: var(--font-instrument-serif), "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 0.92;
+}
+
+.label {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+}
+
+.hero-name {
+  font-size: min(30vw, 30svh);
+  line-height: 0.84;
+}
+
+@media (min-width: 1024px) {
+  .hero-name {
+    font-size: min(21vw, 34svh);
+  }
+}
+
+/* Underline that draws in on hover/focus */
+.u-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.u-link:hover,
+.u-link:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Project / record imagery stays monochrome until the pointer engages.
+   Touch devices have no hover, so they always get the real colours. */
+@media (hover: hover) and (pointer: fine) {
+  .mono-img {
+    filter: grayscale(1) contrast(1.05);
+    transition: filter 0.6s ease;
+  }
+  .group:hover .mono-img,
+  .group:focus-visible .mono-img,
+  .mono-img:hover {
+    filter: none;
+  }
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.75rem;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: none;
+}
+
+/* ───────── Motion ───────── */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.35s ease-out both;
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+.scroll-cue {
+  animation: scroll-cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ───────── Scrollbar ───────── */
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -103,29 +198,60 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.18);
 }
 
-/* Magic UI — Orbiting Circles animation */
+/* ───────── Legacy utilities (kept for components outside the live page) ───────── */
+
+.btn-pill-dark {
+  background-color: #ffffff;
+  color: #0b0b0c;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+.btn-pill-light {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #f4f4f5;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  font-weight: 500;
+}
+.badge-blue {
+  background-color: rgba(37, 99, 235, 0.12);
+  color: #60a5fa;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+}
+.badge-green {
+  background-color: rgba(5, 150, 105, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(5, 150, 105, 0.25);
+}
+.badge-gray {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #d4d4d8;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.grid-dashed-backdrop {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 16px 16px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+}
 @keyframes orbit {
   0% {
-    transform:
-      rotate(var(--angle))
-      translateX(calc(var(--radius) * 1px))
+    transform: rotate(var(--angle)) translateX(calc(var(--radius) * 1px))
       rotate(calc(-1 * var(--angle)));
   }
   100% {
-    transform:
-      rotate(calc(var(--angle) + 360deg))
-      translateX(calc(var(--radius) * 1px))
+    transform: rotate(calc(var(--angle) + 360deg)) translateX(calc(var(--radius) * 1px))
       rotate(calc(-1 * (var(--angle) + 360deg)));
   }
 }
-
 .animate-orbit {
   animation: orbit calc(var(--duration) * 1s) linear infinite;
   animation-delay: calc(var(--delay) * 1s);

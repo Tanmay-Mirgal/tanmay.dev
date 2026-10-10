@@ -1,31 +1,39 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+const formatIST = () =>
+  new Date().toLocaleTimeString("en-GB", {
+    timeZone: "Asia/Kolkata",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
 
 export const TopBar = () => {
-  const [time, setTime] = useState<string>("");
+  // Empty on the server and first client render, so hydration always matches.
+  const [time, setTime] = useState("");
 
   useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTime(
-        now.toLocaleTimeString("en-US", {
-          hour12: true,
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        })
-      );
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
+    const tick = () => setTime(formatIST());
+    tick();
+    const interval = setInterval(tick, 15_000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="w-full flex justify-between items-center text-[10px] font-mono uppercase tracking-widest text-white/30 pb-6 border-b border-white/[0.06] mb-8 select-none">
-      <span>EST. 2026</span>
-      <span>{time || "12:00:00 PM"}</span>
-    </div>
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-40 text-white mix-blend-difference">
+      <div className="shell flex items-center justify-between py-5">
+        <a
+          href="#top"
+          className="pointer-events-auto font-mono text-[11px] uppercase tracking-[0.08em]"
+        >
+          Tanmay Mirgal
+        </a>
+        <p className="label hidden !text-white lg:block" aria-label="Local time in India">
+          IST <span className="tabular-nums">{time || "--:--"}</span>
+        </p>
+      </div>
+    </header>
   );
 };
