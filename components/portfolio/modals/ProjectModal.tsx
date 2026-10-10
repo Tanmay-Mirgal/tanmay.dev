@@ -5,6 +5,7 @@ import Image from "next/image";
 import { X, Github, ArrowUpRight, Globe } from "lucide-react";
 import { Project } from "@/types";
 import { useDialog } from "@/hooks/useDialog";
+import { demoOfflineNote } from "@/lib/caseStudies";
 
 interface ProjectModalProps {
   selectedProject: Project | null;
@@ -18,6 +19,8 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
   useDialog(selectedProject !== null, close, dialogRef);
 
   if (!selectedProject) return null;
+
+  const demoNote = selectedProject.liveLink ? demoOfflineNote(selectedProject.title) : undefined;
 
   const buttonBase =
     "inline-flex items-center gap-2 px-5 py-3.5 font-mono text-[11px] uppercase tracking-[0.08em] transition-colors";
@@ -67,7 +70,15 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
             </div>
 
             <div className="flex flex-wrap gap-3">
-              {selectedProject.liveLink && (
+              {selectedProject.liveLink && demoNote && (
+                <span
+                  title={demoNote}
+                  className={`${buttonBase} cursor-not-allowed border border-line text-faint`}
+                >
+                  <Globe size={14} aria-hidden="true" /> Demo offline
+                </span>
+              )}
+              {selectedProject.liveLink && !demoNote && (
                 <a
                   href={selectedProject.liveLink}
                   target="_blank"

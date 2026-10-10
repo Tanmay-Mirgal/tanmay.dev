@@ -1,53 +1,34 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Component, useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
-import type { SceneControls } from "./StackScene";
+import {
+  Component,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+  type RefObject,
+} from "react";
+import { createRope, ropeToPath, settleRope } from "@/lib/rope";
+import type { RopeControls } from "./ThreadScene";
 
-// three + react-three-fiber only load here, after hydration, never in the main bundle.
-const StackScene = dynamic(() => import("./StackScene"), { ssr: false, loading: () => null });
+// three + react-three-fiber live in their own chunk and only load after hydration and idle.
+const ThreadScene = dynamic(() => import("./ThreadScene"), { ssr: false, loading: () => null });
 
-/** Top-to-bottom, as drawn. `layer` is the index of the slab in the 3D scene (0 = bottom). */
-const LAYERS = [
-  { layer: 3, name: "Interface", note: "What people touch" },
-  { layer: 2, name: "Services", note: "Logic and APIs" },
-  { layer: 1, name: "Data", note: "State and storage" },
-  { layer: 0, name: "Intelligence", note: "Models and pipelines" },
-] as const;
+const GRAVITY = 0.55;
 
-/** Static isometric stack: placeholder while 3D loads, and the no-WebGL fallback. */
-function StackFallback() {
-  const ys = [250, 190, 130, 70];
-  return (
-    <svg viewBox="0 0 400 320" className="h-full w-full" fill="none" aria-hidden="true">
-      {ys.map((y, i) => (
-        <g key={y}>
-          <polygon
-            points={`200,${y - 52} 340,${y} 200,${y + 52} 60,${y}`}
-            fill="#0a0a0a"
-            stroke="#ecebe6"
-            strokeOpacity={0.45}
-          />
-          <polygon
-            points={`200,${y - 26} 270,${y} 200,${y + 26} 130,${y}`}
-            stroke="#ecebe6"
-            strokeOpacity={0.18}
-            strokeDasharray="2 4"
-          />
-          <circle cx={200 + (i % 2 ? 24 : -24)} cy={y} r={2.2} fill="#ecebe6" />
-        </g>
-      ))}
-    </svg>
-  );
-}
-
-class StageBoundary extends Component<{ fallback: ReactNode; children: ReactNode }, { failed: boolean }> {
+class StageBoundary extends Component<{ onError: () => void; children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };
   }
+  componentDidCatch() {
+    this.props.onError();
+  }
   render() {
-    return this.state.failed ? this.props.fallback : this.props.children;
+    return this.state.failed ? null : this.props.children;
   }
 }
 
@@ -60,144 +41,194 @@ function hasWebGL() {
   }
 }
 
-interface HeroStageProps {
-  controls: RefObject<SceneControls>;
+/** The same rope, settled and drawn as SVG: used before 3D loads, with reduced motion, or without WebGL. */
+function StaticRope({ controls, w, h }: { controls: RefObject<RopeControls>; w: number; h: number }) {
+  const geometry = useMemo(() => {
+    if (!w || !h) return null;
+    const c = controls.current;
+    const rope = settleRope(createRope(c.lite ? 32 : 46, c.anchor, c.rest), GRAVITY, c.rest);
+    return { d: ropeToPath(rope), headX: rope.x[rope.n - 1], headY: rope.y[rope.n - 1] };
+  }, [controls, w, h]);
+
+  if (!geometry) return null;
+  return (
+    <svg
+      width={w}
+      height={h}
+      viewBox={`0 0 ${w} ${h}`}
+      className="absolute inset-0 h-full w-full"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d={geometry.d} stroke="var(--color-thread)" strokeWidth={7} strokeLinecap="round" />
+      <circle cx={geometry.headX} cy={geometry.headY} r={8} fill="var(--color-paper)" />
+      <circle
+        cx={geometry.headX}
+        cy={geometry.headY}
+        r={12}
+        stroke="var(--color-paper)"
+        strokeOpacity={0.35}
+      />
+    </svg>
+  );
 }
 
-export function HeroStage({ controls }: HeroStageProps) {
+interface HeroStageProps {
+  controls: RefObject<RopeControls>;
+  /** Marks where the page-long thread begins; the rope is anchored here */
+  startRef: RefObject<HTMLElement | null>;
+}
+
+export function HeroStage({ controls, startRef }: HeroStageProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [mode, setMode] = useState<"pending" | "webgl" | "static">("pending");
-  const [reduced, setReduced] = useState(false);
-  const [lite, setLite] = useState(false);
-  const [inView, setInView] = useState(true);
+  const [box, setBox] = useState({ w: 0, h: 0 });
   const [sceneReady, setSceneReady] = useState(false);
-  const [hovered, setHovered] = useState(-1);
-  const [pinned, setPinned] = useState(-1);
+  const reducedRef = useRef(false);
 
-  // Capability checks. Anything that fails keeps the static SVG, which is fully usable.
+  // Capability checks: anything that fails leaves the static SVG, which is complete on its own.
   useEffect(() => {
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
     const small = window.matchMedia("(max-width: 767px)").matches;
     const weak = (navigator.hardwareConcurrency ?? 8) <= 4;
 
-    setReduced(motionQuery.matches);
-    setLite(small || weak);
-    controls.current.reduced = motionQuery.matches;
+    reducedRef.current = motion.matches;
+    controls.current.lite = small || coarse || weak;
 
-    if (!hasWebGL()) {
+    if (motion.matches || !hasWebGL()) {
       setMode("static");
       return;
     }
-    // Wait until the browser is idle so the 3D chunk never competes with first paint.
+    // Wait for idle so the 3D chunk never competes with first paint.
     const start = () => setMode("webgl");
     const idle = window.requestIdleCallback
       ? window.requestIdleCallback(start, { timeout: 1500 })
       : window.setTimeout(start, 400);
-    const onMotionChange = (e: MediaQueryListEvent) => {
-      setReduced(e.matches);
-      controls.current.reduced = e.matches;
+
+    const onChange = (e: MediaQueryListEvent) => {
+      reducedRef.current = e.matches;
+      if (e.matches) setMode("static");
     };
-    motionQuery.addEventListener("change", onMotionChange);
+    motion.addEventListener("change", onChange);
     return () => {
-      motionQuery.removeEventListener("change", onMotionChange);
+      motion.removeEventListener("change", onChange);
       if (window.cancelIdleCallback) window.cancelIdleCallback(idle as number);
       else window.clearTimeout(idle as number);
     };
   }, [controls]);
 
-  // Render only while the hero is on screen
+  // Measure the stage and the anchor the thread starts from
   useEffect(() => {
-    const el = rootRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
-      rootMargin: "100px",
-    });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+    const root = rootRef.current;
+    if (!root) return;
 
-  // Pointer parallax: fine pointers only
+    const measure = () => {
+      const r = root.getBoundingClientRect();
+      const c = controls.current;
+      c.w = r.width;
+      c.h = r.height;
+
+      const marker = startRef.current?.getBoundingClientRect();
+      c.anchor = marker
+        ? { x: marker.left + marker.width / 2 - r.left, y: marker.top + marker.height / 2 - r.top }
+        : { x: 12, y: r.height };
+      const narrow = r.width < 768;
+      c.rest = { x: r.width * (narrow ? 0.72 : 0.66), y: r.height * (narrow ? 0.3 : 0.34) };
+      setBox({ w: Math.round(r.width), h: Math.round(r.height) });
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, [controls, startRef]);
+
+  // Input: pointer (fine pointers only), pluck on click, scroll velocity
   useEffect(() => {
-    if (reduced || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const root = rootRef.current;
+    if (!root || mode !== "webgl") return;
     const c = controls.current;
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    const rectOf = () => root.getBoundingClientRect();
+
     const onMove = (e: PointerEvent) => {
+      if (!finePointer) return;
+      const r = rectOf();
+      const inside = e.clientY >= r.top && e.clientY <= r.bottom;
+      c.head = inside ? { x: e.clientX - r.left, y: e.clientY - r.top } : null;
       c.px = (e.clientX / window.innerWidth) * 2 - 1;
       c.py = (e.clientY / window.innerHeight) * 2 - 1;
+      c.wake?.();
     };
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onMove);
-  }, [controls, reduced]);
 
-  // Label hover/pin -> highlighted slab
-  const active = hovered >= 0 ? hovered : pinned;
-  useEffect(() => {
-    controls.current.active = active;
-    controls.current.invalidate?.();
-  }, [active, controls]);
+    const onDown = (e: PointerEvent) => {
+      const r = rectOf();
+      if (e.clientY < r.top || e.clientY > r.bottom) return;
+      if ((e.target as HTMLElement).closest("a, button, input, textarea")) return;
+      c.pluck = 1;
+      c.wake?.();
+    };
+
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const dy = window.scrollY - lastY;
+      lastY = window.scrollY;
+      c.scrollVel = Math.max(-60, Math.min(60, dy));
+      c.wake?.();
+    };
+
+    const onLeave = () => {
+      c.head = null;
+      c.px = 0;
+      c.py = 0;
+      c.wake?.();
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerdown", onDown, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.documentElement.addEventListener("pointerleave", onLeave);
+
+    // Only render while the hero is on screen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        c.visible = entry.isIntersecting;
+        if (entry.isIntersecting) c.wake?.();
+      },
+      { rootMargin: "120px" }
+    );
+    observer.observe(root);
+
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("scroll", onScroll);
+      document.documentElement.removeEventListener("pointerleave", onLeave);
+      observer.disconnect();
+    };
+  }, [controls, mode]);
 
   const onReady = useCallback(() => setSceneReady(true), []);
   const onFail = useCallback(() => setMode("static"), []);
 
-  const frameloop = reduced ? "demand" : inView ? "always" : "never";
   const showScene = mode === "webgl";
 
   return (
-    <div ref={rootRef} className="absolute inset-0">
-      <div aria-hidden="true" className="absolute inset-0">
-        <div
-          className={`absolute inset-0 flex items-center justify-center p-[8%] transition-opacity duration-700 ${
-            sceneReady && showScene ? "opacity-0" : "opacity-100"
-          }`}
-        >
-          <StackFallback />
-        </div>
-        {showScene && (
-          <StageBoundary fallback={null}>
-            <StackScene
-              controls={controls}
-              frameloop={frameloop}
-              lite={lite}
-              onReady={onReady}
-              onFail={onFail}
-            />
-          </StageBoundary>
-        )}
-      </div>
-
-      <ol
-        aria-label="System layers"
-        className="absolute bottom-[26%] right-0 hidden flex-col gap-1 lg:flex xl:bottom-[30%]"
+    <div ref={rootRef} aria-hidden="true" className="pointer-events-none absolute inset-0 z-[3]">
+      <div
+        className={`absolute inset-0 transition-opacity duration-700 ${
+          showScene && sceneReady ? "opacity-0" : "opacity-100"
+        }`}
       >
-        {LAYERS.map(({ layer, name, note }, i) => {
-          const isOn = active === layer;
-          return (
-            <li key={name}>
-              <button
-                type="button"
-                aria-pressed={pinned === layer}
-                onPointerEnter={() => setHovered(layer)}
-                onPointerLeave={() => setHovered(-1)}
-                onFocus={() => setHovered(layer)}
-                onBlur={() => setHovered(-1)}
-                onClick={() => setPinned((p) => (p === layer ? -1 : layer))}
-                className="group flex items-baseline gap-3 py-1 text-left font-mono text-[11px] uppercase tracking-[0.08em]"
-              >
-                <span className="text-faint tabular-nums">0{i + 1}</span>
-                <span className={`transition-colors duration-300 ${isOn ? "text-paper" : "text-mute"}`}>
-                  {name}
-                </span>
-                <span
-                  className={`hidden text-faint normal-case tracking-normal transition-opacity duration-300 xl:inline ${
-                    isOn ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  {note}
-                </span>
-              </button>
-            </li>
-          );
-        })}
-      </ol>
+        <StaticRope controls={controls} w={box.w} h={box.h} />
+      </div>
+      {showScene && (
+        <StageBoundary onError={onFail}>
+          <ThreadScene controls={controls} onReady={onReady} onFail={onFail} />
+        </StageBoundary>
+      )}
     </div>
   );
 }

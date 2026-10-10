@@ -27,11 +27,12 @@ export const SkillsSection = () => {
                 {group.title}
               </h3>
 
-              <ul className="flex flex-wrap gap-x-5 gap-y-2 text-lg leading-snug text-paper/85 md:col-span-8 md:text-xl">
+              {/* Inline items with trailing commas read like prose and never strand a separator at a line end */}
+              <ul className="text-lg leading-[1.55] text-paper/85 md:col-span-8 md:text-xl">
                 {group.tags.map((tag, i) => (
                   <li
                     key={`${tag}-${i}`}
-                    className="after:ml-5 after:text-faint after:content-['/'] last:after:hidden"
+                    className="mr-[0.4em] inline-block after:content-[','] last:mr-0 last:after:content-['']"
                   >
                     {tag}
                   </li>

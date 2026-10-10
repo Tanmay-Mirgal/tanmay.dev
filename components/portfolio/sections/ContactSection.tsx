@@ -39,10 +39,11 @@ export const ContactSection = () => {
   };
 
   return (
-    <Section id="contact" index="08" eyebrow="Contact" title="Contact" wide>
+    <Section id="contact" index="08" eyebrow="Contact" title="Contact" tone="loud" wide>
       <Reveal className="mb-14 md:mb-20">
         <p className="label mb-4">Have a project, role, or proposal?</p>
         <a
+          data-thread="end"
           href={`mailto:${EMAIL}`}
           className="display u-link block break-words pb-2 text-[clamp(1.7rem,5.6vw,5.5rem)] !leading-[1.05]"
         >
