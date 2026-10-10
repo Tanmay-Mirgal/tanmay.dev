@@ -83,7 +83,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${interTight.variable} ${jetbrainsMono.variable} antialiased`}>
+      {/* suppressHydrationWarning: browser extensions (e.g. Grammarly) add attributes to <body> before React loads */}
+      <body
+        suppressHydrationWarning
+        className={`${interTight.variable} ${jetbrainsMono.variable} antialiased`}
+      >
         <a href="#main" className="skip-link">
           Skip to content
         </a>

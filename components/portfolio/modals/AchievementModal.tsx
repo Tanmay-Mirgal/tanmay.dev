@@ -41,13 +41,13 @@ export const AchievementModal = ({ selectedAchievement, setSelectedAchievement }
             type="button"
             onClick={close}
             aria-label="Close preview"
-            className="border border-line p-2 text-mute transition-colors hover:text-paper"
+            className="rounded-full border border-line p-2.5 text-mute transition-colors hover:bg-paper hover:text-ink"
           >
             <X size={18} aria-hidden="true" />
           </button>
         </div>
 
-        <div className="relative my-5 min-h-0 flex-1 overflow-hidden border border-line bg-paper/5">
+        <div className="relative my-5 min-h-0 flex-1 overflow-hidden rounded-xl border border-line bg-surface">
           {selectedAchievement.type === "pdf" ? (
             <iframe
               src={selectedAchievement.url}

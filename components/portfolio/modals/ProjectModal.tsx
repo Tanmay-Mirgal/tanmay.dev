@@ -23,10 +23,10 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
   const demoNote = selectedProject.liveLink ? demoOfflineNote(selectedProject.title) : undefined;
 
   const buttonBase =
-    "inline-flex items-center gap-2 px-5 py-3.5 font-mono text-[11px] uppercase tracking-[0.08em] transition-colors";
+    "inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-colors";
 
   return (
-    <div className="animate-fade-in fixed inset-0 z-[2000] overflow-y-auto bg-ink/95 p-4 backdrop-blur-sm md:p-8">
+    <div className="animate-fade-in fixed inset-0 z-[2000] overflow-y-auto bg-paper/50 p-4 backdrop-blur-sm md:p-8">
       <div className="absolute inset-0" onClick={close} aria-hidden="true" />
 
       <div
@@ -35,13 +35,13 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
         aria-modal="true"
         aria-labelledby="project-modal-title"
         tabIndex={-1}
-        className="relative z-10 mx-auto my-4 w-full max-w-6xl border border-line bg-ink p-6 sm:p-10 md:my-8 md:p-14"
+        className="relative z-10 mx-auto my-4 w-full max-w-6xl rounded-3xl border border-line bg-surface p-6 shadow-2xl sm:p-10 md:my-8 md:p-14"
       >
         <button
           type="button"
           onClick={close}
           aria-label="Close project details"
-          className="absolute right-4 top-4 border border-line p-2 text-mute transition-colors hover:text-paper"
+          className="absolute right-4 top-4 rounded-full border border-line p-2.5 text-mute transition-colors hover:bg-paper hover:text-ink"
         >
           <X size={18} aria-hidden="true" />
         </button>
@@ -83,7 +83,7 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
                   href={selectedProject.liveLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`${buttonBase} bg-paper text-ink hover:bg-white`}
+                  className={`${buttonBase} bg-paper text-ink hover:opacity-85`}
                 >
                   <Globe size={14} aria-hidden="true" /> Live demo <ArrowUpRight size={12} aria-hidden="true" />
                 </a>
@@ -110,7 +110,7 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
           </div>
 
           <div className="space-y-8 lg:col-span-7">
-            <div className="relative aspect-[16/10] overflow-hidden border border-line bg-paper/5">
+            <div className="shot relative aspect-[16/10]">
               <Image
                 src={selectedProject.image}
                 alt={`${selectedProject.title} screenshot`}

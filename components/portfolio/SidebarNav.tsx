@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { ArrowUpRight } from "lucide-react";
 import { useDialog } from "@/hooks/useDialog";
 import { EMAIL, LINKS } from "@/lib/links";
@@ -41,7 +42,9 @@ export const MobileMenu = ({ activeSection }: { activeSection: string }) => {
     );
   }
 
-  return (
+  // Portaled to <body>: the header's backdrop-filter would otherwise become the
+  // containing block for this fixed overlay and clip it to the header's height.
+  return createPortal(
     <div
       ref={menuRef}
       role="dialog"
@@ -98,6 +101,7 @@ export const MobileMenu = ({ activeSection }: { activeSection: string }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </div>,
+    document.body
   );
 };
