@@ -12,13 +12,13 @@ const TOP_LINKS = [
 ];
 
 export const TopBar = ({ activeSection }: { activeSection: string }) => (
-  <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-ink/80 backdrop-blur-md">
-    <div className="shell flex h-16 items-center justify-between">
-      <a href="#top" className="text-[15px] font-semibold tracking-tight">
-        Tanmay Mirgal
+  <header className="fixed inset-x-0 top-0 z-40 border-b-[3px] border-paper bg-ink">
+    <div className="shell flex h-[68px] items-center justify-between">
+      <a href="#top" className="label !text-paper">
+        Tanmay Mirgal <span aria-hidden="true">&#10022;</span> Portfolio 2026
       </a>
 
-      <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
+      <nav aria-label="Primary" className="hidden items-center gap-2.5 md:flex">
         {TOP_LINKS.map((link) => {
           const active = link.ids.includes(activeSection);
           return (
@@ -26,8 +26,8 @@ export const TopBar = ({ activeSection }: { activeSection: string }) => (
               key={link.label}
               href={link.href}
               aria-current={active ? "location" : undefined}
-              className={`rounded-full px-4 py-2 text-[15px] font-medium transition-colors ${
-                active ? "bg-paper text-ink" : "text-mute hover:text-paper"
+              className={`pill transition-colors ${
+                active ? "bg-paper text-ink" : "bg-ink hover:bg-yellow"
               }`}
             >
               {link.label}

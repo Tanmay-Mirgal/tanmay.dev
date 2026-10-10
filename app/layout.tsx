@@ -1,19 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { Archivo_Black, Space_Grotesk, Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const interTight = Inter_Tight({
-  variable: "--font-inter-tight",
+const archivoBlack = Archivo_Black({
+  variable: "--font-archivo-black",
+  subsets: ["latin"],
+  weight: "400",
+  // block, not swap: the hero name is huge, and a late swap reflows it (layout shift)
+  display: "block",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
   subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export const viewport: Viewport = {
-  themeColor: "#e8e7e2",
+  themeColor: "#f3efe4",
 };
 
 const baseUrl = "https://tanmaymirgal.dev";
@@ -86,7 +95,7 @@ export default function RootLayout({
       {/* suppressHydrationWarning: browser extensions (e.g. Grammarly) add attributes to <body> before React loads */}
       <body
         suppressHydrationWarning
-        className={`${interTight.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${archivoBlack.variable} ${spaceGrotesk.variable} ${spaceMono.variable} antialiased`}
       >
         <a href="#main" className="skip-link">
           Skip to content

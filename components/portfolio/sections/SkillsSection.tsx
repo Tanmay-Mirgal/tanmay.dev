@@ -7,33 +7,27 @@ import { Section } from "@/components/portfolio/Section";
 import { Reveal } from "@/components/portfolio/Reveal";
 import { ListSkeleton } from "@/components/portfolio/ListSkeleton";
 
+/** Header chip colours cycle through the poster palette. */
+const CHIP = ["bg-yellow", "bg-blue text-ink", "bg-paper text-ink", "bg-ink"];
+
 export const SkillsSection = () => {
   const skillGroups = useQuery(api.portfolio.getSkillGroups);
 
   return (
-    <Section id="skills" index="03" eyebrow="Capabilities" title="Skills">
+    <Section id="skills" index="03" eyebrow="Capabilities" title="Skills" wide>
       {skillGroups === undefined ? (
         <ListSkeleton rows={4} />
       ) : (
-        <ol className="border-t border-line">
+        <ol className="grid gap-8 md:grid-cols-2">
           {skillGroups.map((group, idx) => (
-            <Reveal
-              as="li"
-              key={group._id}
-              className="grid gap-x-10 gap-y-5 border-b border-line py-9 md:grid-cols-12"
-            >
-              <h3 className="label flex gap-3 !text-paper md:col-span-4">
-                <span className="!text-faint">{String(idx + 1).padStart(2, "0")}</span>
-                {group.title}
+            <Reveal as="li" key={group._id} className="poster-card p-6 md:p-8">
+              <h3 className="flex flex-wrap items-center gap-3">
+                <span className={`pill ${CHIP[idx % CHIP.length]}`}>{String(idx + 1).padStart(2, "0")}</span>
+                <span className="display text-[clamp(1.15rem,1.9vw,1.6rem)]">{group.title}</span>
               </h3>
-
-              {/* Inline items with trailing commas read like prose and never strand a separator at a line end */}
-              <ul className="text-lg leading-[1.55] text-paper/85 md:col-span-8 md:text-xl">
+              <ul className="mt-6 flex flex-wrap gap-2.5">
                 {group.tags.map((tag, i) => (
-                  <li
-                    key={`${tag}-${i}`}
-                    className="mr-[0.4em] inline-block after:content-[','] last:mr-0 last:after:content-['']"
-                  >
+                  <li key={`${tag}-${i}`} className="pill bg-ink">
                     {tag}
                   </li>
                 ))}

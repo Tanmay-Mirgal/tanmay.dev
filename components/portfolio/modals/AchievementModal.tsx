@@ -41,13 +41,13 @@ export const AchievementModal = ({ selectedAchievement, setSelectedAchievement }
             type="button"
             onClick={close}
             aria-label="Close preview"
-            className="rounded-full border border-line p-2.5 text-mute transition-colors hover:bg-paper hover:text-ink"
+            className="border-[3px] border-paper bg-yellow p-2.5 transition-transform hover:translate-x-[2px] hover:translate-y-[2px]"
           >
             <X size={18} aria-hidden="true" />
           </button>
         </div>
 
-        <div className="relative my-5 min-h-0 flex-1 overflow-hidden rounded-xl border border-line bg-surface">
+        <div className="relative my-5 min-h-0 flex-1 overflow-hidden border-[3px] border-paper bg-surface shadow-[8px_8px_0_#0f0f0f]">
           {selectedAchievement.type === "pdf" ? (
             <iframe
               src={selectedAchievement.url}
@@ -67,7 +67,7 @@ export const AchievementModal = ({ selectedAchievement, setSelectedAchievement }
         </div>
 
         <div className="max-w-2xl space-y-2 pb-1">
-          <h3 id="record-modal-title" className="text-lg font-medium leading-snug">
+          <h3 id="record-modal-title" className="text-lg font-bold uppercase leading-snug">
             {selectedAchievement.title}
           </h3>
           <p className="text-sm leading-relaxed text-mute">{selectedAchievement.desc}</p>

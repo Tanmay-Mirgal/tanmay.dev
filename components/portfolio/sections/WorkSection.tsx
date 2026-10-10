@@ -14,25 +14,23 @@ export const WorkSection = () => {
       {experiences === undefined ? (
         <ListSkeleton rows={3} />
       ) : (
-        <ol className="border-t border-line">
+        <ol className="space-y-8">
           {experiences.map((exp) => (
-            <Reveal
-              as="li"
-              key={exp._id}
-              className="grid gap-x-10 gap-y-6 border-b border-line py-10 md:grid-cols-12 md:py-14"
-            >
+            <Reveal as="li" key={exp._id} className="poster-card grid gap-x-10 gap-y-6 p-6 md:grid-cols-12 md:p-8">
               <div className="md:col-span-5">
-                <p className="label">{exp.date}</p>
-                <h3 className="display mt-4 text-[clamp(1.75rem,2.6vw,2.5rem)] !leading-[1.08]">
+                <p className="pill bg-yellow">{exp.date}</p>
+                <h3 className="mt-5 text-[clamp(1.2rem,1.9vw,1.6rem)] font-bold uppercase leading-[1.15] tracking-tight">
                   {exp.role}
                 </h3>
-                <p className="mt-2 text-sm text-mute">{exp.company}</p>
+                <p className="pill mt-4 bg-ink">{exp.company}</p>
               </div>
 
-              <ul className="space-y-4 text-[15px] leading-relaxed text-mute md:col-span-7">
+              <ul className="space-y-4 text-[15px] leading-relaxed md:col-span-7">
                 {exp.bullets.map((bullet, i) => (
-                  <li key={i} className="flex gap-4">
-                    <span aria-hidden="true" className="mt-[0.7em] h-px w-4 shrink-0 bg-faint" />
+                  <li key={i} className="flex gap-3">
+                    <span aria-hidden="true" className="mt-[0.15em] text-blue">
+                      &#10022;
+                    </span>
                     <span>{bullet}</span>
                   </li>
                 ))}

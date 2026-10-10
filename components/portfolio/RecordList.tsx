@@ -16,27 +16,28 @@ interface RecordListProps {
  * lightbox, which shows the full certificate and its description.
  */
 export const RecordList = ({ items, onSelect }: RecordListProps) => (
-  <ul className="border-t border-line">
+  <ul className="border-t-[3px] border-paper">
     {items.map((item) => (
-      <Reveal as="li" key={item._id} className="border-b border-line">
+      <Reveal as="li" key={item._id} className="border-b-2 border-paper">
         <button
           type="button"
           onClick={() => onSelect(item)}
-          aria-label={`View ${item.title}`}
-          className="group grid w-full grid-cols-[1fr_3.5rem] items-center gap-x-5 gap-y-1 py-4 text-left md:grid-cols-[6rem_1fr_3.5rem]"
+          className="group grid w-full grid-cols-[1fr_3.75rem] items-center gap-x-5 gap-y-2 px-2 py-4 text-left transition-colors hover:bg-yellow focus-visible:bg-yellow md:grid-cols-[7.5rem_1fr_3.75rem]"
         >
-          <span className="label order-2 col-span-2 md:order-none md:col-span-1">{item.date}</span>
-
-          <span className="order-1 md:order-none">
-            <span className="block text-[15px] font-medium leading-snug text-paper transition-transform duration-500 group-hover:translate-x-1.5 md:text-base">
-              {item.title}
-            </span>
-            <span className="mt-1 block text-sm text-mute">{item.org}</span>
+          <span className="order-2 col-span-2 justify-self-start md:order-none md:col-span-1">
+            <span className="pill bg-ink !text-[11px]">{item.date}</span>
           </span>
 
-          <span className="relative order-1 h-11 w-14 overflow-hidden rounded-md border border-line bg-surface md:order-none">
+          <span className="order-1 md:order-none">
+            <span className="block text-[15px] font-bold uppercase leading-snug tracking-tight md:text-base">
+              {item.title}
+            </span>
+            <span className="mt-1 block text-sm text-mute group-hover:text-paper">{item.org}</span>
+          </span>
+
+          <span className="relative order-1 h-12 w-[3.75rem] overflow-hidden border-2 border-paper bg-surface md:order-none">
             {item.type === "pdf" ? (
-              <span className="label absolute inset-0 grid place-items-center !text-faint">PDF</span>
+              <span className="label absolute inset-0 grid place-items-center !text-paper">PDF</span>
             ) : (
               <Image src={item.url} alt="" fill sizes="64px" className="object-cover" />
             )}

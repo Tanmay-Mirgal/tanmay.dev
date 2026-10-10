@@ -6,8 +6,9 @@ import { Section } from "@/components/portfolio/Section";
 import { Reveal } from "@/components/portfolio/Reveal";
 import { EMAIL, LINKS } from "@/lib/links";
 
+// Inside the blue panel the colour tokens are flipped, so these use explicit colours.
 const fieldClass =
-  "mt-2 w-full rounded-xl border border-line bg-surface px-4 py-3.5 text-[15px] text-paper outline-none transition-colors placeholder:text-faint focus:border-paper";
+  "mt-2 w-full border-[3px] border-[#0f0f0f] bg-[#f3efe4] px-4 py-3.5 text-[15px] text-[#0f0f0f] outline-none transition-shadow placeholder:text-[#0f0f0f]/50 focus:shadow-[5px_5px_0_#0f0f0f]";
 
 export const ContactSection = () => {
   const [email, setEmail] = useState("");
@@ -38,12 +39,12 @@ export const ContactSection = () => {
   };
 
   return (
-    <Section id="contact" index="08" eyebrow="Contact" title="Contact" tone="loud" wide>
+    <Section id="contact" index="08" eyebrow="Contact" title="Contact" tone="loud" theme="blue" wide>
       <Reveal className="mb-14 md:mb-20">
-        <p className="label mb-4">Have a project, role, or proposal?</p>
+        <p className="label mb-4 !text-paper">Have a project, role, or proposal?</p>
         <a
           href={`mailto:${EMAIL}`}
-          className="display u-link block break-words pb-2 text-[clamp(1.6rem,6vw,5.5rem)] !leading-[1.05]"
+          className="display u-link block break-words pb-2 text-[clamp(1.25rem,5vw,4.5rem)] !leading-[1.05]"
         >
           {EMAIL}
         </a>
@@ -54,7 +55,7 @@ export const ContactSection = () => {
           {status === "idle" ? (
             <form onSubmit={handleSend} className="space-y-6">
               <div>
-                <label htmlFor="fromEmail" className="label">
+                <label htmlFor="fromEmail" className="label !text-paper">
                   Your email
                 </label>
                 <input
@@ -70,7 +71,7 @@ export const ContactSection = () => {
               </div>
 
               <div>
-                <label htmlFor="subject" className="label">
+                <label htmlFor="subject" className="label !text-paper">
                   Subject
                 </label>
                 <input
@@ -85,7 +86,7 @@ export const ContactSection = () => {
               </div>
 
               <div>
-                <label htmlFor="payload" className="label">
+                <label htmlFor="payload" className="label !text-paper">
                   Message
                 </label>
                 <textarea
@@ -101,24 +102,27 @@ export const ContactSection = () => {
 
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 rounded-full bg-paper px-7 py-4 text-base font-semibold text-ink transition-opacity hover:opacity-85"
+                className="inline-flex items-center gap-2 border-[3px] border-[#0f0f0f] bg-[#ffd84a] px-7 py-4 font-mono text-sm font-bold uppercase text-[#0f0f0f] shadow-[6px_6px_0_#0f0f0f] transition-[transform,box-shadow] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-[3px_3px_0_#0f0f0f]"
               >
                 Compose email <ArrowUpRight size={16} aria-hidden="true" />
               </button>
             </form>
           ) : (
-            <div role="status" className="space-y-5 rounded-2xl border border-line bg-surface p-7">
-              <p className="display text-[clamp(1.5rem,2.6vw,2.25rem)] !leading-[1.1]">
+            <div
+              role="status"
+              className="space-y-5 border-[3px] border-[#0f0f0f] bg-[#f3efe4] p-7 text-[#0f0f0f] shadow-[8px_8px_0_#0f0f0f]"
+            >
+              <p className="display text-[clamp(1.25rem,2.4vw,2rem)] !leading-[1.1]">
                 Your email app should be open with the message drafted.
               </p>
-              <p className="text-sm leading-relaxed text-mute">
+              <p className="text-sm leading-relaxed">
                 Nothing is sent from this page. If no mail window appeared, write to{" "}
-                <a href={`mailto:${EMAIL}`} className="u-link text-paper">
+                <a href={`mailto:${EMAIL}`} className="font-bold underline">
                   {EMAIL}
                 </a>{" "}
                 directly.
               </p>
-              <button type="button" onClick={reset} className="label u-link pb-1 !text-paper">
+              <button type="button" onClick={reset} className="font-mono text-xs font-bold uppercase underline">
                 Write another
               </button>
             </div>
@@ -126,8 +130,8 @@ export const ContactSection = () => {
         </Reveal>
 
         <Reveal className="col-span-12 md:col-span-4 md:col-start-9" delay={0.1}>
-          <p className="label mb-4">Elsewhere</p>
-          <ul className="border-t border-line">
+          <p className="label mb-4 !text-paper">Elsewhere</p>
+          <ul className="border-t-[3px] border-[#f3efe4]">
             {(
               [
                 ["GitHub", LINKS.github],
@@ -137,18 +141,18 @@ export const ContactSection = () => {
                 ["CV", LINKS.cv],
               ] as const
             ).map(([name, href]) => (
-              <li key={name} className="border-b border-line">
+              <li key={name} className="border-b-[3px] border-[#f3efe4]">
                 <a
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between py-4 text-[17px] font-medium"
+                  className="group flex items-center justify-between px-1 py-4 font-mono text-sm font-bold uppercase transition-colors hover:bg-[#ffd84a] hover:text-[#0f0f0f]"
                 >
                   {name}
                   <ArrowUpRight
                     size={18}
                     aria-hidden="true"
-                    className="text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-paper"
+                    className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                   />
                 </a>
               </li>

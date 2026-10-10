@@ -48,6 +48,10 @@ export const ProjectsSection = () => {
         <ListSkeleton rows={3} />
       ) : (
         <>
+          <p className="mb-10 max-w-2xl text-[clamp(1.1rem,1.8vw,1.5rem)] font-medium leading-[1.4]">
+            From scalable SaaS platforms to sophisticated computer vision pipelines, I engineer robust
+            solutions that push the boundaries of what&rsquo;s possible.
+          </p>
           <div>
             {featured.map(({ project, study }, i) => (
               <ProjectShowcase

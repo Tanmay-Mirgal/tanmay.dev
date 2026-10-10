@@ -3,25 +3,28 @@
 /* Font utilities (font-display / font-sans / font-mono). `inline` resolves the
    next/font variables, which live on <body>, at the point of use. */
 @theme inline {
-  --font-display: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-archivo-black), "Arial Black", Impact, sans-serif;
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-space-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
-/* Light theme. Token names are kept from the dark builds so every component keeps
-   working: `ink` is the page background and `paper` is the text colour on it.
+/* Poster palette: cream paper, near-black ink, electric blue and one yellow.
+   Token names are kept from earlier builds so every component keeps working:
+   `ink` is the page background and `paper` is the text colour on it.
    `static` always emits these as :root custom properties for hand-written CSS. */
 @theme static {
-  --color-ink: #e8e7e2;
-  --color-surface: #f4f3ef;
-  --color-paper: #0c0c0c;
-  --color-line: rgb(12 12 12 / 0.14);
-  --color-mute: rgb(12 12 12 / 0.64);
-  --color-faint: rgb(12 12 12 / 0.42);
+  --color-ink: #f3efe4;
+  --color-surface: #fbf8ef;
+  --color-paper: #0f0f0f;
+  --color-blue: #2c4bff;
+  --color-yellow: #ffd84a;
+  --color-line: rgb(15 15 15 / 0.2);
+  --color-mute: rgb(15 15 15 / 0.7);
+  --color-faint: rgb(15 15 15 / 0.45);
 }
 
 :root {
-  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --gutter: clamp(1.25rem, 3.4vw, 3rem);
   color-scheme: light;
 }
 
@@ -33,7 +36,7 @@ html {
 body {
   background-color: var(--color-ink);
   color: var(--color-paper);
-  font-family: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -56,7 +59,7 @@ body::after {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-paper);
+  outline: 3px solid var(--color-blue);
   outline-offset: 3px;
 }
 
@@ -78,36 +81,129 @@ body::after {
 /* ───────── Type ───────── */
 
 .display {
-  font-family: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.05em;
-  line-height: 0.95;
+  font-family: var(--font-archivo-black), "Arial Black", Impact, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
 }
 
 .label {
-  font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
+  font-family: var(--font-space-mono), ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-mute);
 }
 
 .hero-name {
-  font-size: clamp(4rem, 21vw, 7.5rem);
-  line-height: 0.84;
-  letter-spacing: -0.065em;
+  font-size: min(19.5vw, 15.75rem);
+  line-height: 0.8;
+  letter-spacing: -0.045em;
 }
 
-@media (min-width: 640px) {
-  .hero-name {
-    font-size: clamp(5rem, 15vw, 9rem);
+/* ───────── Poster components ───────── */
+/* In the components layer so utility classes (hidden, md:hidden, ...) still win. */
+@layer components {
+
+  /* Thick-bordered card with a hard offset shadow */
+  .poster-card {
+    background: var(--color-surface);
+    border: 3px solid var(--color-paper);
+    box-shadow: 8px 8px 0 var(--color-paper);
+  }
+
+  /* Hover/focus: the card lifts toward the viewer */
+  .poster-lift {
+    transition:
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .poster-lift:hover,
+  .poster-lift:focus-visible {
+    transform: translate(-3px, -3px);
+    box-shadow: 12px 12px 0 var(--color-paper);
+  }
+
+  /* Screenshot frame */
+  .shot {
+    background: var(--color-surface);
+    border: 3px solid var(--color-paper);
+    box-shadow: 9px 9px 0 var(--color-paper);
+    overflow: hidden;
+  }
+
+  .pbtn,
+  .pbtn-alt {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 3px solid var(--color-paper);
+    padding: 0.95rem 1.5rem;
+    font-family: var(--font-space-mono), ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+  .pbtn {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    box-shadow: 6px 6px 0 var(--color-blue);
+  }
+  .pbtn-alt {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    box-shadow: 6px 6px 0 var(--color-paper);
+  }
+  .pbtn:hover,
+  .pbtn-alt:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 0 var(--color-paper);
+  }
+  .pbtn:disabled,
+  .pbtn[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.5;
+    box-shadow: none;
+  }
+
+  /* Rounded outline chip, like the nav pills */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    border: 2px solid var(--color-paper);
+    border-radius: 9999px;
+    padding: 0.3rem 0.85rem;
+    font-family: var(--font-space-mono), ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.2;
   }
 }
 
-@media (min-width: 1024px) {
-  .hero-name {
-    font-size: clamp(7rem, 11.8vw, 12rem);
-  }
+/* Full-bleed blue scope (Contact). Utilities read these variables, so the
+   text, borders and muted tones flip automatically inside it. */
+.theme-blue {
+  --color-ink: #2c4bff;
+  --color-surface: #f3efe4;
+  --color-paper: #f3efe4;
+  --color-line: rgb(243 239 228 / 0.45);
+  --color-mute: rgb(243 239 228 / 0.85);
+  --color-faint: rgb(243 239 228 / 0.6);
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+}
+.theme-blue ::selection {
+  background: #0f0f0f;
+  color: #f3efe4;
+}
+.theme-blue :focus-visible {
+  outline-color: #ffd84a;
 }
 
 /* Underline that draws in on hover/focus */
@@ -115,22 +211,12 @@ body::after {
   background-image: linear-gradient(currentColor, currentColor);
   background-repeat: no-repeat;
   background-position: 0 100%;
-  background-size: 0% 1.5px;
-  transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  background-size: 0% 3px;
+  transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .u-link:hover,
 .u-link:focus-visible {
-  background-size: 100% 1.5px;
-}
-
-/* Product screenshot frame: soft depth, hairline edge */
-.shot {
-  background: var(--color-surface);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow:
-    0 30px 60px -22px rgb(12 12 12 / 0.35),
-    0 0 0 1px rgb(12 12 12 / 0.08);
+  background-size: 100% 3px;
 }
 
 .skip-link {
@@ -141,7 +227,7 @@ body::after {
   padding: 0.6rem 1rem;
   background: var(--color-paper);
   color: var(--color-ink);
-  font-family: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+  font-family: var(--font-space-mono), ui-monospace, SFMono-Regular, monospace;
   font-size: 0.75rem;
   transform: translateY(-200%);
 }
@@ -160,7 +246,77 @@ body::after {
   }
 }
 .animate-fade-in {
-  animation: fade-in 0.35s ease-out both;
+  animation: fade-in 0.3s ease-out both;
+}
+
+/* Hero entrance: pure CSS, so it starts at first paint instead of waiting for JavaScript. */
+@keyframes intro-rise {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes intro-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes intro-pop {
+  from {
+    scale: 0.2;
+    opacity: 0;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}
+@keyframes intro-fade {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@layer components {
+  .intro-rise {
+    animation: intro-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--d, 0s);
+  }
+  .intro-wipe {
+    animation: intro-wipe 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--d, 0s);
+  }
+  .intro-pop {
+    animation: intro-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: var(--d, 0s);
+  }
+  .intro-fade {
+    animation: intro-fade 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--d, 0s);
+  }
+}
+
+/* Tech band: two identical halves, so -50% loops seamlessly */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@layer components {
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 45s linear infinite;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -172,23 +328,25 @@ body::after {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
     transition-duration: 0.01ms !important;
+  }
+  /* A finished marquee would show its second half; keep the first */
+  .marquee-track {
+    animation: none !important;
   }
 }
 
 /* ───────── Scrollbar ───────── */
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--color-ink);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(12, 12, 12, 0.18);
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(12, 12, 12, 0.3);
+  background: var(--color-paper);
+  border: 2px solid var(--color-ink);
 }

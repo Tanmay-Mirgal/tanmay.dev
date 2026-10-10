@@ -35,7 +35,7 @@ export const MobileMenu = ({ activeSection }: { activeSection: string }) => {
         onClick={() => setOpen(true)}
         aria-expanded="false"
         aria-haspopup="dialog"
-        className="rounded-full border border-paper/30 px-4 py-2 text-sm font-medium md:hidden"
+        className="pill bg-ink md:hidden"
       >
         Menu
       </button>
@@ -54,12 +54,12 @@ export const MobileMenu = ({ activeSection }: { activeSection: string }) => {
       className="animate-fade-in fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-ink px-[var(--gutter)] pb-8 pt-4 md:hidden"
     >
       <div className="flex items-center justify-between">
-        <span className="text-[15px] font-semibold tracking-tight">Tanmay Mirgal</span>
+        <span className="label !text-paper">Tanmay Mirgal ✦ Portfolio 2026</span>
         <button
           type="button"
           onClick={close}
           aria-expanded="true"
-          className="rounded-full border border-paper/30 px-4 py-2 text-sm font-medium"
+          className="pill bg-ink"
         >
           Close
         </button>
@@ -67,13 +67,13 @@ export const MobileMenu = ({ activeSection }: { activeSection: string }) => {
 
       <ul className="mt-10 flex flex-1 flex-col justify-center">
         {NAV_ITEMS.map((item, i) => (
-          <li key={item.id} className="border-b border-line">
+          <li key={item.id} className="border-b-[3px] border-paper">
             <a
               href={`#${item.id}`}
               onClick={close}
               aria-current={activeSection === item.id ? "location" : undefined}
-              className={`display flex items-baseline gap-4 py-3 text-[clamp(2rem,9vw,3.25rem)] ${
-                activeSection === item.id ? "text-paper" : "text-paper/55"
+              className={`display flex items-baseline gap-4 py-3 text-[clamp(1.75rem,8vw,2.75rem)] ${
+                activeSection === item.id ? "text-blue" : "text-paper"
               }`}
             >
               <span className="label">{pad(i)}</span>

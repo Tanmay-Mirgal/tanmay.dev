@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useMemo, useRef } from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { gsap, MOTION_OK, useGSAP } from "@/lib/gsap";
 import { LINKS } from "@/lib/links";
-import { caseStudies } from "@/lib/caseStudies";
-import { Magnet } from "@/components/ui/Magnet";
+import { caseStudies, findCaseStudy } from "@/lib/caseStudies";
 
 const quietLinks = [
   { label: "Resume", href: LINKS.resume },
@@ -18,20 +16,24 @@ const quietLinks = [
   { label: "LeetCode", href: LINKS.leetcode },
 ];
 
-/** Where each of the three screenshots sits in the collage (percent of its box) and how it leans. */
-const LAYERS = [
-  { left: "0%", top: "3%", width: "79%", rotate: -2.5, depth: 0.5, z: 1, pill: "left-[2%] top-[-1%]" },
-  { left: "29%", top: "30%", width: "71%", rotate: 2, depth: 1, z: 2, pill: "right-[2%] top-[27%]" },
-  { left: "7.5%", top: "61%", width: "65%", rotate: -1, depth: 1.6, z: 3, pill: "left-[9%] top-[58%]" },
+/** How each of the three tiles leans on large screens. */
+const TILT = [
+  { rotate: -2, y: 0 },
+  { rotate: 1.5, y: 26 },
+  { rotate: -1, y: -8 },
 ];
 
+const delay = (s: number) => ({ ["--d" as string]: `${s}s` }) as React.CSSProperties;
+
+const TILE_WIDTH =
+  "w-[72vw] max-w-[17rem] shrink-0 snap-center lg:w-[16rem] lg:max-w-none xl:w-[17rem]";
+
 export const HeroSection = () => {
-  const root = useRef<HTMLElement>(null);
-  const stack = useRef<HTMLDivElement>(null);
   const projects = useQuery(api.portfolio.getProjects);
+  const skillGroups = useQuery(api.portfolio.getSkillGroups);
 
   // Prefer the projects that have a written case study; otherwise the first three
-  const shots = useMemo(() => {
+  const tiles = useMemo(() => {
     if (!projects) return [];
     const authored = caseStudies
       .map((c) => projects.find((p) => p.title.toLowerCase() === c.title.toLowerCase()))
@@ -39,200 +41,172 @@ export const HeroSection = () => {
     return (authored.length >= 3 ? authored : projects).slice(0, 3);
   }, [projects]);
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add(MOTION_OK, () => {
-        const intro = gsap.timeline({ defaults: { ease: "power4.out" } });
-        intro
-          .from("[data-line]", { yPercent: 110, duration: 1.1, stagger: 0.1 })
-          .from("[data-fade]", { opacity: 0, y: 16, duration: 0.9, stagger: 0.07 }, "-=0.7");
-
-        // The screenshots drift apart at different speeds as the hero scrolls away
-        gsap.utils.toArray<HTMLElement>("[data-depth]").forEach((el) => {
-          const depth = Number(el.dataset.depth);
-          gsap.to(el, {
-            yPercent: -5 * depth,
-            ease: "none",
-            scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
-          });
-        });
+  // The tech band is built from the skills in Convex, de-duplicated
+  const band = useMemo(() => {
+    if (!skillGroups) return [];
+    const seen = new Set<string>();
+    return skillGroups
+      .flatMap((g) => g.tags)
+      .filter((tag) => {
+        const key = tag.toLowerCase();
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
       });
-
-      // Cursor tilt: real 3D, driven by CSS perspective. Fine pointers only.
-      mm.add(`${MOTION_OK} and (hover: hover) and (pointer: fine)`, () => {
-        const box = stack.current;
-        if (!box) return;
-        const rotX = gsap.quickTo(box, "rotationX", { duration: 0.8, ease: "power3" });
-        const rotY = gsap.quickTo(box, "rotationY", { duration: 0.8, ease: "power3" });
-        const layers = gsap.utils.toArray<HTMLElement>("[data-layer]", box);
-        const shiftX = layers.map((l) => gsap.quickTo(l, "x", { duration: 0.8, ease: "power3" }));
-        const shiftY = layers.map((l) => gsap.quickTo(l, "y", { duration: 0.8, ease: "power3" }));
-
-        const onMove = (e: PointerEvent) => {
-          const r = box.getBoundingClientRect();
-          const nx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width) * 2 - 1));
-          const ny = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height) * 2 - 1));
-          rotY(nx * 5);
-          rotX(-ny * 4);
-          layers.forEach((l, i) => {
-            const d = Number(l.dataset.layer);
-            shiftX[i](nx * 14 * d);
-            shiftY[i](ny * 10 * d);
-          });
-        };
-        const reset = () => {
-          rotX(0);
-          rotY(0);
-          shiftX.forEach((f) => f(0));
-          shiftY.forEach((f) => f(0));
-        };
-        const hero = root.current!;
-        hero.addEventListener("pointermove", onMove);
-        hero.addEventListener("pointerleave", reset);
-        return () => {
-          hero.removeEventListener("pointermove", onMove);
-          hero.removeEventListener("pointerleave", reset);
-        };
-      });
-
-      return () => mm.revert();
-    },
-    { scope: root, dependencies: [shots.length] }
-  );
+  }, [skillGroups]);
 
   return (
-    <section id="top" ref={root} className="relative min-h-[100svh] pt-16">
-      <div className="shell grid-12 relative gap-y-12 pb-10 pt-10 lg:min-h-[calc(100svh-4rem)] lg:items-center lg:pb-16">
-        {/* Copy */}
-        <div className="col-span-12 lg:col-span-6">
-          <div data-fade className="flex items-center gap-3">
-            <span className="relative block h-11 w-11 shrink-0 overflow-hidden rounded-full border border-line bg-surface">
+    <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden pt-[68px]">
+      <div className="shell relative pt-5 sm:pt-7">
+        <h1 className="display hero-name m-0 mt-[5.25rem] sm:mt-0">
+          <span className="block overflow-hidden">
+            <span className="intro-rise block">Tanmay</span>
+          </span>
+          <span className="mt-[0.04em] block overflow-hidden pb-[0.06em] pr-3">
+            <span className="intro-rise block" style={delay(0.05)}>
+              <span
+                className="intro-wipe inline-block -rotate-[1.2deg] border-[4px] border-paper bg-blue px-[0.08em] pb-[0.02em] pt-[0.015em] text-ink shadow-[0.045em_0.045em_0_#0f0f0f]"
+                style={delay(0.08)}
+              >
+                Mirgal
+              </span>
+            </span>
+          </span>
+        </h1>
+
+        <div
+          className="intro-pop absolute right-[calc(var(--gutter)+0.25rem)] top-[1.1rem] flex h-[var(--s)] w-[var(--s)] rotate-12 items-center justify-center rounded-full border-[3px] border-paper bg-yellow p-[9%] text-center shadow-[5px_5px_0_#0f0f0f] [--s:6.25rem] sm:top-2 sm:border-[4px] sm:p-[10%] sm:shadow-[8px_8px_0_#0f0f0f] sm:[--s:clamp(7.5rem,14.5vw,12.5rem)]"
+          style={delay(0.35)}
+        >
+          <p className="display text-balance text-[0.68rem] leading-[1.02] sm:text-[clamp(0.8rem,1.55vw,1.4rem)]">
+            Full-stack &amp; AI engineer
+          </p>
+        </div>
+      </div>
+
+      {/* Mobile order: copy, links, tiles. The tile images stay below the first screen. */}
+      <div className="shell grid-12 relative mt-8 items-start gap-y-8 lg:mt-10">
+        <div className="intro-fade order-1 col-span-12 space-y-6 lg:col-span-5" style={delay(0.3)}>
+          <p className="max-w-[28rem] text-[clamp(1.1rem,1.6vw,1.4rem)] font-medium leading-[1.4]">
+            I design and build high-performance systems bridging modern web architecture and machine
+            learning.
+          </p>
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="relative block h-14 w-14 shrink-0 overflow-hidden rounded-full border-[3px] border-paper bg-surface shadow-[4px_4px_0_#0f0f0f]">
               <Image
                 src="/tanmay-portrait.jpg"
                 alt="Portrait of Tanmay Mirgal"
                 fill
                 priority
-                sizes="44px"
+                sizes="56px"
                 className="object-cover"
               />
             </span>
-            <p className="label !text-paper">Full-Stack &amp; AI Engineer</p>
-          </div>
-
-          <h1 className="display hero-name mt-8 text-paper">
-            <span className="-mb-[0.14em] block overflow-hidden pb-[0.14em]">
-              <span data-line className="block">
-                Tanmay
-              </span>
-            </span>
-            <span className="-mb-[0.14em] block overflow-hidden pb-[0.14em]">
-              <span data-line className="block">
-                Mirgal
-              </span>
-            </span>
-          </h1>
-
-          <p
-            data-fade
-            className="mt-10 max-w-[30rem] text-[clamp(1.1rem,1.7vw,1.5rem)] font-medium leading-[1.25] tracking-[-0.02em]"
-          >
-            I design and build high-performance systems bridging modern web architecture and machine
-            learning.{" "}
-            <span className="text-mute">
-              From scalable SaaS platforms to sophisticated computer vision pipelines, I engineer
-              robust solutions that push the boundaries of what&rsquo;s possible.
-            </span>
-          </p>
-
-          <div data-fade className="mt-9 flex flex-wrap gap-3">
-            <Magnet>
-              <a
-                href="#projects"
-                className="inline-flex items-center gap-2 rounded-full bg-paper px-6 py-4 text-base font-semibold text-ink transition-opacity hover:opacity-85"
-              >
-                View projects <ArrowUpRight size={16} aria-hidden="true" />
-              </a>
-            </Magnet>
-            <Magnet>
-              <a
-                href="#contact"
-                className="inline-flex items-center rounded-full border-[1.5px] border-paper px-6 py-4 text-base font-semibold transition-colors hover:bg-paper hover:text-ink"
-              >
-                Contact
-              </a>
-            </Magnet>
+            <a href="#projects" className="pbtn">
+              View projects <ArrowUpRight size={15} aria-hidden="true" />
+            </a>
+            <a href="#contact" className="pbtn-alt">
+              Contact
+            </a>
           </div>
         </div>
 
-        {/* Screenshot collage: your real products, stacked with depth */}
-        <div className="col-span-12 lg:col-span-6">
-          <div className="mx-auto w-full max-w-[44rem] [perspective:1400px]">
-            <div
-              ref={stack}
-              className="relative aspect-[6.6/7] w-full [transform-style:preserve-3d]"
-              data-fade
-            >
-              {LAYERS.map((layer, i) => {
-                const project = shots[i];
-                return (
-                  <div
+        <div className="order-3 col-span-12 lg:order-2 lg:-mt-14 lg:col-span-7">
+          <ul className="-mx-[var(--gutter)] flex snap-x snap-mandatory gap-5 overflow-x-auto px-[var(--gutter)] pb-6 pt-2 lg:mx-0 lg:snap-none lg:justify-end lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0 lg:pt-0">
+            {tiles.length === 0
+              ? /* Reserve the tiles' space while Convex loads, so nothing shifts when they arrive */
+                projects === undefined &&
+                TILT.map((t, i) => (
+                  <li
                     key={i}
-                    data-depth={layer.depth}
-                    className="absolute"
-                    style={{ left: layer.left, top: layer.top, width: layer.width, zIndex: layer.z }}
+                    aria-hidden="true"
+                    className={TILE_WIDTH}
+                    style={{ ["--ty" as string]: `${t.y}px`, ["--tr" as string]: `${t.rotate}deg` }}
                   >
-                    <div data-layer={layer.depth} style={{ transform: `rotate(${layer.rotate}deg)` }}>
+                    <div className="poster-card animate-pulse lg:[transform:translateY(var(--ty))_rotate(var(--tr))]">
+                      <div className="aspect-[16/10] border-b-[3px] border-paper bg-paper/10" />
+                      <div className="h-[4.5rem]" />
+                    </div>
+                  </li>
+                ))
+              : tiles.map((project, i) => {
+                  const study = findCaseStudy(project.title);
+                  const label = [study?.kicker.split(" / ")[0], project.tags[0]]
+                    .filter(Boolean)
+                    .join(" · ");
+                  return (
+                    <li
+                      key={project._id}
+                      className={`intro-fade ${TILE_WIDTH}`}
+                      style={{
+                        ...delay(0.45 + i * 0.1),
+                        ["--ty" as string]: `${TILT[i].y}px`,
+                        ["--tr" as string]: `${TILT[i].rotate}deg`,
+                      }}
+                    >
                       <a
                         href="#projects"
-                        aria-label={project ? `View ${project.title}` : "View projects"}
-                        className="shot relative block aspect-[16/10] transition-transform duration-500 hover:scale-[1.02]"
+                        className="poster-card poster-lift block lg:[transform:translateY(var(--ty))_rotate(var(--tr))] lg:hover:[transform:translate(-3px,calc(var(--ty)-3px))_rotate(var(--tr))]"
                       >
-                        {project && (
+                        <span className="relative block aspect-[16/10] border-b-[3px] border-paper bg-surface">
                           <Image
                             src={project.image}
-                            alt={`${project.title} screenshot`}
+                            alt=""
                             fill
                             priority={i === 0}
-                            sizes="(max-width: 1024px) 90vw, 40vw"
+                            sizes="(max-width: 1024px) 72vw, 17rem"
                             className="object-cover"
                           />
-                        )}
+                        </span>
+                        <span className="display block px-3.5 pb-1 pt-3 text-[1.45rem]">{project.title}</span>
+                        <span className="label block px-3.5 pb-3.5 !text-paper">{label}</span>
                       </a>
-                    </div>
-                    {project && (
-                      <span
-                        className={`absolute z-10 rounded-full bg-paper px-3 py-1.5 font-mono text-[11px] text-ink ${layer.pill}`}
-                      >
-                        {project.title}
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+                    </li>
+                  );
+                })}
+          </ul>
+        </div>
+
+        <div className="intro-fade order-2 col-span-12 flex flex-wrap items-center justify-between gap-3 lg:order-3 lg:mt-2" style={delay(0.5)}>
+          <span className="label hidden sm:inline">Scroll</span>
+          <ul className="flex flex-wrap gap-x-5 gap-y-2">
+            {quietLinks.map(({ label, href }) => (
+              <li key={label}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="label u-link inline-flex items-center gap-1 pb-0.5 !text-paper"
+                >
+                  {label}
+                  <ArrowUpRight size={12} aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
-      <div data-fade className="shell flex flex-wrap items-center justify-between gap-4 pb-8">
-        <span className="label">Scroll</span>
-        <ul className="flex flex-wrap gap-x-5 gap-y-2">
-          {quietLinks.map(({ label, href }) => (
-            <li key={label}>
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="label u-link inline-flex items-center gap-1 pb-0.5"
-              >
-                {label}
-                <ArrowUpRight size={11} aria-hidden="true" />
-              </a>
-            </li>
+      {/* Tech band, built from the skills in Convex */}
+      <div
+        aria-label="Technologies"
+        role="group"
+        className="mt-auto min-h-[4rem] overflow-hidden border-t-[3px] border-paper bg-blue py-3.5 text-ink"
+      >
+        <div className="marquee-track display text-[clamp(1.25rem,2.2vw,1.9rem)] !tracking-[-0.01em]">
+          {[0, 1].map((copy) => (
+            <ul key={copy} aria-hidden={copy === 1} className="flex shrink-0 items-center whitespace-nowrap">
+              {band.map((tag) => (
+                <li key={`${copy}-${tag}`} className="flex items-center">
+                  <span>{tag}</span>
+                  <span aria-hidden="true" className="px-5">
+                    &#10022;
+                  </span>
+                </li>
+              ))}
+            </ul>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );

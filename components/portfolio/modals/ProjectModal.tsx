@@ -23,7 +23,7 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
   const demoNote = selectedProject.liveLink ? demoOfflineNote(selectedProject.title) : undefined;
 
   const buttonBase =
-    "inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-colors";
+    "inline-flex items-center gap-2 border-[3px] border-paper px-5 py-3 font-mono text-xs font-bold uppercase transition-colors";
 
   return (
     <div className="animate-fade-in fixed inset-0 z-[2000] overflow-y-auto bg-paper/50 p-4 backdrop-blur-sm md:p-8">
@@ -35,13 +35,13 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
         aria-modal="true"
         aria-labelledby="project-modal-title"
         tabIndex={-1}
-        className="relative z-10 mx-auto my-4 w-full max-w-6xl rounded-3xl border border-line bg-surface p-6 shadow-2xl sm:p-10 md:my-8 md:p-14"
+        className="relative z-10 mx-auto my-4 w-full max-w-6xl border-[4px] border-paper bg-ink p-6 shadow-[12px_12px_0_#0f0f0f] sm:p-10 md:my-8 md:p-14"
       >
         <button
           type="button"
           onClick={close}
           aria-label="Close project details"
-          className="absolute right-4 top-4 rounded-full border border-line p-2.5 text-mute transition-colors hover:bg-paper hover:text-ink"
+          className="absolute right-4 top-4 border-[3px] border-paper bg-yellow p-2.5 transition-transform hover:translate-x-[2px] hover:translate-y-[2px]"
         >
           <X size={18} aria-hidden="true" />
         </button>
@@ -53,7 +53,7 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
                 <p className="label">Project</p>
                 <h3
                   id="project-modal-title"
-                  className="display text-[clamp(2.75rem,6vw,5rem)] !leading-[0.95]"
+                  className="display text-[clamp(2rem,5vw,4rem)] !leading-[0.95]"
                 >
                   {selectedProject.title}
                 </h3>
