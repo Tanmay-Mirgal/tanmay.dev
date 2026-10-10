@@ -6,7 +6,7 @@ import React from "react";
 import { NAV_ITEMS, SidebarNav } from "@/components/portfolio/SidebarNav";
 import { TopBar } from "@/components/portfolio/TopBar";
 import { SiteFooter } from "@/components/portfolio/SiteFooter";
-import { Thread } from "@/components/portfolio/Thread";
+import { SculptureHost } from "@/components/portfolio/sculpture/SculptureHost";
 import { useActiveSection } from "@/hooks/useActiveSection";
 
 // Sections
@@ -30,11 +30,11 @@ export default function Home() {
 
   return (
     <>
+      <SculptureHost />
       <TopBar />
       <SidebarNav activeSection={activeSection} />
 
       <main id="main" className="relative">
-        <Thread />
         <HeroSection />
         <StatementSection />
         <WorkSection />

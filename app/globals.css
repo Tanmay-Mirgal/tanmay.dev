@@ -3,7 +3,7 @@
 /* Font utilities (font-display / font-sans / font-mono). `inline` resolves the
    next/font variables, which live on <body>, at the point of use. */
 @theme inline {
-  --font-display: var(--font-instrument-serif), "Times New Roman", serif;
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
 }
@@ -12,14 +12,11 @@
    below can use var(--color-*) as well as the generated utilities. */
 @theme static {
   --color-ink: #0a0a0a;
+  --color-graphite: #141414;
   --color-paper: #ecebe6;
   --color-line: rgb(236 235 230 / 0.14);
   --color-mute: rgb(236 235 230 / 0.64);
   --color-faint: rgb(236 235 230 / 0.4);
-
-  /* The only chromatic colour on the site. It belongs to the thread: the hero
-     rope, the line that runs down the page, its knots. Set it to #ecebe6 for pure monochrome. */
-  --color-thread: #ff4a1c;
 }
 
 :root {
@@ -27,21 +24,6 @@
   color-scheme: dark;
 }
 
-/* Inverted "printed plate" scope. Utilities read these variables, so everything
-   inside (text-paper, border-line, text-mute...) flips automatically. */
-.theme-paper {
-  --color-ink: #ecebe6;
-  --color-paper: #0a0a0a;
-  --color-line: rgb(10 10 10 / 0.16);
-  --color-mute: rgb(10 10 10 / 0.68);
-  --color-faint: rgb(10 10 10 / 0.48);
-  background-color: var(--color-ink);
-  color: var(--color-paper);
-}
-.theme-paper ::selection {
-  background: #0a0a0a;
-  color: #ecebe6;
-}
 
 html {
   background-color: var(--color-ink);
@@ -103,10 +85,10 @@ body::after {
 /* ───────── Type ───────── */
 
 .display {
-  font-family: var(--font-instrument-serif), "Times New Roman", serif;
-  font-weight: 400;
-  letter-spacing: -0.025em;
-  line-height: 0.92;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
 }
 
 .label {
@@ -118,13 +100,13 @@ body::after {
 }
 
 .hero-name {
-  font-size: min(30vw, 30svh);
+  font-size: min(25vw, 24svh);
   line-height: 0.84;
 }
 
 @media (min-width: 1024px) {
   .hero-name {
-    font-size: min(21vw, 34svh);
+    font-size: min(15vw, 30svh);
   }
 }
 
@@ -286,4 +268,9 @@ body::after {
 .animate-orbit {
   animation: orbit calc(var(--duration) * 1s) linear infinite;
   animation-delay: calc(var(--delay) * 1s);
+}
+
+/* The static skeleton gives way once the 3D sculpture has taken its place */
+html[data-sculpture="ready"] .sculpture-still {
+  opacity: 0;
 }
