@@ -2,7 +2,8 @@ import { LINKS } from "@/lib/links";
 import type { PortfolioSnapshot } from "@/lib/portfolioSnapshot";
 import { JOB_TITLE, PORTRAIT_PATH, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
-const HOME = `${SITE_URL}/`;
+// Same string as the page's canonical URL, so every signal names the page identically.
+const HOME = SITE_URL;
 const WEBSITE_ID = `${HOME}#website`;
 const PAGE_ID = `${HOME}#profile`;
 const PERSON_ID = `${HOME}#person`;

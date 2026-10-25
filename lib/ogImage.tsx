@@ -27,9 +27,9 @@ export async function renderOgImage() {
   const host = SITE_URL.replace(/^https?:\/\//, "");
 
   const name = {
-    fontSize: 200,
+    fontSize: 184,
     lineHeight: 0.92,
-    letterSpacing: -9,
+    letterSpacing: -8,
     textTransform: "uppercase" as const,
   };
 
@@ -70,21 +70,21 @@ export async function renderOgImage() {
           <div
             style={{
               position: "absolute",
-              top: 40,
-              right: 80,
-              width: 270,
-              height: 270,
+              top: 34,
+              right: 56,
+              width: 236,
+              height: 236,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               textAlign: "center",
-              padding: 40,
-              borderRadius: 135,
+              padding: 34,
+              borderRadius: 118,
               background: YELLOW,
               border: `8px solid ${INK}`,
               boxShadow: `12px 12px 0 ${INK}`,
               transform: "rotate(12deg)",
-              fontSize: 34,
+              fontSize: 30,
               lineHeight: 1.05,
               textTransform: "uppercase",
               letterSpacing: -1,
@@ -101,8 +101,8 @@ export async function renderOgImage() {
             alt=""
             style={{
               position: "absolute",
-              top: 370,
-              right: 150,
+              top: 340,
+              right: 110,
               borderRadius: 75,
               border: `8px solid ${INK}`,
               boxShadow: `8px 8px 0 ${INK}`,
