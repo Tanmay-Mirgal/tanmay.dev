@@ -3,8 +3,7 @@
 import React, { useMemo } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useProjects, useSkillGroups } from "@/components/portfolio/PortfolioData";
 import { LINKS } from "@/lib/links";
 import { caseStudies, findCaseStudy } from "@/lib/caseStudies";
 
@@ -29,8 +28,8 @@ const TILE_WIDTH =
   "w-[72vw] max-w-[17rem] shrink-0 snap-center lg:w-[16rem] lg:max-w-none xl:w-[17rem]";
 
 export const HeroSection = () => {
-  const projects = useQuery(api.portfolio.getProjects);
-  const skillGroups = useQuery(api.portfolio.getSkillGroups);
+  const projects = useProjects();
+  const skillGroups = useSkillGroups();
 
   // Prefer the projects that have a written case study; otherwise the first three
   const tiles = useMemo(() => {
@@ -59,10 +58,12 @@ export const HeroSection = () => {
     <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden pt-[68px]">
       <div className="shell relative pt-5 sm:pt-7">
         <h1 className="display hero-name m-0 mt-[5.25rem] sm:mt-0">
-          <span className="block overflow-hidden">
+          {/* The two animated lines read as "TanmayMirgal" to anything that ignores layout, so the heading carries its full text here. */}
+          <span className="sr-only">Tanmay Mirgal, full-stack and AI engineer</span>
+          <span aria-hidden="true" className="block overflow-hidden">
             <span className="intro-rise block">Tanmay</span>
           </span>
-          <span className="mt-[0.04em] block overflow-hidden pb-[0.06em] pr-3">
+          <span aria-hidden="true" className="mt-[0.04em] block overflow-hidden pb-[0.06em] pr-3">
             <span className="intro-rise block" style={delay(0.05)}>
               <span
                 className="intro-wipe inline-block -rotate-[1.2deg] border-[4px] border-paper bg-blue px-[0.08em] pb-[0.02em] pt-[0.015em] text-ink shadow-[0.045em_0.045em_0_#0f0f0f]"

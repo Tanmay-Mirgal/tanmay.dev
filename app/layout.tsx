@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo_Black, Space_Grotesk, Space_Mono } from "next/font/google";
 import "./globals.css";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 
 const archivoBlack = Archivo_Black({
   variable: "--font-archivo-black",
@@ -25,40 +26,41 @@ export const viewport: Viewport = {
   themeColor: "#f3efe4",
 };
 
-const baseUrl = "https://tanmaymirgal.dev";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Tanmay Mirgal | AI & Full-Stack Architect",
-    template: "%s | Tanmay Mirgal",
+    default: SITE_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: "Tanmay Mirgal - Architecting Intelligence. High-performance systems, AI/ML pipelines, and next-generation full-stack architectures.",
-  keywords: ["Tanmay Mirgal", "AI Architect", "Full-Stack Developer", "Next.js Portfolio", "Software Engineer", "Machine Learning Engineer", "Deep Learning", "React Developer", "Node.js Architect"],
-  authors: [{ name: "Tanmay Mirgal" }],
-  creator: "Tanmay Mirgal",
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "Tanmay Mirgal",
+    "Tanmay Mirgal portfolio",
+    "full-stack developer",
+    "AI engineer",
+    "machine learning engineer",
+    "Next.js developer",
+    "React developer",
+  ],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  category: "technology",
+  // The share image comes from app/opengraph-image.tsx and app/twitter-image.tsx.
   openGraph: {
-    type: "website",
+    type: "profile",
     locale: "en_US",
-    url: baseUrl,
-    title: "Tanmay Mirgal | AI & Full-Stack Architect",
-    description: "Architecting Intelligence. High-performance systems and AI solutions.",
-    siteName: "Tanmay Mirgal Portfolio",
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Tanmay Mirgal | AI & Full-Stack Architect",
-      },
-    ],
+    url: "/",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_NAME,
+    firstName: "Tanmay",
+    lastName: "Mirgal",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tanmay Mirgal | AI & Full-Stack Architect",
-    description: "Architecting Intelligence. High-performance systems and AI solutions.",
-    creator: "@tanmay_mirgal", // Replace with your actual handle if different
-    images: ["/opengraph-image.png"],
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
   robots: {
     index: true,
@@ -72,12 +74,9 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: baseUrl,
+    canonical: "/",
   },
-  icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
-  },
+  // Icons come from app/icon.png, app/apple-icon.png and app/favicon.ico.
   verification: {
     google: "2KKUiYlMYJ4GsZxD02PtzCILc32zl9ApToVWlYXfJqQ",
   },

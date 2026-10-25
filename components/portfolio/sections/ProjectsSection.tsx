@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useProjects } from "@/components/portfolio/PortfolioData";
 import { Project } from "@/types";
 import { ProjectModal } from "@/components/portfolio/modals/ProjectModal";
 import { Section } from "@/components/portfolio/Section";
@@ -21,7 +20,7 @@ interface Featured {
 
 export const ProjectsSection = () => {
   const [modal, setModal] = useState<Project | null>(null);
-  const projects = useQuery(api.portfolio.getProjects);
+  const projects = useProjects();
 
   let featured: Featured[] = [];
   let rest: ProjectDoc[] = [];

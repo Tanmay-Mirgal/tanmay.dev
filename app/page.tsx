@@ -1,48 +1,23 @@
-"use client";
+import { HomeClient } from "@/components/portfolio/HomeClient";
+import { PortfolioDataProvider } from "@/components/portfolio/PortfolioData";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getPortfolioSnapshot } from "@/lib/portfolioSnapshot";
+import { buildStructuredData } from "@/lib/structuredData";
 
-import React from "react";
+// Static page, rebuilt in the background at most once an hour. Convex edits show up in the
+// crawlable HTML within that window; visitors already get them live through the Convex client.
+// Must be a literal: Next reads it at build time. Keep it equal to REVALIDATE_SECONDS.
+export const revalidate = 3600;
 
-// Chrome
-import { NAV_ITEMS } from "@/components/portfolio/SidebarNav";
-import { TopBar } from "@/components/portfolio/TopBar";
-import { SiteFooter } from "@/components/portfolio/SiteFooter";
-import { useActiveSection } from "@/hooks/useActiveSection";
-
-// Sections
-import { HeroSection } from "@/components/portfolio/sections/HeroSection";
-import { WorkSection } from "@/components/portfolio/sections/WorkSection";
-import { ProjectsSection } from "@/components/portfolio/sections/ProjectsSection";
-import { SkillsSection } from "@/components/portfolio/sections/SkillsSection";
-import { EducationSection } from "@/components/portfolio/sections/EducationSection";
-import { AchievementsSection } from "@/components/portfolio/sections/AchievementsSection";
-import { CertificationsSection } from "@/components/portfolio/sections/CertificationsSection";
-import { PublicationsSection } from "@/components/portfolio/sections/PublicationsSection";
-import { ContactSection } from "@/components/portfolio/sections/ContactSection";
-
-const SECTION_IDS = ["top", ...NAV_ITEMS.map((item) => item.id)];
-
-export default function Home() {
-  const current = useActiveSection(SECTION_IDS);
-  // The hero isn't in the nav, so nothing is highlighted while it's on screen.
-  const activeSection = current === "top" ? "" : current;
+export default async function Home() {
+  const snapshot = await getPortfolioSnapshot();
 
   return (
     <>
-      <TopBar activeSection={activeSection} />
-
-      <main id="main" className="relative">
-        <HeroSection />
-        <WorkSection />
-        <ProjectsSection />
-        <SkillsSection />
-        <EducationSection />
-        <AchievementsSection />
-        <CertificationsSection />
-        <PublicationsSection />
-        <ContactSection />
-      </main>
-
-      <SiteFooter />
+      <JsonLd data={buildStructuredData(snapshot)} />
+      <PortfolioDataProvider snapshot={snapshot}>
+        <HomeClient />
+      </PortfolioDataProvider>
     </>
   );
 }

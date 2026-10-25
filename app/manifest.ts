@@ -1,20 +1,19 @@
 import type { MetadataRoute } from "next";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE } from "@/lib/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Tanmay Mirgal | AI & Full-Stack Architect",
-    short_name: "Tanmay Portfolio",
-    description: "Architecting Intelligence - High-performance systems and AI solutions by Tanmay Mirgal.",
+    name: SITE_TITLE,
+    short_name: SITE_NAME,
+    description: SITE_DESCRIPTION,
     start_url: "/",
     display: "standalone",
-    background_color: "#030305",
-    theme_color: "#D4AF37",
+    // The page's own cream, so the install splash and browser chrome match the site.
+    background_color: "#f3efe4",
+    theme_color: "#f3efe4",
     icons: [
-      {
-        src: "/favicon.png",
-        sizes: "any",
-        type: "image/png",
-      },
+      { src: "/icon.png", sizes: "256x256", type: "image/png" },
+      { src: "/apple-icon.png", sizes: "180x180", type: "image/png" },
     ],
   };
 }

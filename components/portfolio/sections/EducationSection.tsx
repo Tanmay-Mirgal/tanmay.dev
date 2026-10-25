@@ -1,13 +1,12 @@
 "use client";
 
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useEducation } from "@/components/portfolio/PortfolioData";
 import { Section } from "@/components/portfolio/Section";
 import { Reveal } from "@/components/portfolio/Reveal";
 import { ListSkeleton } from "@/components/portfolio/ListSkeleton";
 
 export const EducationSection = () => {
-  const educations = useQuery(api.portfolio.getEducation);
+  const educations = useEducation();
 
   return (
     <Section id="education" index="04" eyebrow="Education" title="Education">

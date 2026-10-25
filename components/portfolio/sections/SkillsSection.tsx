@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useSkillGroups } from "@/components/portfolio/PortfolioData";
 import { Section } from "@/components/portfolio/Section";
 import { Reveal } from "@/components/portfolio/Reveal";
 import { ListSkeleton } from "@/components/portfolio/ListSkeleton";
@@ -11,7 +10,7 @@ import { ListSkeleton } from "@/components/portfolio/ListSkeleton";
 const CHIP = ["bg-yellow", "bg-blue text-ink", "bg-paper text-ink", "bg-ink"];
 
 export const SkillsSection = () => {
-  const skillGroups = useQuery(api.portfolio.getSkillGroups);
+  const skillGroups = useSkillGroups();
 
   return (
     <Section id="skills" index="03" eyebrow="Capabilities" title="Skills" wide>

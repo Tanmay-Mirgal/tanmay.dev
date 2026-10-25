@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useAchievements } from "@/components/portfolio/PortfolioData";
 import { Achievement } from "@/types";
 import { Section } from "@/components/portfolio/Section";
 import { RecordList } from "@/components/portfolio/RecordList";
@@ -11,7 +10,7 @@ import { AchievementModal } from "@/components/portfolio/modals/AchievementModal
 
 export const CertificationsSection = () => {
   const [selected, setSelected] = useState<Achievement | null>(null);
-  const achievementsData = useQuery(api.portfolio.getAchievements);
+  const achievementsData = useAchievements();
 
   // Course certifications (hackathons, offers and timelines live under Achievements)
   const certifications = achievementsData?.filter((item) => {
