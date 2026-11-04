@@ -54,7 +54,7 @@ export const MobileMenu = ({ activeSection }: { activeSection: string }) => {
       className="animate-fade-in fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-ink px-[var(--gutter)] pb-8 pt-4 md:hidden"
     >
       <div className="flex items-center justify-between">
-        <span className="label !text-paper">Tanmay Mirgal ✦ Portfolio 2026</span>
+        {/* <span className="label !text-paper">Tanmay Mirgal ✦ Portfolio 2026</span> */}
         <button
           type="button"
           onClick={close}
