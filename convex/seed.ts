@@ -203,14 +203,6 @@ export const seed = mutation({
         image: "https://res.cloudinary.com/dmspullpt/image/upload/f_auto,q_auto/v1776528917/WhatsApp_Image_2026-04-18_at_9.44.48_PM_yunoj2.jpg"
       },
       { 
-        title: "Finch AI", 
-        desc: "Intelligent Banking Recommendation Engine leveraging ML to serve personalized financial products to 500+ active users.",
-        fullDesc: "Finch AI is a sophisticated banking intelligence architecture designed to automate financial decision-making. I engineered a robust hybrid system combining a high-performance Next.js frontend with a Flask-powered microservice backend. The core intelligence Layer utilizes Scikit-learn and XGBoost for precise credit-worthiness scoring and interest-rate prediction, while Groq LLM integration enables conversational financial insights. The system handles 500+ active users with real-time analytics and predictive modeling.",
-        tags: ["Next.js", "Flask", "XGBoost", "Groq AI", "PostgreSQL", "MLOps"], 
-        link: "https://github.com/Tanmay-Mirgal/Finch-AI-Intelligent-Banking-Recommendation-Engine",
-        image: "https://res.cloudinary.com/dmspullpt/image/upload/f_auto,q_auto/v1776528194/Finch_Ai_yybtt5.png"
-      },
-      { 
         title: "Cognix", 
         desc: "Enterprise-grade AI Assessment & Analytics Mobile App for clinical testing and real-time cognitive evaluation.",
         fullDesc: "Cognix is an end-to-end full-stack ecosystem engineered for precision clinical assessment. Built with React Native for high-performance mobile accessibility, the platform unifies real-time speech evaluation, intelligent document scanning, and sophisticated cognitive analytics into a single interface. I implemented a complex RAG (Retrieval-Augmented Generation) pipeline for deep clinical data retrieval and optimized MLOps workflows on AWS to ensure sub-second evaluation latency.",

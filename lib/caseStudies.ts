@@ -122,46 +122,7 @@ export const caseStudies: CaseStudy[] = [
     status:
       "The README includes a step-by-step AWS EC2 deployment guide. Project environment variables are encrypted at rest.",
   },
-  {
-    title: "Finch AI",
-    kind: "pipeline",
-    kicker: "Machine learning / Full-stack",
-    summary:
-      "A banking intelligence platform. Upload a bank statement and get machine-learning product recommendations, then reach the customer by email, SMS or WhatsApp.",
-    problem:
-      "Bank statements arrive as PDFs. Finch extracts them, scores the financial behaviour inside, and recommends products: savings accounts, loans or credit cards.",
-    steps: [
-      {
-        label: "Upload",
-        detail:
-          "PDF statements are parsed with PyMuPDF and pdfplumber, or an analyst can work through a guided step-by-step flow.",
-      },
-      {
-        label: "Analyse",
-        detail:
-          "Scikit-learn and XGBoost models work on behavioural features. The repository documents feature importance and a correlation matrix.",
-      },
-      {
-        label: "Recommend",
-        detail:
-          "Product suggestions across savings accounts, loans and credit cards, with Groq LLM-powered conversational insight.",
-      },
-      {
-        label: "Reach out",
-        detail: "Email through SendGrid; SMS and WhatsApp through Twilio.",
-      },
-      {
-        label: "Sync",
-        detail: "Convex keeps frontend and backend state in sync in real time.",
-      },
-    ],
-    facts: [
-      { label: "Frontend", value: "Next.js 16, TypeScript, Tailwind v4" },
-      { label: "Backend", value: "Flask, Python" },
-      { label: "Models", value: "scikit-learn, XGBoost" },
-      { label: "Realtime", value: "Convex" },
-    ],
-  },
+  
 ];
 
 /**
