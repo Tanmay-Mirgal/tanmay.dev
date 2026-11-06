@@ -194,12 +194,12 @@ export const seed = mutation({
         image: "https://res.cloudinary.com/dmspullpt/image/upload/f_auto,q_auto/v1776586114/Samadhan_egvvvn.png"
       },
       { 
-        title: "Smart Meet", 
+        title: "Meetup", 
         desc: "AI-powered enterprise meeting platform featuring custom WebRTC, real-time transcriptions, and intelligent Kanban-based workflow management.", 
-        fullDesc: "Smart Meet was architected as a hackathon prototype to eliminate the overhead of manual meeting orchestration. It integrates a custom WebRTC engine with an AI-driven transcription layer to track vital discussion points and transform live conversations into actionable summaries. The focus was on low-friction setup and a high-speed operator experience for rapid deployment.",
+        fullDesc: "Meetup was architected as a hackathon prototype to eliminate the overhead of manual meeting orchestration. It integrates a custom WebRTC engine with an AI-driven transcription layer to track vital discussion points and transform live conversations into actionable summaries. The focus was on low-friction setup and a high-speed operator experience for rapid deployment.",
         tags: ["WebRTC", "FastAPI", "TensorFlow", "OpenCV", "Groq AI", "React"], 
         link: "https://github.com/Tanmay-Mirgal/Smart-Meeter",
-        liveLink: "https://smart-meet.tanmaymirgal.dev/",
+        liveLink: "https://meetup.tanmaymirgal.dev/",
         image: "https://res.cloudinary.com/dmspullpt/image/upload/f_auto,q_auto/v1776528917/WhatsApp_Image_2026-04-18_at_9.44.48_PM_yunoj2.jpg"
       },
       { 
