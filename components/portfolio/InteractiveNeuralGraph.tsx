@@ -143,7 +143,7 @@ export const InteractiveNeuralGraph = () => {
                <div className="absolute inset-2 sm:inset-3 border border-[#D4AF37]/30 rounded-full animate-[spin_8s_reverse_linear_infinite] border-t-transparent" />
                
                <Database size={16} className="text-[#D4AF37] mb-1 opacity-90 sm:w-5 sm:h-5 lg:w-8 lg:h-8" />
-               <span className="font-display font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#D4AF37] to-[#F9A826] text-[8px] sm:text-[9px] lg:text-sm tracking-[0.2em] sm:tracking-[0.3em] uppercase block pl-1 relative z-10">CORE</span>
+               <span className="font-display font-bold text-transparent bg-clip-text bg-gradient-to-b from-[#D4AF37] to-[#F9A826] text-xs lg:text-sm tracking-[0.2em] sm:tracking-[0.3em] uppercase block pl-1 relative z-10">CORE</span>
             </motion.div>
          </div>
 
@@ -189,8 +189,8 @@ export const InteractiveNeuralGraph = () => {
 
                  <div className={`absolute top-full mt-2 sm:mt-4 whitespace-nowrap transition-all duration-300 pointer-events-none z-50 ${activeNode === node.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 lg:group-hover:opacity-100 lg:group-hover:translate-y-0'}`}>
                     <div className="glass-panel px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl border border-white/10 font-mono flex flex-col items-center shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-2xl bg-black/90">
-                       <span className="text-[11px] sm:text-[11px] lg:text-sm font-bold tracking-widest uppercase mb-0.5 sm:mb-1" style={{ color: node.color }}>{node.label}</span>
-                       <span className="text-[9px] sm:text-[8px] lg:text-[10px] text-white/60">{node.desc}</span>
+                       <span className="text-xs lg:text-sm font-bold tracking-widest uppercase mb-0.5 sm:mb-1" style={{ color: node.color }}>{node.label}</span>
+                       <span className="text-xs text-white/60">{node.desc}</span>
                     </div>
                  </div>
                </motion.div>
@@ -225,7 +225,7 @@ export const InteractiveNeuralGraph = () => {
                  >
                     <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 pointer-events-none animate-[shimmer_3s_infinite]" style={{ animationDelay: `${i * 0.2}s` }} />
                     <span className={`font-mono tracking-[0.1em] sm:tracking-[0.2em] font-bold whitespace-nowrap relative z-10 transition-all duration-500
-                      ${isParentActive ? 'text-[9px] sm:text-[9px] lg:text-xs' : 'text-[8px] sm:text-[8px] lg:text-[10px]'}`}>
+                      ${isParentActive ? 'text-xs' : 'text-xs opacity-75'}`}>
                       {tech.label}
                     </span>
                  </motion.div>

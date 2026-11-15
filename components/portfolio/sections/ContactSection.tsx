@@ -8,7 +8,7 @@ import { EMAIL, LINKS } from "@/lib/links";
 
 // Inside the blue panel the colour tokens are flipped, so these use explicit colours.
 const fieldClass =
-  "mt-2 w-full border-[3px] border-[#0f0f0f] bg-[#f3efe4] px-4 py-3.5 text-[15px] text-[#0f0f0f] outline-none transition-shadow placeholder:text-[#0f0f0f]/50 focus:shadow-[5px_5px_0_#0f0f0f]";
+  "mt-2 w-full border-[3px] border-[#0f0f0f] bg-[#f3efe4] px-4 py-3.5 text-base text-[#0f0f0f] outline-none transition-shadow placeholder:text-[#0f0f0f]/50 focus:shadow-[5px_5px_0_#0f0f0f]";
 
 export const ContactSection = () => {
   const [email, setEmail] = useState("");
@@ -53,7 +53,7 @@ export const ContactSection = () => {
       <div className="grid-12 gap-y-14">
         <Reveal className="col-span-12 md:col-span-7">
           {status === "idle" ? (
-            <form onSubmit={handleSend} className="space-y-6">
+            <form onSubmit={handleSend} className="max-w-xl space-y-6">
               <div>
                 <label htmlFor="fromEmail" className="label !text-paper">
                   Your email

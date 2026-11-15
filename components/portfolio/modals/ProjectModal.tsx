@@ -53,7 +53,7 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
                 <p className="label">Project</p>
                 <h3
                   id="project-modal-title"
-                  className="display text-[clamp(2rem,5vw,4rem)] !leading-[0.95]"
+                  className="display text-[clamp(2rem,4vw,3.75rem)] !leading-[0.95]"
                 >
                   {selectedProject.title}
                 </h3>
@@ -122,7 +122,7 @@ export const ProjectModal = ({ selectedProject, setSelectedProject }: ProjectMod
 
             <div className="space-y-3">
               <p className="label">Overview</p>
-              <p className="text-[15px] leading-relaxed text-mute sm:text-base">
+              <p className="text-base leading-relaxed text-mute">
                 {selectedProject.fullDesc}
               </p>
             </div>

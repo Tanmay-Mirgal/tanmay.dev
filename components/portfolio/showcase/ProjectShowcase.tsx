@@ -87,7 +87,7 @@ export function ProjectShowcase({ project, study, index, total }: Props) {
         {study && (
           <div data-copy className="mt-6 border-t-[3px] border-paper pt-5">
             <p className="label !text-paper">The problem</p>
-            <p className="mt-2 text-[15px] leading-relaxed text-mute">{study.problem}</p>
+            <p className="mt-2 text-base leading-relaxed text-mute">{study.problem}</p>
           </div>
         )}
 

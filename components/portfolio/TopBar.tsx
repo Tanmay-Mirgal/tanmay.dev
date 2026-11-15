@@ -14,7 +14,7 @@ const TOP_LINKS = [
 export const TopBar = ({ activeSection }: { activeSection: string }) => (
   <header className="fixed inset-x-0 top-0 z-40 border-b-[3px] border-paper bg-ink">
     <div className="shell flex h-[68px] items-center justify-between">
-      <a href="#top" className="label !text-paper">
+      <a href="#top" className="label normal-case tracking-normal !text-paper font-semibold">
         Tanmay Mirgal <span aria-hidden="true">&#10022;</span> Portfolio 2026
       </a>
 

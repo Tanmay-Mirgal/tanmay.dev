@@ -22,11 +22,14 @@ export const SkillsSection = () => {
             <Reveal as="li" key={group._id} className="poster-card p-6 md:p-8">
               <h3 className="flex flex-wrap items-center gap-3">
                 <span className={`pill ${CHIP[idx % CHIP.length]}`}>{String(idx + 1).padStart(2, "0")}</span>
-                <span className="display text-[clamp(1.15rem,1.9vw,1.6rem)]">{group.title}</span>
+                <span className="display text-[clamp(1.2rem,1.9vw,1.6rem)]">{group.title}</span>
               </h3>
-              <ul className="mt-6 flex flex-wrap gap-2.5">
+              <ul className="mt-6 flex flex-wrap gap-x-2.5 gap-y-3.5">
                 {group.tags.map((tag, i) => (
-                  <li key={`${tag}-${i}`} className="pill bg-ink">
+                  <li
+                    key={`${tag}-${i}`}
+                    className="pill bg-surface px-3 py-1.5 text-xs font-semibold leading-normal transition-colors hover:bg-yellow"
+                  >
                     {tag}
                   </li>
                 ))}

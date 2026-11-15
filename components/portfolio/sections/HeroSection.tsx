@@ -59,7 +59,7 @@ export const HeroSection = () => {
       <div className="shell relative pt-5 sm:pt-7">
         <h1 className="display hero-name m-0 mt-[5.25rem] sm:mt-0">
           {/* The two animated lines read as "TanmayMirgal" to anything that ignores layout, so the heading carries its full text here. */}
-          <span className="sr-only">Tanmay Mirgal, full-stack and AI engineer</span>
+          <span className="sr-only normal-case">Tanmay Mirgal, full-stack and AI engineer</span>
           <span aria-hidden="true" className="block overflow-hidden">
             <span className="intro-rise block">Tanmay</span>
           </span>
@@ -79,7 +79,7 @@ export const HeroSection = () => {
           className="intro-pop absolute right-[calc(var(--gutter)+0.25rem)] top-[1.1rem] flex h-[var(--s)] w-[var(--s)] rotate-12 items-center justify-center rounded-full border-[3px] border-paper bg-yellow p-[9%] text-center shadow-[5px_5px_0_#0f0f0f] [--s:6.25rem] sm:top-2 sm:border-[4px] sm:p-[10%] sm:shadow-[8px_8px_0_#0f0f0f] sm:[--s:clamp(7.5rem,14.5vw,12.5rem)]"
           style={delay(0.35)}
         >
-          <p className="display text-balance text-[0.68rem] leading-[1.02] sm:text-[clamp(0.8rem,1.55vw,1.4rem)]">
+          <p className="display normal-case text-balance text-[0.72rem] font-bold leading-tight sm:text-[clamp(0.85rem,1.5vw,1.35rem)]">
             Full-stack &amp; AI engineer
           </p>
         </div>
@@ -87,12 +87,8 @@ export const HeroSection = () => {
 
       {/* Mobile order: copy, links, tiles. The tile images stay below the first screen. */}
       <div className="shell grid-12 relative mt-8 items-start gap-y-8 lg:mt-10">
-        <div className="intro-fade order-1 col-span-12 space-y-6 lg:col-span-5" style={delay(0.3)}>
-          <p className="max-w-[28rem] text-[clamp(1.1rem,1.6vw,1.4rem)] font-medium leading-[1.4]">
-            I design and build high-performance systems bridging modern web architecture and machine
-            learning.
-          </p>
-          <div className="flex flex-wrap items-center gap-4">
+        <div className="intro-fade order-1 col-span-12 space-y-5 lg:col-span-5" style={delay(0.3)}>
+          <div className="flex items-center gap-4">
             <span className="relative block h-14 w-14 shrink-0 overflow-hidden rounded-full border-[3px] border-paper bg-surface shadow-[4px_4px_0_#0f0f0f]">
               <Image
                 src="/tanmay-portrait.jpg"
@@ -103,6 +99,12 @@ export const HeroSection = () => {
                 className="object-cover"
               />
             </span>
+            <p className="max-w-[26rem] text-[clamp(1.05rem,1.5vw,1.35rem)] font-medium leading-[1.4]">
+              I design and build high-performance systems bridging modern web architecture and machine
+              learning.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3.5 pt-1">
             <a href="#projects" className="pbtn">
               View projects <ArrowUpRight size={15} aria-hidden="true" />
             </a>

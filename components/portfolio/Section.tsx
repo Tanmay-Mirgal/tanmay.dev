@@ -48,23 +48,21 @@ export function Section({
     >
       <div className="shell">
         <div
-          className={`grid-12 items-end pb-8 pt-6 md:pb-12 ${
+          className={`pb-6 pt-6 md:pb-10 ${
             blue ? "" : "border-t-[3px] border-paper"
           }`}
         >
-          <p className="col-span-12 mb-5 flex flex-wrap items-center gap-3 md:col-span-3 md:mb-2">
+          <div className="mb-3.5 flex flex-wrap items-center gap-3">
             <span className={`pill ${blue ? "bg-yellow text-[#0f0f0f]" : "bg-yellow"}`}>{index}</span>
             <span className="label !text-paper">{eyebrow}</span>
-          </p>
-          <h2 id={`${id}-title`} className={`display col-span-12 md:col-span-9 ${TITLE_SIZE[tone]}`}>
+          </div>
+          <h2 id={`${id}-title`} className={`display ${TITLE_SIZE[tone]}`}>
             <MaskTitle>{title}</MaskTitle>
           </h2>
         </div>
 
-        <div className="grid-12">
-          <div className={wide ? "col-span-12" : "col-span-12 md:col-span-9 md:col-start-4"}>
-            {children}
-          </div>
+        <div className={wide ? "w-full" : "w-full max-w-6xl"}>
+          {children}
         </div>
       </div>
     </section>

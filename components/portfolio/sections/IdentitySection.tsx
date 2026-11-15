@@ -9,7 +9,7 @@ export const IdentitySection = () => {
     <section id="identity" className="py-24 pr-2 sm:pr-6 md:pr-12 lg:pr-24 z-10 relative">
       <HolographicNode id="identity_node">
         <div className="mb-12">
-          <h2 className="text-[10px] md:text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">
+          <h2 className="text-xs md:text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">
             PERSONAL_IDENTITY_NODE
           </h2>
         </div>

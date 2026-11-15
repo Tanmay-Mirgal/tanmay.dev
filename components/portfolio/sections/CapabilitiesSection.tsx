@@ -39,7 +39,7 @@ export const CapabilitiesSection = () => {
   return (
     <section id="capabilities" className="py-24 md:py-32 pr-2 sm:pr-6 md:pr-12 lg:pr-24 z-10 relative">
       <div className="mb-12 md:mb-16">
-        <h2 className="text-[10px] md:text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">SYSTEM_CAPABILITIES</h2>
+        <h2 className="text-xs md:text-sm font-mono text-[#D4AF37] tracking-[0.3em] uppercase mb-4">SYSTEM_CAPABILITIES</h2>
         <p className="text-2xl min-[400px]:text-3xl sm:text-4xl md:text-6xl font-display font-medium text-white max-w-2xl leading-tight">I engineer systems that <br className="hidden sm:block"/><span className="text-white/30 italic">dominate complexity.</span></p>
       </div>
       <div className="flex flex-col gap-6 md:gap-12">

@@ -16,7 +16,7 @@ export const FreelanceSection = () => {
       <HolographicNode id="freelance_node">
         <div className="bg-[#050505] border border-white/10 p-6 sm:p-10 md:p-16">
           <div className="mb-10 md:mb-16">
-            <h2 className="text-[10px] font-mono text-emerald-500 tracking-[0.2em] uppercase mb-4 animate-pulse">STATUS: AVAILABLE FOR CONTRACTS</h2>
+            <h2 className="text-xs font-mono text-emerald-500 tracking-[0.2em] uppercase mb-4 animate-pulse">STATUS: AVAILABLE FOR CONTRACTS</h2>
             <p className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-white max-w-2xl">Freelance Cyber Services</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-16">
@@ -25,8 +25,8 @@ export const FreelanceSection = () => {
                 <span className="text-white/20 font-mono text-lg mt-1">.0{i+1}</span>
                 <div>
                   <h3 className="text-lg sm:text-xl font-display font-medium text-white mb-2 group-hover:text-[#D4AF37]">{srv.title}</h3>
-                  <p className="text-white/40 font-mono text-[9px] uppercase mb-4">{srv.tech}</p>
-                  <span className="text-[9px] font-mono text-black bg-[#D4AF37] px-2 py-1 font-bold">ETA: {srv.time}</span>
+                  <p className="text-white/40 font-mono text-xs uppercase mb-4">{srv.tech}</p>
+                  <span className="text-xs font-mono text-black bg-[#D4AF37] px-2 py-1 font-bold">ETA: {srv.time}</span>
                 </div>
               </div>
             ))}
